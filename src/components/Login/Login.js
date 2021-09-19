@@ -17,6 +17,7 @@ const Login = ({
     <>
       <Header
         isLoggedIn={isLoggedIn}
+        initialText="Рады видеть!"
       />
       <Form
         name='user-sign-in'

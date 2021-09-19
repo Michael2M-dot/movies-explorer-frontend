@@ -17,6 +17,7 @@ const Register = ({
     <>
       <Header
         isLoggedIn={isLoggedIn}
+        initialText='Добро пожаловать!'
       />
       <Form
         name='user-sign-up'

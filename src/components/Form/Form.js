@@ -8,7 +8,7 @@ const Form = ({
   children,
   isDisabled = false,
   buttonText,
-  isLoggedIn = true,
+  isLoggedIn = false,
   footerText,
   footerLink,
   endPoint,

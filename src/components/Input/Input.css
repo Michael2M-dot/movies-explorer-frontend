@@ -1,5 +1,6 @@
 .auth-form__textfield {
-  min-width: 396px;
+  max-width: 396px;
+  /*min-width: 396px;*/
   min-height: 46px;
 
   padding: 15px 15px;
