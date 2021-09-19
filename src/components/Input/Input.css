@@ -1,0 +1,44 @@
+.auth-form__textfield {
+  min-width: 396px;
+  min-height: 46px;
+
+  padding: 15px 15px;
+
+  background-color: var(--bg-medium-gray);
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 8px;
+
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--tx-white);
+}
+
+.auth-form__input-title {
+  margin: 0 auto 10px 0;
+
+  font-family: "Inter", Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--tx-gray);
+}
+
+.auth-form__password-control {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  background-image: url("../../images/no-view.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.auth-form__password-control.active {
+  background-image: url("../../images/view.svg");
+}
