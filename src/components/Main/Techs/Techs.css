@@ -63,6 +63,7 @@
   min-width: 178px;
 
   margin:0 auto;
+  padding: 0;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min-content, 90px));
@@ -86,6 +87,8 @@
   background: var(--bg-light-gray);
 
   border-radius: 10px;
+
+  list-style: none;
 }
 
 @media screen and (max-width: 1040px) {
