@@ -1,0 +1,139 @@
+.techs {
+  width: 100%;
+  min-width: 320px;
+
+  box-sizing: border-box;
+
+  margin: 0 auto;
+  padding: 100px 70px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--bg-gray);
+
+  font-family: "Inter", Helvetica, sans-serif;
+}
+
+.techs__title {
+  width: 100%;
+  height: 50px;
+
+  margin: 0 auto 90px;
+
+  border-bottom: 1px solid var(--layuot-light-grey);
+
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: left;
+}
+
+.techs__subtitle {
+  width: 100%;
+  max-width: 550px;
+  min-width: 292px;
+
+  margin: 0 auto 26px;
+
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  text-align: center;
+}
+
+.techs__text {
+  width: 100%;
+  max-width: 460px;
+  min-width: 292px;
+
+  margin: 0 auto 100px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.techs__grid {
+  width: 100%;
+  max-width: 690px;
+  min-width: 178px;
+
+  margin:0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min-content, 90px));
+  justify-content: center;
+  gap: 10px;
+}
+
+.techs__grid-item {
+  width: 100%;
+  min-width: 90px;
+
+  box-sizing: border-box;
+  margin:0;
+  padding: 21px 0 21px 0;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+
+  background: var(--bg-light-gray);
+
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1040px) {
+  .techs {
+    padding: 90px 50px;
+  }
+
+  .techs__title {
+    margin-bottom: 80px;
+  }
+
+  .techs__subtitle {
+    margin-bottom: 24px;
+  }
+
+  .techs__text {
+    margin-bottom: 83px;
+  }
+
+  .techs__grid-item {
+    min-width: 84px;
+
+    font-size: 12px;
+    line-height: 14px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs {
+    padding: 70px 18px;
+  }
+
+  .techs__title {
+    margin-bottom: 60px;
+
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .techs__subtitle {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .techs__text {
+    margin-bottom: 50px;
+
+    font-size: 12px;
+    line-height: 16px;
+  }
+}

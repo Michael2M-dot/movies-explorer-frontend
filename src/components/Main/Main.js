@@ -11,6 +11,7 @@ const Main = () => (
   <main className='content'>
     <Promo />
     <AboutProject />
+    <Techs />
   </main>
   <Footer />
 </>

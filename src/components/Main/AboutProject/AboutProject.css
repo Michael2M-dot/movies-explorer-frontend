@@ -7,6 +7,11 @@
 
   box-sizing: border-box;
 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   background: var(--bg-black-gray);
 
   font-family: "Inter", Helvetica, sans-serif;
@@ -153,6 +158,9 @@
 
   .about__title{
     margin-bottom: 60px;
+
+    font-size: 18px;
+    line-height: 22px;
   }
 
   .about__grid-wrapper {
