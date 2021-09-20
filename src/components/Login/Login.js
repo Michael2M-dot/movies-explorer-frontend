@@ -29,12 +29,12 @@ const Login = ({
       >
         <label className="auth-form__input">
           <Input
-          inputName='E-mail'
+          name='E-mail'
           />
         </label>
         <label className="auth-form__input">
           <Input
-            inputName='Пароль'
+            name='Пароль'
             type='password'
           />
         </label>

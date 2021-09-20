@@ -7,11 +7,11 @@ const Header = ({
   isLoggedIn = false,
   initialText,
 }) => {
-  console.log(isLoggedIn);
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
 
   const isSignIn = useRouteMatch({ path: '/signin', exact: true });
   const isSignUp = useRouteMatch({ path: '/signup', exact: true });
+  const isMain = useRouteMatch({ path: '/main', exact: true });
 
   const toggleMenu = () => {
     setIsBurgerMenuOpen(!isBurgerMenuOpen);
@@ -20,13 +20,21 @@ const Header = ({
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <header className={`header
-      ${isSignIn || isSignUp ? 'header__vertical' : ''}`}
+      ${isSignIn || isSignUp ? 'header__vertical' : ''}
+      ${isMain ? 'header_page-main' : ''}`}
     >
-      <NavLink to="/main">
+      <NavLink to="/">
         <img className="header__logo" src={Logo} alt="Логотип" />
       </NavLink>
+      {isMain && (
+        <div className='header__bar'>
+          <NavLink className='header__bar-link' to="/signup" > Регистрация</NavLink>
+          <NavLink className='header__bar-button' to="/signin">Войти</NavLink>
+        </div>
+      )}
+
       <div className={`header__bar
-      ${isSignIn || isSignUp  ? 'header__elm_hidden' : ''}`}
+      ${isSignIn || isSignUp || isMain  ? 'header__elm_hidden' : ''}`}
       >
         <nav className="header__menu">
           <p className="header__menu-item">
@@ -46,13 +54,14 @@ const Header = ({
       <button
         type="button"
         className={`header__burger
-        ${isSignIn || isSignUp  ? 'header__elm_hidden' : ''}`}
+        ${isSignIn || isSignUp || isMain ? 'header__elm_hidden' : ''}`}
         onClick={toggleMenu}
       >
         <span className={`header__burger_span ${isBurgerMenuOpen ? 'active' : ''}`} />
       </button>
       <div className={`header__text
-      ${isSignIn || isSignUp  ? '' : 'header__elm_hidden'}`}
+      ${!isSignIn || !isSignUp ? '' : 'header__elm_hidden'}
+      ${isMain ? 'header__elm_hidden' : ''}`}
       >
         {initialText}
       </div>

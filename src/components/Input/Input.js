@@ -17,7 +17,7 @@ const Input = (props) => {
   return (
     <>
       <p className="auth-form__input-title">
-        {props.inputName}
+        {props.name}
       </p>
       <input
         {...props}

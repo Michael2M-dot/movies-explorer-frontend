@@ -29,19 +29,19 @@ const Register = ({
       >
         <label className="auth-form__input">
           <Input
-            inputName='Имя'
+            name='Имя'
             type='text'
           />
         </label>
         <label className="auth-form__input">
           <Input
-            inputName='E-mail'
+            name='E-mail'
             type='url'
           />
         </label>
         <label className="auth-form__input">
           <Input
-            inputName='Пароль'
+            name='Пароль'
             type='password'
           />
         </label>
