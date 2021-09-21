@@ -14,6 +14,12 @@ const Form = ({
   endPoint,
 }) => (
   <section className="auth-form">
+    {/* <div className={`header__text */}
+    {/*  ${isSignIn || isSignUp ? 'header__text_visible' : ''} */}
+    {/*  ${isMain ? 'header__elm_hidden' : ''}`} */}
+    {/* > */}
+    {/*  {initialText} */}
+    {/* </div> */}
     <form
       className="auth-form__form"
       id={`${name}`}

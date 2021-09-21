@@ -5,10 +5,13 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import MoviesCard from './MoviesCard/MoviesCard';
 import Preloader from './Preloader/Preloader';
 import Footer from '../Footer/Footer';
+import Navigation from '../Navigation/Navigation';
 
 const SavedMovies = () => (
   <>
-    <Header />
+    <Header>
+      <Navigation />
+    </Header>
     <div className='page_saved-movies'>
       <SearchForm />
       <MoviesCardList>

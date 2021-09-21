@@ -6,8 +6,6 @@ import Input from '../Input/Input';
 const Login = ({
   isSubmitted = false,
 }) => {
-  const [isLoggedIn] = useState(false);
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -15,10 +13,7 @@ const Login = ({
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <>
-      <Header
-        isLoggedIn={isLoggedIn}
-        initialText="Рады видеть!"
-      />
+      <Header/>
       <Form
         name='user-sign-in'
         buttonText={!isSubmitted ? 'Войти' : 'Выполняется вход'}

@@ -7,10 +7,13 @@ import Footer from '../Footer/Footer';
 import AboutMe from './AboutMe/AboutMe';
 import Portfolio from './Portfolio/Portfolio';
 import NavTab from './NavTab/NavTab';
+import Navigation from '../Navigation/Navigation';
 
 const Main = () => (
 <>
-  <Header />
+  <Header>
+    <Navigation />
+  </Header>
   <main className='content'>
     <Promo />
     <AboutProject />

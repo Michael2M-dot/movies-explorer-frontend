@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from '../Header/Header';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
@@ -6,19 +6,13 @@ import Input from '../Input/Input';
 const Register = ({
   isSubmitted = false,
 }) => {
-  const [isLoggedIn] = useState(false);
-
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <>
-      <Header
-        isLoggedIn={isLoggedIn}
-        initialText='Добро пожаловать!'
-      />
+      <Header/>
       <Form
         name='user-sign-up'
         buttonText={!isSubmitted ? 'Зарегистрироваться' : 'Идет регистрация'}

@@ -5,10 +5,13 @@ import MoviesCardList from './MoviesCardList/MoviesCardList';
 import MoviesCard from './MoviesCard/MoviesCard';
 import MoviesPreloader from './Preloader/Preloader';
 import Footer from '../Footer/Footer';
+import Navigation from '../Navigation/Navigation';
 
 const Movies = () => (
   <>
-    <Header />
+    <Header>
+      <Navigation />
+    </Header>
     <div className='page_movies'>
       <SearchForm />
       <MoviesCardList>
