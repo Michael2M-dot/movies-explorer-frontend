@@ -37,7 +37,7 @@
 }
 
 .header__burger {
-  display:none
+  display:none;
 }
 
 .header__burger_span {
@@ -149,6 +149,8 @@
 }
 
 .header__text {
+  display: none;
+
   margin: 40px 0;
 
   font-weight: 500;
@@ -192,7 +194,6 @@
     background-color: transparent;
     cursor: pointer;
     z-index: 3;
-
   }
 
   .header__burger_span {
@@ -275,4 +276,8 @@
 
 .header__elm_hidden {
   display: none;
+}
+
+.header__text_visible {
+  display: block;
 }

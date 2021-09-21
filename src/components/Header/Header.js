@@ -60,7 +60,7 @@ const Header = ({
         <span className={`header__burger_span ${isBurgerMenuOpen ? 'active' : ''}`} />
       </button>
       <div className={`header__text
-      ${!isSignIn || !isSignUp ? '' : 'header__elm_hidden'}
+      ${isSignIn || isSignUp ? 'header__text_visible' : ''}
       ${isMain ? 'header__elm_hidden' : ''}`}
       >
         {initialText}
