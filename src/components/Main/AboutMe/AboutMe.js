@@ -1,5 +1,4 @@
 import React from 'react';
-import Portfolio from '../Portfolio/Portfolio';
 
 const AboutMe = () => (
   <section className='about-me'>
