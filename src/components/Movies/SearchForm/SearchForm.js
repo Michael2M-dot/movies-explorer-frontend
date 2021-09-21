@@ -30,7 +30,7 @@ const SearchForm = (
          />
        </div>
      </section>
-  )
+  );
 };
 
 export default SearchForm;
