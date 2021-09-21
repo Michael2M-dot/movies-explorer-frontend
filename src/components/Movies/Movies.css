@@ -1,0 +1,33 @@
+@import url('./SearchForm/SearchForm.css');
+@import url('./MoviesCard/MoviesCard.css');
+@import url('./MoviesCardList/MoviesCardList.css');
+@import url('./Preloader/Preloader.css');
+@import url('./FilterCheckbox/FilterCheckbox.css');
+
+.page_movies {
+  width: 100vw;
+  min-width: 320px;
+  max-width: 1280px;
+  height: 100vh;
+
+  margin: 0 auto;
+  padding: 0 70px;
+
+  box-sizing: border-box;
+
+  background: var(--bg-black-gray);
+
+  font-family: "Inter", Helvetica, sans-serif;
+}
+
+@media screen and (max-width: 1040px) {
+  .page_movies {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page_movies {
+    padding: 0 10px;
+  }
+}
