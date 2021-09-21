@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
 const MoviesCard = ({
-  movieCard = {
-    image: 'https://infuture.ru/images/a2363e6fe9dfc7cdad011e90a490b6c1.saturn-rings-translucent.jpg',
-    description: 'Saturn',
-    duration: '1:30',
-  },
+  movieCard,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
 

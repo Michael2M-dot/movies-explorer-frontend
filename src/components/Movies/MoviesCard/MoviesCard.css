@@ -74,6 +74,16 @@
   background: var(--bg-light-green);
 }
 
+.movie__delete-button {
+  border: 0;
+  border-radius: 0;
+
+  background-image: url('../../../images/movie_delete_button.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 @media screen and (max-width: 1040px) {
   .movie__image {
     min-height: 190px;

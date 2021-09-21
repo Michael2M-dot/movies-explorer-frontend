@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import SearchForm from './SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import MoviesCard from './MoviesCard/MoviesCard';
+import MoviesPreloader from './Preloader/Preloader';
 
 const Movies = () => (
   <>
@@ -12,6 +13,7 @@ const Movies = () => (
       <MoviesCardList>
         <MoviesCard/>
       </MoviesCardList>
+      <MoviesPreloader />
     </div>
   </>
 );
