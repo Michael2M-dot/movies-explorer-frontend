@@ -14,8 +14,16 @@ const AboutMe = () => (
           начал заниматься фриланс-заказами и ушёл с постоянной работы.
         </p>
         <ul className='about-me__brief-links'>
-          <a className='about-me__brief-link' href='https://github.com/Michael2M-dot' target='_blank' rel="noreferrer">Facebook</a>
-          <a className='about-me__brief-link' href='https://github.com/Michael2M-dot' target='_blank' rel="noreferrer">GitHub</a>
+          <li>
+            <a className='about-me__brief-link' href='https://github.com/Michael2M-dot' target='_blank' rel="noreferrer">
+              Facebook
+            </a>
+          </li>
+          <li>
+            <a className='about-me__brief-link' href='https://github.com/Michael2M-dot' target='_blank' rel="noreferrer">
+              GitHub
+            </a>
+          </li>
         </ul>
       </div>
       <div className='about-me__photo' />

@@ -91,12 +91,15 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
+
+  list-style: none;
 }
 
 .about-me__brief-link {
   text-decoration: none;
 
-  margin: 0 20px 0 0;
+  margin: 0;
+  padding-right: 20px;
 
   font-weight: 500;
   font-size: 14px;
@@ -106,7 +109,7 @@
 }
 
 .about-me__brief-link:last-of-type {
-  margin-right: 0;
+  padding-right: 20px;
 }
 
 .about-me__photo {
