@@ -1,6 +1,6 @@
 import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import movies from '../../../utils/movies';
+import movies from '../../utils/movies';
 
 const MoviesCardList = ({ children }) => (
   < section className='movies-cards'>

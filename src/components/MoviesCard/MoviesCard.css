@@ -78,7 +78,7 @@
   border: 0;
   border-radius: 0;
 
-  background-image: url('../../../images/movie_delete_button.svg');
+  background-image: url('../../images/movie_delete_button.svg');
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;

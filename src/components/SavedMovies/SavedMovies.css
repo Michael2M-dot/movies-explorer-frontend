@@ -1,9 +1,3 @@
-@import url('./SearchForm/SearchForm.css');
-@import url('./MoviesCard/MoviesCard.css');
-@import url('./MoviesCardList/MoviesCardList.css');
-@import url('./Preloader/Preloader.css');
-/*@import url('./FilterCheckbox/FilterCheckbox.css');*/
-
 .page_saved-movies {
   width: 100vw;
   min-width: 320px;

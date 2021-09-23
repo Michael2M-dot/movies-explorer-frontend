@@ -12,7 +12,7 @@ const Navigation = () => {
   // const headerBarStyle = `header__bar
   //     ${isSignIn || isSignUp || isMain  ? 'header__elm_hidden' : ''}`;
   const navigationMenuStyle = `navigation__bar ${
-    isBurgerMenuOpen ? 'active' : ''}`
+    isBurgerMenuOpen ? 'active' : ''}`;
 
   const toggleMenu = () => {
     setIsBurgerMenuOpen(!isBurgerMenuOpen);
