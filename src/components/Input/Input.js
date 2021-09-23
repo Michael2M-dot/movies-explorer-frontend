@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 
 const Input = (props) => {
   const [inputType, setInputType] = useState(props.type);
@@ -14,25 +15,38 @@ const Input = (props) => {
     }
   };
 
+  const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
+
+  const inputStyle = `input ${
+    isProfilePage && 'input_page-profile'
+  }`;
+  const inputTitleStyle = `input__title ${
+    isProfilePage && 'input__title_page-profile'
+  }`;
+  const inputTextfieldStyle = `input__textfield ${
+    isProfilePage && 'input__textfield_page-profile'
+  }`;
+
   return (
-    <>
-      <p className="auth-form__input-title">
+    <label className={inputStyle}>
+      <p className={inputTitleStyle}>
         {props.name}
       </p>
       <input
         {...props}
         type={inputType}
-        className="auth-form__textfield"
+        className={inputTextfieldStyle}
         id={`${props.id}-input`}
+        value={props.value}
       />
       {props.type === 'password' && (
         <span
-          className={`auth-form__password-control
+          className={`input__password-control
         ${isShowedPassword ? 'active' : ''}`}
           onClick={toggleShowPassword}
         />
       )}
-    </>
+    </label>
   );
 };
 

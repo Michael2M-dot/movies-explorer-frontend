@@ -16,6 +16,7 @@ const Register = ({
       <Form
         name='user-sign-up'
         buttonText={!isSubmitted ? 'Зарегистрироваться' : 'Идет регистрация'}
+        formTitle='Добро пожаловать!'
         onSubmit={handleSubmit}
         footerText='Уже зарегистрированы?'
         footerLink='Войти'

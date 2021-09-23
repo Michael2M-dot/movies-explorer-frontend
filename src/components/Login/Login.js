@@ -17,6 +17,7 @@ const Login = ({
       <Form
         name='user-sign-in'
         buttonText={!isSubmitted ? 'Войти' : 'Выполняется вход'}
+        formTitle='Рады видеть!'
         onSubmit={handleSubmit}
         footerText='Еще не зарегистрированные?'
         footerLink='Регистрация'
@@ -25,6 +26,7 @@ const Login = ({
         <label className="auth-form__input">
           <Input
           name='E-mail'
+          type='url'
           />
         </label>
         <label className="auth-form__input">
