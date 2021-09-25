@@ -8,13 +8,13 @@ const Navigation = () => {
   const isMain = useRouteMatch({ path: '/main', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
   const isSavedMovies = useRouteMatch({ path: '/saved-movies', exact: true });
-  // const isSignIn = useRouteMatch({ path: '/signin', exact: true });
-  // const isSignUp = useRouteMatch({ path: '/signup', exact: true });
-  //
-  // const headerBarStyle = `header__bar
-  //     ${isSignIn || isSignUp || isMain  ? 'header__elm_hidden' : ''}`;
+  const isProfile = useRouteMatch({ path: '/saved-movies', exact: true });
+
   const navigationMenuStyle = `navigation__bar ${
-    isBurgerMenuOpen ? 'active' : ''}`;
+    isBurgerMenuOpen && 'active'}`;
+  const profileButtonStyle = `navigation__profile ${
+    isProfile && 'active'
+  }`
 
   const toggleMenu = () => {
     setIsBurgerMenuOpen(!isBurgerMenuOpen);
@@ -38,6 +38,7 @@ const Navigation = () => {
           >
             <span className={`navigation__burger_span ${isBurgerMenuOpen ? 'active' : ''}`} />
           </button>
+          {isBurgerMenuOpen && (<div className='navigation__bar-cover' />)}
           <div className={navigationMenuStyle}>
             <nav className="navigation__menu">
               {isBurgerMenuOpen && (
@@ -60,12 +61,19 @@ const Navigation = () => {
                 Сохранённые фильмы
               </NavLink>
             </nav>
-            <div className="navigation__profile">
-              <h3 className="navigation__profile-text">Аккаунт</h3>
-              <div className="navigation__profile-icon">
-                <img className="navigation__profile-icon-pic" src={userIcon} alt="Иконка аккаунта пользователя" />
+            <NavLink
+              className={profileButtonStyle}
+              to='/profile'
+            >
+              <h3 className='navigation__profile-text'>Аккаунт</h3>
+              <div className='navigation__profile-icon'>
+                <img
+                  className='navigation__profile-icon-pic'
+                  src={userIcon}
+                  alt="Иконка аккаунта пользователя"
+                />
               </div>
-            </div>
+            </NavLink>
           </div>
         </>
       )}
