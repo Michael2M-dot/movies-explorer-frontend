@@ -8,7 +8,7 @@ const MoviesCard = ({
 
   const movieCardStyle = { backgroundImage: `url(${movieCard.image})` };
 
-  const isMyMovie = useRouteMatch({ path: '/saved-movies', exact: true });
+  const isSavedMovie = useRouteMatch({ path: '/saved-movies', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
 
   const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
@@ -29,7 +29,7 @@ const MoviesCard = ({
         <h3 className='movie__title'>{movieCard.description}</h3>
         <p className='movie__duration'>{movieCard.duration}</p>
       </div>
-      {!isMyMovie && (
+      {!isSavedMovie && (
       <button
         className={movieLikeCheckboxStyle}
         type='button'

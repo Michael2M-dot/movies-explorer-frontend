@@ -75,13 +75,21 @@
 }
 
 .movie__delete-button {
+  width: 16px;
+  height: 16px;
+
+  padding: 0;
+  margin: 0;
+
   border: 0;
   border-radius: 0;
 
-  background-image: url('../../images/movie_delete_button.svg');
-  background-position: center;
   background-size: contain;
-  background-repeat: no-repeat;
+  background: transparent url('../../images/movie_delete_button.svg') no-repeat center;
+
+  position: absolute;
+  right: 12px;
+  bottom: 37px;
 }
 
 @media screen and (max-width: 1040px) {
