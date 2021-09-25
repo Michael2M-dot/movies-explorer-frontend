@@ -7,16 +7,22 @@ import MoviesPreloader from '../Preloader/Preloader';
 import Footer from '../Footer/Footer';
 import Navigation from '../Navigation/Navigation';
 
-const Movies = () => (
+const Movies = ({
+  movieCards,
+  onMovieDelete,
+  onMovieLike,
+}) => (
   <>
     <Header>
       <Navigation />
     </Header>
     <div className='page_movies'>
       <SearchForm />
-      <MoviesCardList>
-        <MoviesCard/>
-      </MoviesCardList>
+      <MoviesCardList
+        movieCards={movieCards}
+        onMovieDelete={onMovieDelete}
+        onMovieLike={onMovieLike}
+      />
       <MoviesPreloader />
     </div>
     <Footer />

@@ -3,6 +3,8 @@ import { useRouteMatch } from 'react-router-dom';
 
 const MoviesCard = ({
   movieCard,
+  onMovieDelete,
+  onMovieLike,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
 
@@ -15,8 +17,13 @@ const MoviesCard = ({
     isLiked ? 'active' : ''
   }`;
 
-  const toggleLikeMovie = () => {
+  function handleMovieLike() {
     setIsLiked(!isLiked);
+    // onMovieLike(movieCard);
+  };
+
+  function handleDeleteMovie() {
+    onMovieDelete(movieCard);
   };
 
   return (
@@ -33,13 +40,14 @@ const MoviesCard = ({
       <button
         className={movieLikeCheckboxStyle}
         type='button'
-        onClick={toggleLikeMovie}
+        onClick={handleMovieLike}
       />
       )}
       {!isMovies && (
         <button
           className='movie__delete-button'
           type='button'
+          onClick={handleDeleteMovie}
         />
       )}
     </li>
