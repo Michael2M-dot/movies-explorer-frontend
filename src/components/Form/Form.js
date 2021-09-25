@@ -17,7 +17,7 @@ const Form = ({
   formTitle,
   buttonType,
   onButtonClick,
-  inputErrors,
+  errors,
   isEditProfile,
 }) => {
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
@@ -45,7 +45,7 @@ const Form = ({
           {children}
           {!isProfilePage && (
             <span className='auth-form__errors'>
-              {inputErrors || ''}
+              {errors || ''}
             </span>
           )}
         </div>
@@ -59,6 +59,7 @@ const Form = ({
           endPoint={endPoint}
           onClick={onButtonClick}
           isEditProfile={isEditProfile}
+          errors={errors || ''}
         />
       </form>
     </section>

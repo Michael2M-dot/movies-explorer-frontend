@@ -35,6 +35,7 @@ const Login = ({
         footerLink='Регистрация'
         endPoint="/signup"
         isDisabled={!isValid || isSubmitted}
+        errors={errors.email || errors.password || ''}
       >
         <label className="auth-form__input">
           <Input

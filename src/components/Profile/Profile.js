@@ -53,7 +53,7 @@ const Profile = ({
          onButtonClick={buttonClickHandler}
          isEditProfile={isEditProfile}
          isDisabled={isEditProfile ? !isValid : isValid}
-         inputErrors={errors.name || errors.email}
+         errors={errors.name || errors.email}
        >
          <Input
            type='text'

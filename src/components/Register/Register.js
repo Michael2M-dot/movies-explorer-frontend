@@ -35,7 +35,7 @@ const Register = ({
         footerLink='Войти'
         endPoint="/signin"
         isDisabled={!isValid || isSubmitted}
-        inputErrors={errors.name || errors.email || errors.password || ''}
+        errors={errors.name || errors.email || errors.password || ''}
       >
         <label className="auth-form__input">
           <Input

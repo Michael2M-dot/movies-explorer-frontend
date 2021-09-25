@@ -11,6 +11,7 @@ const FormFooter = ({
   buttonType,
   onClick,
   isEditProfile = false,
+  errors,
 }) => {
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
@@ -30,6 +31,11 @@ const FormFooter = ({
 
   return (
     <div className="form-footer__wrapper">
+      {isProfilePage && (
+        <span className='form-footer__errors'>
+          {errors || ''}
+        </span>
+      )}
       <button
         className={buttonStyle}
         type={buttonType || 'submit'}
