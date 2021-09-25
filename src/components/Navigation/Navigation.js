@@ -6,6 +6,8 @@ const Navigation = () => {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
 
   const isMain = useRouteMatch({ path: '/main', exact: true });
+  const isMovies = useRouteMatch({ path: '/movies', exact: true });
+  const isSavedMovies = useRouteMatch({ path: '/saved-movies', exact: true });
   // const isSignIn = useRouteMatch({ path: '/signin', exact: true });
   // const isSignUp = useRouteMatch({ path: '/signup', exact: true });
   //
@@ -43,10 +45,18 @@ const Navigation = () => {
                 Главная
                 </NavLink>)
               }
-              <NavLink className="navigation__menu-item" to='./movies'>
+              <NavLink
+                className={`navigation__menu-item
+                ${isMovies && 'active'}`}
+                to='./movies'
+              >
                 Фильмы
               </NavLink>
-              <NavLink className="navigation__menu-item" to='./saved-movies'>
+              <NavLink
+                className={`navigation__menu-item
+                ${isSavedMovies && 'active'}`}
+                to='./saved-movies'
+              >
                 Сохранённые фильмы
               </NavLink>
             </nav>

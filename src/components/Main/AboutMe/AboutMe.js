@@ -14,12 +14,22 @@ const AboutMe = () => (
         </p>
         <ul className='about-me__brief-links'>
           <li>
-            <a className='about-me__brief-link' href='https://github.com/Michael2M-dot' target='_blank' rel="noreferrer">
+            <a
+              className='about-me__brief-link'
+              href='https://github.com/Michael2M-dot'
+              target='_blank'
+              rel='noreferrer'
+            >
               Facebook
             </a>
           </li>
           <li>
-            <a className='about-me__brief-link' href='https://github.com/Michael2M-dot' target='_blank' rel="noreferrer">
+            <a
+              className='about-me__brief-link'
+              href='https://github.com/Michael2M-dot'
+              target='_blank'
+              rel='noreferrer'
+            >
               GitHub
             </a>
           </li>

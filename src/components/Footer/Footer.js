@@ -1,5 +1,4 @@
 import React from 'react';
-// import { NavLink } from 'react-router-dom';
 
 const Footer = () => (
   <footer className="footer">
@@ -9,9 +8,30 @@ const Footer = () => (
         © {new Date().getFullYear()}
       </p>
       <ul className='footer__links'>
-        <li className='footer__link'>Яндекс.Практикум</li>
-        <li className='footer__link'>Github</li>
-        <li className='footer__link'>Facebook</li>
+        <a
+          className='footer__link'
+          href='https://practicum.yandex.ru'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Яндекс.Практикум
+        </a>
+        <a
+          className='footer__link'
+          href='https://github.com/Michael2M-dot'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Github
+        </a>
+        <a
+          className='footer__link'
+          href='https://github.com/Michael2M-dot'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Facebook
+        </a>
       </ul>
     </div>
   </footer>

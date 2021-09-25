@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.form-footer__button:hover {
+  opacity: 0.8;
+}
+
 .form-footer__button_disabled {
   background: var(--bg-lighter-gray);
 

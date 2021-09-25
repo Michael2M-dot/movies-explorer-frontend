@@ -73,6 +73,7 @@
   font-weight: 400;
   font-size: 13px;
   line-height: 16px;
+  color: var( --tx-white);
 }
 
 .footer__link:last-of-type {
@@ -122,4 +123,8 @@
   .footer__copyright {
     color: var(--tx-gray);
   }
+}
+
+.footer__link:hover {
+  opacity: .7;
 }
