@@ -15,6 +15,12 @@
   cursor: pointer;
 }
 
+.form-footer__button_disabled {
+  background: var(--bg-lighter-gray);
+
+  color: var(--tx-gray-2);
+}
+
 .form-footer__button_page-profile {
   padding: 0;
 
@@ -35,7 +41,7 @@
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
-  color: var(--tx-white);
+  /*color: var(--tx-white);*/
 }
 
 

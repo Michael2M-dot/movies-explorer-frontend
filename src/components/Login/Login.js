@@ -1,17 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from '../Header/Header';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
+import useFormInputsValidate from '../../hooks/useForm';
 
 const Login = ({
   isSubmitted = false,
 }) => {
+  const {
+    values,
+    errors,
+    isValid = false,
+    handleChange,
+    resetForm,
+  } = useFormInputsValidate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
   };
 
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <>
       <Header/>
       <Form
@@ -22,17 +34,34 @@ const Login = ({
         footerText='Еще не зарегистрированные?'
         footerLink='Регистрация'
         endPoint="/signup"
+        isDisabled={!isValid || isSubmitted}
       >
         <label className="auth-form__input">
           <Input
-          name='E-mail'
-          type='url'
+            type='email'
+            id='email'
+            name='email'
+            input='E-mail'
+            title="Введите адрес электронной почты"
+            required
+            minLength="2"
+            onChange={handleChange}
+            value={values.email || ''}
+            errors={errors.email}
           />
         </label>
         <label className="auth-form__input">
           <Input
-            name='Пароль'
             type='password'
+            id='password'
+            name='password'
+            input='Пароль'
+            title='Пароль должен содержать не менее 8 символов (без пробелов): цифры и буквы латинского алфавита в верхнем (заглавные) и нижнем регистре (прописные) . А также может содержать символы: !@#$%&-_'
+            required
+            minLength="8"
+            value={values.password || ''}
+            onChange={handleChange}
+            errors={errors.password}
           />
         </label>
       </Form>

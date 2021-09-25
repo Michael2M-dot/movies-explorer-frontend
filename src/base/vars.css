@@ -6,6 +6,7 @@
     --bg-gray: #272727;
     --bg-medium-gray: #2F2F2F;
     --bg-light-gray: #303030;
+    --bg-lighter-gray: #F8F8F8;
     --bg-dark-turquose: #073042;
     --bg-light-green: #3DDC84;
     --bg-blue: #4285F4;
@@ -16,6 +17,7 @@
     --tx-gray: #8B8B8B;
     --tx-gray-80: #8B8B8BCC;
     --tx-gray1: #A0A0A0;
+    --tx-gray-2: #C2C2C2;
     --tx-black: #000000;
     --tx-blue: #4285F4;
 

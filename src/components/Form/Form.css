@@ -1,4 +1,6 @@
 .auth-form {
+  max-width: 396px;
+
   flex-grow: 1;
   display: flex;
   flex-direction: column;
@@ -43,6 +45,21 @@
 .auth-form__wrapper {
   width: 100%;
   box-sizing: border-box;
+}
+
+.auth-form__errors {
+  width: 100%;
+
+  margin: 10px auto 20px 0;
+
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--tx-red);
+  text-align: left;
+}
+
+.auth-form__errors_page-profile {
+  text-align: center;
 }
 
 @media screen and (max-width: 1024px) {

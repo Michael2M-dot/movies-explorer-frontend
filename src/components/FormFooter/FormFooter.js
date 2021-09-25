@@ -4,15 +4,19 @@ import { NavLink, useRouteMatch } from 'react-router-dom';
 const FormFooter = ({
   isLoggedIn = false,
   buttonText,
-  isDisabled = true,
+  isDisabled = false,
   footerText,
   endPoint,
   footerLink,
+  buttonType,
+  onClick,
+  isEditProfile = false,
 }) => {
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
-  const buttonStyle = `form-footer__button ${
-    isProfilePage && 'form-footer__button_page-profile'
+  const buttonStyle = `${!isProfilePage || isEditProfile
+    ? `form-footer__button ${isDisabled && 'form-footer__button_disabled'}`
+    : `form-footer__button ${isDisabled && 'form-footer__button_disabled'} form-footer__button_page-profile`
   }`;
   const buttonTextStyle = `form-footer__button-text ${
     isProfilePage && 'form-footer__button-text_page-profile'
@@ -28,8 +32,9 @@ const FormFooter = ({
     <div className="form-footer__wrapper">
       <button
         className={buttonStyle}
-        type="submit"
+        type={buttonType || 'submit'}
         aria-label="Подтвердите действия пользователя"
+        onClick={onClick}
         disabled={isDisabled}
       >
         <div className="form-footer__button-wrapper">

@@ -28,25 +28,31 @@ const Input = (props) => {
   }`;
 
   return (
-    <label className={inputStyle}>
-      <p className={inputTitleStyle}>
-        {props.name}
-      </p>
-      <input
-        {...props}
-        type={inputType}
-        className={inputTextfieldStyle}
-        id={`${props.id}-input`}
-        value={props.value}
-      />
-      {props.type === 'password' && (
-        <span
-          className={`input__password-control
-        ${isShowedPassword ? 'active' : ''}`}
-          onClick={toggleShowPassword}
+    <>
+      <label className={inputStyle}>
+        <p className={inputTitleStyle}>
+          {props.input}
+        </p>
+        <input
+          {...props}
+          type={inputType}
+          className={inputTextfieldStyle}
+          id={`${props.id}-input`}
+          value={props.value || ''}
         />
-      )}
-    </label>
+        {props.type === 'password' && (
+          <span
+            className={`input__password-control
+        ${isShowedPassword ? 'active' : ''}`}
+            onClick={toggleShowPassword}
+          />
+        )}
+      </label>
+      <span className='input__errors'>
+          {props.errors || ''}
+        </span>
+    </>
+
   );
 };
 

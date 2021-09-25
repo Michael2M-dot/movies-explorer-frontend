@@ -1,22 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
+import useFormInputsValidate from '../../hooks/useForm';
 
 const Profile = ({
   userName = 'Michael',
 }) => {
+  const {
+    values,
+    errors,
+    isValid = false,
+    handleChange,
+    resetForm,
+  } = useFormInputsValidate();
+
   const [isEditProfile, setIsEditProfile] = useState(false);
+
+  const buttonTextProfilePage = `${!isEditProfile ? 'Редактировать' : 'Сохранить'}`;
+  const footerLinkProfilePage = `${isEditProfile ? '' : 'Выйти из аккаунта'}`;
+  const buttonTypePageProfile = `${!isEditProfile ? 'button' : 'submit'}`;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsEditProfile(!isEditProfile);
   };
 
-  // временные значения для проверки верстки
-  const name = 'Michael';
-  const email = 'mmm@mmm.ru';
+  const buttonClickHandler = () => {
+    if (!isEditProfile) {
+      setIsEditProfile(!isEditProfile);
+    }
+  };
+
+  useEffect(() => {
+    resetForm({ name: 'Michael', email: 'mmm@mmm.ru' }, {}, false);
+  },[resetForm]);
 
   return (
      <>
@@ -25,23 +43,43 @@ const Profile = ({
        </Header>
        <Form
          name='user-sign-in'
-         formTitle={`Привет, ${userName && 'Michael'}!`}
-         buttonText={!isEditProfile ? 'Редактировать' : 'Сохранить'}
+         formTitle={`Привет, ${values.name}!`}
+         buttonType={buttonTypePageProfile}
+         buttonText={buttonTextProfilePage}
          onSubmit={handleSubmit}
          footerText=''
-         footerLink={isEditProfile ? '' : 'Выйти из аккаунта'}
+         footerLink={footerLinkProfilePage}
          endPoint="/main"
+         onButtonClick={buttonClickHandler}
+         isEditProfile={isEditProfile}
+         isDisabled={isEditProfile ? !isValid : isValid}
+         inputErrors={errors.name || errors.email}
        >
          <Input
            type='text'
-           name='Имя'
-           value={name}
+           id='name'
+           name='name'
+           input='Имя'
+           title="Введите новое имя пользователя"
+           maxLength="40"
+           minLength="2"
+           value={values.name || ''}
+           required
+           onChange={handleChange}
+           errors={errors.name}
          />
          <div className='profile__line' />
          <Input
-           type='url'
-           name='E-mail'
-           value={email}
+           type='email'
+           id='email'
+           name='email'
+           input='E-mail'
+           title="Введите адрес электронной почты"
+           minLength="2"
+           value={values.email || ''}
+           required
+           onChange={handleChange}
+           errors={errors.email}
          />
        </Form>
      </>

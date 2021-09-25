@@ -8,13 +8,17 @@ const Form = ({
   name,
   onSubmit,
   children,
-  isDisabled = false,
+  isDisabled = true,
   buttonText,
   isLoggedIn = false,
   footerText,
   footerLink,
   endPoint,
   formTitle,
+  buttonType,
+  onButtonClick,
+  inputErrors,
+  isEditProfile,
 }) => {
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
@@ -39,14 +43,22 @@ const Form = ({
       >
         <div className="auth-form__wrapper">
           {children}
+          {!isProfilePage && (
+            <span className='auth-form__errors'>
+              {inputErrors || ''}
+            </span>
+          )}
         </div>
         <FormFooter
           isLoggedIn={isLoggedIn}
           isDisabled={isDisabled}
+          buttonType={buttonType}
           buttonText={buttonText}
           footerText={footerText}
           footerLink={footerLink}
           endPoint={endPoint}
+          onClick={onButtonClick}
+          isEditProfile={isEditProfile}
         />
       </form>
     </section>
