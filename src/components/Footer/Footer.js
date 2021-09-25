@@ -12,7 +12,7 @@ const Footer = () => (
           className='footer__link'
           href='https://practicum.yandex.ru'
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noreferrer nooppener'
         >
           Яндекс.Практикум
         </a>
@@ -20,7 +20,7 @@ const Footer = () => (
           className='footer__link'
           href='https://github.com/Michael2M-dot'
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noreferrer nooppener'
         >
           Github
         </a>
@@ -28,7 +28,7 @@ const Footer = () => (
           className='footer__link'
           href='https://github.com/Michael2M-dot'
           target='_blank'
-          rel='noopener noreferrer'
+          rel='noreferrer nooppener'
         >
           Facebook
         </a>

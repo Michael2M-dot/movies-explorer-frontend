@@ -18,7 +18,7 @@ const AboutMe = () => (
               className='about-me__brief-link'
               href='https://github.com/Michael2M-dot'
               target='_blank'
-              rel='noreferrer'
+              rel='noreferrer nooppener'
             >
               Facebook
             </a>
@@ -28,7 +28,7 @@ const AboutMe = () => (
               className='about-me__brief-link'
               href='https://github.com/Michael2M-dot'
               target='_blank'
-              rel='noreferrer'
+              rel='noreferrer nooppener'
             >
               GitHub
             </a>

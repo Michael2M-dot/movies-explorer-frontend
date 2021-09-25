@@ -8,7 +8,7 @@ const NavTab = () => (
         className='nav-tab__item-link'
         href='https://michael2m-dot.github.io/how-to-learn/index.html'
         target='_blank'
-        rel="noopener norefferer noreferrer"
+        rel='noreferrer noopener'
       />
     </li>
     <li className='nav-tab__item'>
@@ -17,7 +17,7 @@ const NavTab = () => (
         className='nav-tab__item-link'
         href='https://michael2m-dot.github.io/russian-travel/index.html'
         target='_blank'
-        rel='noopener norefferer'
+        rel="noreferrer noopener"
       />
     </li>
     <li className='nav-tab__item'>
@@ -26,7 +26,7 @@ const NavTab = () => (
         className='nav-tab__item-link'
          href='https://mmm.mesto.nomoredomains.monster'
          target='_blank'
-         rel='noopener norefferer'
+         rel='noreferrer noopener'
       />
     </li>
   </ul>
