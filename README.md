@@ -8,6 +8,7 @@ HTML, CSS, JavaScript, React.js, React-Router-Dom, BEM, Rest.api
 - создание защищенных маршрутов внутри приложения
 - построение запросов к серверу на принципах Rest Api
 - добавление функционала регистрации пользователя и его авторизации
+- доработка согласно требованиям дипломной работы
 
 **[Ссылка на работу](https://github.com/Michael2M-dot/movies-explorer-frontend/tree/level_2)** на GitHub Pages.
 
