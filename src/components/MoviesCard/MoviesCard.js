@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 
 const MoviesCard = ({
-  movieCard,
+  movie,
   onMovieDelete,
   onMovieLike,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
 
-  const movieCardStyle = { backgroundImage: `url(${movieCard.image})` };
+  const movieCardStyle = { backgroundImage: `url(${movie.image})` };
 
   const isSavedMovie = useRouteMatch({ path: '/saved-movies', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
@@ -17,14 +17,16 @@ const MoviesCard = ({
     isLiked ? 'active' : ''
   }`;
 
-  function handleMovieLike() {
+  const handleMovieLike = () => {
     setIsLiked(!isLiked);
-    // onMovieLike(movieCard);
+    onMovieLike(movie);
   };
 
-  function handleDeleteMovie() {
-    onMovieDelete(movieCard);
+  const handleDeleteMovie = () => {
+    onMovieDelete(movie);
   };
+
+  console.log(handleDeleteMovie);
 
   return (
     <li className='movie__item'>
@@ -33,8 +35,8 @@ const MoviesCard = ({
         style={movieCardStyle}
       />
       <div className='movie__description'>
-        <h3 className='movie__title'>{movieCard.description}</h3>
-        <p className='movie__duration'>{movieCard.duration}</p>
+        <h3 className='movie__title'>{movie.description}</h3>
+        <p className='movie__duration'>{movie.duration}</p>
       </div>
       {!isSavedMovie && (
       <button

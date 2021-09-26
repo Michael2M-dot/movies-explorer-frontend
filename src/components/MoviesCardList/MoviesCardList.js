@@ -1,23 +1,30 @@
 import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
-// import movies from '../../utils/movies';
 
 const MoviesCardList = ({
   movieCards,
   onMovieDelete,
   onMovieLike,
+  showMoreMovie,
 }) => (
   < section className='movies-cards'>
     <ul className='movies-cards__list'>
       {movieCards.map((movie) => (
         <MoviesCard
           key={movie.id}
-          movieCard={movie}
+          movie={movie}
           onMovieDelete={onMovieDelete}
           onMovieLike={onMovieLike}
         />
       ))}
     </ul>
+    <button
+      type='button'
+      className='movies-card__button '
+      onClick={showMoreMovie}
+    >
+      Ещё
+    </button>
   </section>
 );
 

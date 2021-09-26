@@ -1,12 +1,11 @@
 import React from 'react';
 
-const MoviesPreloader = () => (
-  <section className='movies-preloader'>
-    <button
-      type='button'
-      className='movies-preloader__button'
-    >Ещё</button>
-  </section>
+const Preloader = () => (
+  <div className='preloader'>
+    <div className='preloader__container'>
+       <span className='preloader__round' />
+    </div>
+  </div>
 );
 
-export default MoviesPreloader;
+export default Preloader;

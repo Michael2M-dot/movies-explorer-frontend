@@ -2,15 +2,15 @@ import React from 'react';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import MoviesCard from '../MoviesCard/MoviesCard';
-import MoviesPreloader from '../Preloader/Preloader';
 import Footer from '../Footer/Footer';
 import Navigation from '../Navigation/Navigation';
+import Preloader from '../Preloader/Preloader';
 
 const Movies = ({
   movieCards,
-  onMovieDelete,
   onMovieLike,
+  showMoreMovie,
+  isLoading,
 }) => (
   <>
     <Header>
@@ -18,12 +18,14 @@ const Movies = ({
     </Header>
     <div className='page_movies'>
       <SearchForm />
+      {isLoading && (
+        <Preloader/>
+      )}
       <MoviesCardList
         movieCards={movieCards}
-        onMovieDelete={onMovieDelete}
         onMovieLike={onMovieLike}
+        showMoreMovie={showMoreMovie}
       />
-      <MoviesPreloader />
     </div>
     <Footer />
   </>

@@ -11,24 +11,29 @@ import Page404 from '../404/404';
 import initialMovies from '../../utils/movies';
 
 const App = () => {
-  const [isLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    setMovies(initialMovies)
-  }, [])
-
-  console.log(movies);
+    setMovies(initialMovies);
+  }, []);
 
   // управление карточками фильмов
-  function handleMovieDelete(movie) {
-  };
+  function handleMovieDelete(e) {
+    e.preventDefault();
+  }
 
-  function handleMovieLike(movie) {
-  };
+  function handleMovieLike(e) {
+    e.preventDefault();
+  }
+
+  // отображение большего списка фильмов
+  function handleShowMoreMovie() {
+    console.log(movies);
+  }
 
   return (
-    // eslint-disable-next-line react/jsx-filename-extension
     <div className="page">
       <div className="page__container">
         <Switch>
@@ -38,15 +43,17 @@ const App = () => {
            <Route path="/movies">
             <Movies
               movieCards={movies}
-              onMovieDelete={handleMovieDelete}
               onMovieLike={handleMovieLike}
+              showMoreMovie={handleShowMoreMovie}
+              isLoading={isLoading}
             />
            </Route>
            <Route path="/saved-movies">
             <SavedMovies
               movieCards={movies}
               onMovieDelete={handleMovieDelete}
-              onMovieLike={handleMovieLike}
+              showMoreMovie={handleShowMoreMovie}
+              isLoading={isLoading}
             />
            </Route>
            <Route path="/profile">

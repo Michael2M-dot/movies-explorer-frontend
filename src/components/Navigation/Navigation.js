@@ -14,7 +14,7 @@ const Navigation = () => {
     isBurgerMenuOpen && 'active'}`;
   const profileButtonStyle = `navigation__profile ${
     isProfile && 'active'
-  }`
+  }`;
 
   const toggleMenu = () => {
     setIsBurgerMenuOpen(!isBurgerMenuOpen);
