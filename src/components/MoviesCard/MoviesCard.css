@@ -11,11 +11,13 @@
 
 .movie__image {
   display: block;
+  overflow: hidden;
 
   max-width: 399px;
   min-width: 270px;
-  min-height: 151px;
-  background-size: cover;
+  height: 151px;
+
+  object-fit: cover;
 }
 
 .movie__description {
@@ -94,12 +96,12 @@
 
 @media screen and (max-width: 1040px) {
   .movie__image {
-    min-height: 190px;
+    height: 190px;
   }
 }
 
 @media screen and (max-width: 767px) {
   .movie__image {
-    min-height: 168px;
+    height: 168px;
   }
 }
