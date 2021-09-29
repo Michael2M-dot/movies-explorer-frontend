@@ -1,0 +1,11 @@
+@import url('./AboutProject/AboutProject.css');
+@import url('./Promo/Promo.css');
+@import url('./AboutMe/AboutMe.css');
+@import url('./NavTab/NavTab.css');
+@import url('./Portfolio/Portfolio.css');
+@import url('./Techs/Techs.css');
+
+.content {
+  display: grid;
+  width: 100%;
+}

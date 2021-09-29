@@ -1,0 +1,14 @@
+.page_saved-movies {
+  width: 100vw;
+  min-width: 320px;
+  max-width: 1280px;
+
+  margin: 0 auto;
+  padding: 0 70px;
+
+  box-sizing: border-box;
+
+  background: var(--bg-black-gray);
+
+  font-family: "Inter", Helvetica, sans-serif;
+}

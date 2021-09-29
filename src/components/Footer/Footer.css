@@ -1,0 +1,130 @@
+.footer {
+  width: 100%;
+  min-width: 320px;
+
+  box-sizing: border-box;
+
+  margin: 0 auto;
+  padding: 80px 70px 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--bg-black-gray);
+
+  font-family: "Inter", Helvetica, sans-serif;
+}
+
+.footer__title {
+  width: 100%;
+
+  margin: 0 auto;
+  padding-bottom: 20px;
+
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--tx-gray);
+
+  border-bottom: 1px solid var(--layout-dark-grey);
+}
+
+.footer__wrapper {
+  width: 100%;
+  min-width: 292px;
+
+  margin: 20px auto 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer__copyright {
+  margin: 0;
+  padding: 0;
+
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: left;
+}
+
+.footer__links {
+  list-style: none;
+
+  padding: 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.footer__link {
+  text-decoration: none;
+
+  padding-right: 20px;
+
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  color: var( --tx-white);
+}
+
+.footer__link:last-of-type {
+  padding-right: 0;
+}
+
+@media screen and (max-width: 1040px) {
+  .footer {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
+
+  .footer__wrapper{
+    flex-direction: column-reverse;
+  }
+
+  .footer__links {
+    margin-bottom: 30px;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .footer__link {
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+
+  .footer__link:last-of-type {
+    padding-bottom: 0;
+  }
+
+  .footer__link,
+  .footer__copyright {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .footer__copyright {
+    color: var(--tx-gray);
+  }
+}
+
+.footer__link:hover {
+  opacity: .7;
+}
