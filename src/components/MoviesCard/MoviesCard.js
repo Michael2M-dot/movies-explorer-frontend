@@ -8,8 +8,6 @@ const MoviesCard = ({
 }) => {
   const [isLiked, setIsLiked] = useState(false);
 
-  const movieCardStyle = { backgroundImage: `url(${movie.image})` };
-
   const isSavedMovie = useRouteMatch({ path: '/saved-movies', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
 
@@ -30,9 +28,11 @@ const MoviesCard = ({
 
   return (
     <li className='movie__item'>
-      <div
-        className='movie__image'
-        style={movieCardStyle}
+      <img
+        src={movie.image}
+        alt={movie.description}
+        className="movie__image"
+        // onClick={handleClick}
       />
       <div className='movie__description'>
         <h3 className='movie__title'>{movie.description}</h3>
