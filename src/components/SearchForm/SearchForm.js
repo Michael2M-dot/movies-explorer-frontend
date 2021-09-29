@@ -10,6 +10,8 @@ const SearchForm = (
         className='search-form__textfield'
         placeholder='Фильм'
         required
+        minLength='2'
+        type='text'
         // onChange={}
       />
       <button
