@@ -44,6 +44,13 @@
   color: var(--tx-gray-80);
 }
 
+.search-form__input-errors {
+  width: 100%;
+  position: absolute;
+
+
+}
+
 .search-form__button {
   margin: 0;
   padding: 9px 11px;

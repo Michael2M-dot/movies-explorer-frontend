@@ -1,9 +1,9 @@
-const movies = [
+const initialMovies = [
   {
     image: 'https://infuture.ru/images/a2363e6fe9dfc7cdad011e90a490b6c1.saturn-rings-translucent.jpg',
     description: 'Saturn',
     duration: '1:30',
-    id: 1,
+    id: 12,
   },
   {
     image: 'https://infuture.ru/images/a2363e6fe9dfc7cdad011e90a490b6c1.saturn-rings-translucent.jpg',
@@ -49,4 +49,4 @@ const movies = [
   },
 ];
 
-export default movies;
+export default initialMovies;

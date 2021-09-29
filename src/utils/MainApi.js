@@ -76,7 +76,7 @@ export const getUserData = () => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'Accept-Control-Request-Headers': true,
-    }
+    },
   })
     .then((res) => checkResponse(res));
 };
@@ -111,7 +111,7 @@ export const updateUserData = (name, email) => {
       email,
     }),
   })
-    .then((res) => checkResponse(res))
+    .then((res) => checkResponse(res));
 };
 
 export const addNewMovie = (data) => {
