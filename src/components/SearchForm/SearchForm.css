@@ -48,7 +48,13 @@
   width: 100%;
   position: absolute;
 
+  bottom: -20px;
+  left: 10px;
 
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--tx-red);
+  text-align: left;
 }
 
 .search-form__button {

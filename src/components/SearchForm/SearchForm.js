@@ -15,32 +15,47 @@ const SearchForm = (
 
   useEffect(() => {
     resetForm();
-  }, [onClick]);
+  }, [isValid]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
-    <section className='search-form'>
+    <form
+      name='movie-search-form'
+      id='movie-search-form'
+      className='search-form'
+      onSubmit={handleSubmit}
+      autoComplete='off'
+    >
       <label className='search-form__input'>
         <input
+          name='request'
+          type='text'
+          id='request'
           className='search-form__textfield'
           placeholder='Фильм'
+          title='Введите название фильма'
           required
           minLength='2'
-          type='text'
+          pattern='^[A-Za-zА-Яа-яЁё\s]+$'
           value={values.request}
           onChange={handleChange}
         />
-        <span className='search-form__input-errors'>
-          {errors || ''}
-        </span>
+         <span className='search-form__input-errors'>
+          {errors.request || ''}
+         </span>
         <button
           type='submit'
           className='search-form__button'
-          onClick={onClick}
-          disabled={!isValid}
-        >Найти</button>
+          // onClick={onClick}
+          disabled={isValid}
+        >Найти
+        </button>
       </label>
-      <FilterCheckbox />
-    </section>
+      <FilterCheckbox/>
+    </form>
   );
 };
 
