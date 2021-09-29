@@ -9,6 +9,17 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Page404 from '../404/404';
 import initialMovies from '../../utils/movies';
+import {
+  register,
+  login,
+  checkToken,
+  logout,
+  getUserData,
+  getSavedMovieData,
+  updateUserData,
+  addNewMovie,
+  deleteMovie,
+} from '../../utils/MainApi';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
