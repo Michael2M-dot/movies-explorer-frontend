@@ -8,7 +8,6 @@ import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Page404 from '../404/404';
-import initialMovies from '../../utils/movies';
 import {
   register,
   login,
@@ -20,17 +19,38 @@ import {
   addNewMovie,
   deleteMovie,
 } from '../../utils/MainApi';
+import * as movie from '../../utils/MovieApi';
+// import movieApi from '../../utils/MovieApi';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    setMovies(initialMovies);
-  }, []);
-
   // управление карточками фильмов
+  useEffect(() => {
+    if (isLoggedIn) {
+      movie
+        .movieApi(movie)
+        .then((movieCards) => {
+          localStorage.setItem('movieCards', JSON.stringify(movieCards));
+        })
+        .catch((err) => {
+          console.log(
+            `Непредвиденная ошибка загрузки фильмов:
+          ${err.status} ${err.messages}`,
+          );
+        });
+    }
+  }, [isLoggedIn]);
+
+  const handleGetMovie = (keyWord) => {
+    console.log(keyWord);
+    const movieCards = JSON.parse(localStorage.getItem('movieCards'));
+    const movieSearchResult = movieCards.filter((item) => item.nameRU.toLowerCase().includes(keyWord));
+    setMovies(movieSearchResult);
+  };
+
   function handleMovieDelete(e) {
     e.preventDefault();
   }
@@ -56,6 +76,7 @@ const App = () => {
               movieCards={movies}
               onMovieLike={handleMovieLike}
               showMoreMovie={handleShowMoreMovie}
+              handleGetMovie ={handleGetMovie}
               isLoading={isLoading}
             />
            </Route>

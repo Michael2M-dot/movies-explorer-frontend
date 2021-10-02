@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
+// eslint-disable-next-line import/named
+import { getHoursFromMinutes } from '../../utils/utils';
 
 const MoviesCard = ({
   movie,
@@ -15,6 +17,10 @@ const MoviesCard = ({
     isLiked ? 'active' : ''
   }`;
 
+  const imageUrl = `https://api.nomoreparties.co${movie.image.url}`;
+
+  const duration = getHoursFromMinutes(movie.duration);
+
   const handleMovieLike = () => {
     setIsLiked(!isLiked);
     onMovieLike(movie);
@@ -29,14 +35,14 @@ const MoviesCard = ({
   return (
     <li className='movie__item'>
       <img
-        src={movie.image}
-        alt={movie.description}
+        src={imageUrl}
+        alt={movie.nameRU}
         className="movie__image"
         // onClick={handleClick}
       />
       <div className='movie__description'>
-        <h3 className='movie__title'>{movie.description}</h3>
-        <p className='movie__duration'>{movie.duration}</p>
+        <h3 className='movie__title'>{movie.nameRU}</h3>
+        <p className='movie__duration'>{duration}</p>
       </div>
       {!isSavedMovie && (
       <button

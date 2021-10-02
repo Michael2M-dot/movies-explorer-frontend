@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useFormInputsValidate from '../../hooks/useForm';
 
-const SearchForm = (
+const SearchForm = ({
   onClick,
-) => {
+  handleGetMovie,
+}) => {
   const {
     values,
     errors,
@@ -15,10 +16,12 @@ const SearchForm = (
 
   useEffect(() => {
     resetForm();
-  }, [isValid]);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleGetMovie(values.keyword);
+    console.log(values.keyword);
   };
 
   return (
@@ -31,26 +34,26 @@ const SearchForm = (
     >
       <label className='search-form__input'>
         <input
-          name='request'
+          name='keyword'
           type='text'
-          id='request'
+          id='keyword'
           className='search-form__textfield'
           placeholder='Фильм'
           title='Введите название фильма'
           required
           minLength='2'
           pattern='^[A-Za-zА-Яа-яЁё\s]+$'
-          value={values.request}
           onChange={handleChange}
+          value={values.keyword || ''}
         />
          <span className='search-form__input-errors'>
-          {errors.request || ''}
+          {errors.keyword || ''}
          </span>
         <button
           type='submit'
           className='search-form__button'
           // onClick={onClick}
-          disabled={isValid}
+          disabled={!isValid}
         >Найти
         </button>
       </label>

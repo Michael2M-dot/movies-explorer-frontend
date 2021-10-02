@@ -11,13 +11,16 @@ const Movies = ({
   onMovieLike,
   showMoreMovie,
   isLoading,
+  handleGetMovie,
 }) => (
   <>
     <Header>
       <Navigation />
     </Header>
     <div className='page_movies'>
-      <SearchForm />
+      <SearchForm
+      handleGetMovie={handleGetMovie}
+      />
       {isLoading && (
         <Preloader/>
       )}
