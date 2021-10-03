@@ -34,12 +34,19 @@ const MoviesCard = ({
 
   return (
     <li className='movie__item'>
-      <img
-        src={imageUrl}
-        alt={movie.nameRU}
-        className="movie__image"
-        // onClick={handleClick}
-      />
+      <a
+      className='movie__link'
+      href={movie.trailerLink}
+      target='_blank'
+      rel='noopener noreferrer'
+      >
+        <img
+          src={imageUrl}
+          alt={movie.nameRU}
+          className="movie__image"
+          // onClick={handleClick}
+        />
+      </a>
       <div className='movie__description'>
         <h3 className='movie__title'>{movie.nameRU}</h3>
         <p className='movie__duration'>{duration}</p>

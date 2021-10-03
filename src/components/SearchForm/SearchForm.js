@@ -21,7 +21,6 @@ const SearchForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     handleGetMovie(values.keyword);
-    console.log(values.keyword);
   };
 
   return (

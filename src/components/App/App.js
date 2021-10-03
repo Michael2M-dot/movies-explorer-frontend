@@ -28,6 +28,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // управление карточками фильмов
+  // загружаем карточки фильмов
   useEffect(() => {
     if (isLoggedIn) {
       movie
@@ -44,10 +45,10 @@ const App = () => {
     }
   }, [isLoggedIn]);
 
+  // ищем фильм по ключевому слову
   const handleGetMovie = (keyWord) => {
-    console.log(keyWord);
     const movieCards = JSON.parse(localStorage.getItem('movieCards'));
-    const movieSearchResult = movieCards.filter((item) => item.nameRU.toLowerCase().includes(keyWord));
+    const movieSearchResult = movieCards.filter((item) => item.nameRU.toLowerCase().includes(keyWord.toLowerCase()));
     setMovies(movieSearchResult);
   };
 
