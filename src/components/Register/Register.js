@@ -5,7 +5,9 @@ import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
 
 const Register = ({
+  onRegister,
   isSubmitted = false,
+  infoMessage = '',
 }) => {
   const {
     values,
@@ -21,6 +23,10 @@ const Register = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if ( !values.email || !values.password ) {
+      return;
+    }
+    onRegister(values);
   };
 
   return (
@@ -35,7 +41,7 @@ const Register = ({
         footerLink='Войти'
         endPoint="/signin"
         isDisabled={!isValid || isSubmitted}
-        errors={errors.name || errors.email || errors.password || ''}
+        infoMessage={infoMessage || ''}
       >
         <label className="auth-form__input">
           <Input

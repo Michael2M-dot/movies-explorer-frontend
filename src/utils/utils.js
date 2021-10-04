@@ -3,9 +3,10 @@ function checkResponse(res) {
   return res.ok
     ? res.json()
     // eslint-disable-next-line prefer-promise-reject-errors
-    : Promise.reject(`${res.status} ${res.statusText}`);
+    : Promise.reject(`${res.status}: ${res.statusText}`);
 }
 
+// переводим минуты в формат часы:минуты.
 export const getHoursFromMinutes = (min) => {
   const hours = Math.trunc(min / 60);
   const minutes = min % 60;

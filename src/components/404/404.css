@@ -60,6 +60,9 @@
   margin: 40px auto 0;
   padding: 0;
 
+  border: none;
+  background: transparent;
+
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
@@ -67,6 +70,10 @@
   color: var(--tx-blue);
 
   text-decoration: none;
+}
+
+.page-404__link:hover {
+  opacity: .7;
 }
 
 @media screen and (max-width: 1279px) {

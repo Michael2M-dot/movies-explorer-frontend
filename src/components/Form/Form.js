@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import FormFooter from '../FormFooter/FormFooter';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
 // import { useRouteMatch } from 'react-router-dom';
 
@@ -17,9 +18,10 @@ const Form = ({
   formTitle,
   buttonType,
   onButtonClick,
-  errors,
   isEditProfile,
 }) => {
+  const { infoMessage } = useContext(CurrentUserContext);
+
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
   const formStyle = `auth-form__form ${
@@ -45,7 +47,7 @@ const Form = ({
           {children}
           {!isProfilePage && (
             <span className='auth-form__errors'>
-              {errors || ''}
+              {infoMessage || ''}
             </span>
           )}
         </div>
@@ -59,7 +61,7 @@ const Form = ({
           endPoint={endPoint}
           onClick={onButtonClick}
           isEditProfile={isEditProfile}
-          errors={errors || ''}
+          infoMessage={infoMessage}
         />
       </form>
     </section>

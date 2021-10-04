@@ -6,6 +6,7 @@ import useFormInputsValidate from '../../hooks/useForm';
 
 const Login = ({
   isSubmitted = false,
+  onLogin,
 }) => {
   const {
     values,
@@ -17,6 +18,10 @@ const Login = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!values.email || !values.password) {
+      return;
+    }
+    onLogin(values);
   };
 
   useEffect(() => {
@@ -35,7 +40,6 @@ const Login = ({
         footerLink='Регистрация'
         endPoint="/signup"
         isDisabled={!isValid || isSubmitted}
-        errors={errors.email || errors.password || ''}
       >
         <label className="auth-form__input">
           <Input

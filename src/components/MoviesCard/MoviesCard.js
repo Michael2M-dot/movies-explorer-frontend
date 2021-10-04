@@ -8,10 +8,15 @@ const MoviesCard = ({
   onMovieDelete,
   onMovieLike,
 }) => {
-  const [isLiked, setIsLiked] = useState(false);
-
+  // отображение по маршрутам
   const isSavedMovie = useRouteMatch({ path: '/saved-movies', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
+
+  // стили и наполнение карточек
+  const [isLiked, setIsLiked] = useState(false);
+
+  // добавляем видимость для лайка, если его установил пользователь и функционал по клику
+  // const isAdded = movie.owner.some((user) => user === currentUser._id);
 
   const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
     isLiked ? 'active' : ''
@@ -21,6 +26,7 @@ const MoviesCard = ({
 
   const duration = getHoursFromMinutes(movie.duration);
 
+  // функциональность карточек (лайк и удаление)
   const handleMovieLike = () => {
     setIsLiked(!isLiked);
     onMovieLike(movie);
