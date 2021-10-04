@@ -15,6 +15,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Page404 from '../404/404';
 import * as api from '../../utils/MainApi';
+import ProtectedRoute from '../ProtectedRoute';
 // import {
 //   register,
 //   login,
@@ -31,7 +32,7 @@ import * as movie from '../../utils/MovieApi';
 const App = () => {
   const history = useHistory();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
@@ -153,17 +154,29 @@ const App = () => {
       <div className="page">
         <div className="page__container">
           <Switch>
+            <ProtectedRoute
+            component={Movies}
+            path='/movies'
+            movieCards={movies}
+            onMovieLike={handleMovieLike}
+            showMoreMovie={handleShowMoreMovie}
+            handleGetMovie ={handleGetMovie}
+            isLoading={isLoading}
+            to='/signin'
+            isLoggedIn={isLoggedIn}
+            />
+            <ProtectedRoute
+            component={SavedMovies}
+            path='/saved-movies'
+            movieCards={movies}
+            onMovieDelete={handleMovieDelete}
+            showMoreMovie={handleShowMoreMovie}
+            isLoading={isLoading}
+            isLoggedIn={isLoggedIn}
+            to='/signin'
+            />
             <Route path="/main">
               <Main />
-            </Route>
-            <Route path="/movies">
-              <Movies
-                movieCards={movies}
-                onMovieLike={handleMovieLike}
-                showMoreMovie={handleShowMoreMovie}
-                handleGetMovie ={handleGetMovie}
-                isLoading={isLoading}
-              />
             </Route>
             <Route path="/saved-movies">
               <SavedMovies
@@ -195,7 +208,7 @@ const App = () => {
             </Route>
             <Route path="/">
               {isLoggedIn ? (
-                <Redirect to="/main" />
+                <Redirect to="/movies" />
               ) : (
                 <Redirect to="/signin" />
               )}
