@@ -21,7 +21,7 @@ import * as movie from '../../utils/MovieApi';
 const App = () => {
   const history = useHistory();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
@@ -97,8 +97,8 @@ const App = () => {
       .login(email, password)
       .then((userData) => {
         setCurrentUser(userData);
-        history.push('/movies');
         setIsLoggedIn(true);
+        history.push('/movies');
       })
       .catch((err) => {
         const Error = err.toString();
@@ -119,14 +119,43 @@ const App = () => {
       });
   };
 
+  useEffect(() => {
+    api
+      .checkToken()
+      .then((userData) => {
+        setCurrentUser(userData);
+        console.log(userData);
+        setIsLoggedIn(true);
+        history.push('/movies');
+        setInfoMessage('');
+      })
+      .catch((err) => {
+        const Error = err.toString();
+        console.log(`Ошибка при проверке токена:${err}`);
+        history.push('/signin');
+        if (Error.includes('401')) {
+          return setInfoMessage(`
+        При авторизации произошла ошибка. Токен не передан или передан не в том формате.
+        `);
+        }
+        if (Error.includes('500')) {
+          return setInfoMessage(`
+          На сервере произошла ошибка.
+          `);
+        }
+        setInfoMessage(`
+        При авторизации произошла ошибка. Переданный токен некорректен.
+        `);
+      });
+  }, [history]);
+
   const onSignOut = () => {
     api
-      .logout()
+      .signOut()
       .then(() => {
         setIsLoggedIn(false);
         history.push('/signin');
         setCurrentUser({});
-        localStorage.removeItem('jwt');
       })
       .catch((err) => {
         console.log(`

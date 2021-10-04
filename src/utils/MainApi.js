@@ -1,6 +1,6 @@
 import checkResponse from './utils';
 
-const BASE_URL = 'https://my-movie.nomoredomains.monster/api/';
+const BASE_URL = 'https://my-movie.nomoredomains.monster/api';
 // const BASE_URL = 'https://localhost:3000';
 
 // регистрация, авторизация, проверка токена и выход из приложения
@@ -35,22 +35,20 @@ export const login = (email, password) => fetch(`${BASE_URL}/signin`, {
 })
   .then((res) => checkResponse(res));
 
-export const checkToken = () => {
-  fetch(`${BASE_URL}/users/me`, {
-    method: 'POST',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-  })
-    .then((res) => checkResponse(res));
-};
-
-export const logout = () => fetch(`${BASE_URL}/logout`, {
+export const checkToken = () => fetch(`${BASE_URL}/users/me`, {
   method: 'GET',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+})
+  .then((res) => checkResponse(res));
+
+export const signOut = () => fetch(`${BASE_URL}/signout`, {
+  method: 'POST',
   credentials: 'include',
   mode: 'cors',
   headers: {

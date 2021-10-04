@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 import Form from '../Form/Form';
@@ -10,7 +11,8 @@ const Profile = ({
   onSignOut,
   userName = 'Michael',
 }) => {
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
+  const history = useHistory();
 
   const {
     values,
@@ -37,9 +39,10 @@ const Profile = ({
   };
 
   useEffect(() => {
-    resetForm({ name: `${currentUser.name}`, email: `${currentUser.email}` }, {}, false);
-  },[resetForm]);
+    resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
+  },[resetForm, history]);
 
+  console.log(currentUser);
   return (
      <>
        <Header>
