@@ -49,19 +49,17 @@ export const checkToken = () => {
     .then((res) => checkResponse(res));
 };
 
-export const logout = () => {
-  fetch(`${BASE_URL}/logout`, {
-    method: 'GET',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-  })
-    .then((res) => checkResponse(res));
-};
+export const logout = () => fetch(`${BASE_URL}/logout`, {
+  method: 'GET',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+})
+  .then((res) => checkResponse(res));
 
 // получение данных из БД (о пользователе и сохраненных фильмах)
 export const getUserData = () => {

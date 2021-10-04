@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
 const Profile = ({
+  onSignOut,
   userName = 'Michael',
 }) => {
+  const currentUser = useContext(CurrentUserContext);
+
   const {
     values,
     errors,
@@ -33,7 +37,7 @@ const Profile = ({
   };
 
   useEffect(() => {
-    resetForm({ name: 'Michael', email: 'mmm@mmm.ru' }, {}, false);
+    resetForm({ name: `${currentUser.name}`, email: `${currentUser.email}` }, {}, false);
   },[resetForm]);
 
   return (
@@ -47,9 +51,10 @@ const Profile = ({
          buttonType={buttonTypePageProfile}
          buttonText={buttonTextProfilePage}
          onSubmit={handleSubmit}
+         onSignOut={onSignOut}
          footerText=''
          footerLink={footerLinkProfilePage}
-         endPoint="/main"
+         endPoint="/signin"
          onButtonClick={buttonClickHandler}
          isEditProfile={isEditProfile}
          isDisabled={isEditProfile ? !isValid : isValid}

@@ -10,6 +10,7 @@ const FormFooter = ({
   footerLink,
   buttonType,
   onClick,
+  onSignOut,
   isEditProfile = false,
   infoMessage = '',
 }) => {
@@ -60,6 +61,7 @@ const FormFooter = ({
         <p className="form-footer__text">{footerText}</p>
         <NavLink
           className={linkTextStyle}
+          onClick={onSignOut}
           to={endPoint}
         >
           {footerLink}

@@ -8,6 +8,7 @@ import CurrentUserContext from '../../context/CurrentUserContext';
 const Form = ({
   name,
   onSubmit,
+  onSignOut,
   children,
   isDisabled = true,
   buttonText,
@@ -60,6 +61,7 @@ const Form = ({
           footerLink={footerLink}
           endPoint={endPoint}
           onClick={onButtonClick}
+          onSignOut={onSignOut}
           isEditProfile={isEditProfile}
           infoMessage={infoMessage}
         />

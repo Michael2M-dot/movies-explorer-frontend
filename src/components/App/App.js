@@ -16,17 +16,6 @@ import Register from '../Register/Register';
 import Page404 from '../404/404';
 import * as api from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute';
-// import {
-//   register,
-//   login,
-//   checkToken,
-//   logout,
-//   getUserData,
-//   getSavedMovieData,
-//   updateUserData,
-//   addNewMovie,
-//   deleteMovie,
-// } from '../../utils/MainApi';
 import * as movie from '../../utils/MovieApi';
 
 const App = () => {
@@ -130,6 +119,22 @@ const App = () => {
       });
   };
 
+  const onSignOut = () => {
+    api
+      .logout()
+      .then(() => {
+        setIsLoggedIn(false);
+        history.push('/signin');
+        setCurrentUser({});
+        localStorage.removeItem('jwt');
+      })
+      .catch((err) => {
+        console.log(`
+        Ошибка при закрытии сессии:${err}
+        `);
+      });
+  };
+
   // удаляем фильм из медиатеки
   function handleMovieDelete(e) {
     e.preventDefault();
@@ -175,6 +180,13 @@ const App = () => {
             isLoggedIn={isLoggedIn}
             to='/signin'
             />
+            <ProtectedRoute
+            component={Profile}
+            path='/profile'
+            isLoggedIn={isLoggedIn}
+            onSignOut={onSignOut}
+            to='/signin'
+            />
             <Route path="/main">
               <Main />
             </Route>
@@ -185,9 +197,6 @@ const App = () => {
                 showMoreMovie={handleShowMoreMovie}
                 isLoading={isLoading}
               />
-            </Route>
-            <Route path="/profile">
-              <Profile />
             </Route>
             <Route path="/signin">
               <Login
