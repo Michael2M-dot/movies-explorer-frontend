@@ -243,11 +243,8 @@ const App = () => {
   };
   // удаляем фильм из медиатеки
   const handleDeleteMovie = (movieCard) => {
-    console.log(movieCard.movieId);
     const isAdded = savedMovies.some((item) => item.movieId === movieCard.id || movieCard.movieId);
-    console.log(isAdded);
     const targetMovie = savedMovies.find((item) => item.movieId === movieCard.id || movieCard.movieId);
-    console.log(targetMovie);
 
     if (isAdded) {
       api
