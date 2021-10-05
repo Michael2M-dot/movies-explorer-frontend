@@ -16,7 +16,7 @@ const SearchForm = ({
 
   useEffect(() => {
     resetForm();
-  }, []);
+  }, [resetForm]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

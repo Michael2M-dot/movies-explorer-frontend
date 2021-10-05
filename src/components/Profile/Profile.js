@@ -9,7 +9,6 @@ import CurrentUserContext from '../../context/CurrentUserContext';
 
 const Profile = ({
   onSignOut,
-  userName = 'Michael',
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();

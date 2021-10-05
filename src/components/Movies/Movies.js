@@ -9,9 +9,11 @@ import Preloader from '../Preloader/Preloader';
 const Movies = ({
   movieCards,
   onMovieLike,
+  onMovieDelete,
   showMoreMovie,
   isLoading,
   handleGetMovie,
+  infoMessage,
 }) => (
   <>
     <Header>
@@ -24,10 +26,14 @@ const Movies = ({
       {isLoading && (
         <Preloader/>
       )}
+      {infoMessage && (<span className='movie__span'>
+        {infoMessage || ''}
+      </span>)}
       <MoviesCardList
         movieCards={movieCards}
         onMovieLike={onMovieLike}
         showMoreMovie={showMoreMovie}
+        onMovieDelete={onMovieDelete}
       />
     </div>
     <Footer />

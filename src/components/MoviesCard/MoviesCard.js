@@ -4,7 +4,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { getHoursFromMinutes } from '../../utils/utils';
 
 const MoviesCard = ({
-  movie,
+  movie = {},
   onMovieDelete,
   onMovieLike,
 }) => {
@@ -13,30 +13,39 @@ const MoviesCard = ({
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
 
   // стили и наполнение карточек
-  const [isLiked, setIsLiked] = useState(false);
+  // const [isLiked, setIsLiked] = useState(movie.isLiked);
 
-  // добавляем видимость для лайка, если его установил пользователь и функционал по клику
+  // // добавляем видимость для фильма, который уже есть в медиатеке
   // const isAdded = movie.owner.some((user) => user === currentUser._id);
 
+  // const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
+  //   isLiked ? 'active' : ''
+  // }`;
+
   const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
-    isLiked ? 'active' : ''
+    movie.isLiked? 'active' : ''
   }`;
 
-  const imageUrl = `https://api.nomoreparties.co${movie.image.url}`;
+  const imageUrl = isMovies
+    ? `https://api.nomoreparties.co${movie.image.url}`
+    : movie.image;
 
   const duration = getHoursFromMinutes(movie.duration);
 
   // функциональность карточек (лайк и удаление)
   const handleMovieLike = () => {
-    setIsLiked(!isLiked);
-    onMovieLike(movie);
+    if (!movie.isLiked) {
+      onMovieLike(movie);
+    }
+    if (movie.isLiked) {
+      onMovieDelete(movie);
+    }
   };
 
   const handleDeleteMovie = () => {
+    console.log(movie);
     onMovieDelete(movie);
   };
-
-  console.log(handleDeleteMovie);
 
   return (
     <li className='movie__item'>

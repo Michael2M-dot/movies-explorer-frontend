@@ -9,7 +9,6 @@ import Preloader from '../Preloader/Preloader';
 const SavedMovies = ({
   movieCards,
   onMovieDelete,
-  showMoreMovie,
   isLoading,
 }) => (
   <>
@@ -24,7 +23,6 @@ const SavedMovies = ({
       <MoviesCardList
         movieCards={movieCards}
         onMovieDelete={onMovieDelete}
-        showMoreMovie={showMoreMovie}
       />
     </div>
     {isLoading && (<Preloader/>)}

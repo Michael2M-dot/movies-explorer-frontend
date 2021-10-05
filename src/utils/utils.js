@@ -14,3 +14,9 @@ export const getHoursFromMinutes = (min) => {
 };
 
 export default checkResponse;
+
+export const getSearchedMovieList = (keyWord) => {
+  const movieCards = JSON.parse(localStorage.getItem('movieCards'));
+  return movieCards.filter((item) => item.nameRU.toLowerCase()
+    .includes(keyWord.toLowerCase()));
+};

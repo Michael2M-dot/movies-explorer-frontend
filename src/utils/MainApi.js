@@ -74,19 +74,17 @@ export const getUserData = () => {
     .then((res) => checkResponse(res));
 };
 
-export const getSavedMovieData = () => {
-  fetch(`${BASE_URL}/movies`, {
-    method: 'GET',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-  })
-    .then((res) => checkResponse(res));
-};
+export const getSavedMovie = () => fetch(`${BASE_URL}/movies`, {
+  method: 'GET',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+})
+  .then((res) => checkResponse(res));
 
 // редактирование данных в БД (данные пользователя, добавление и удаление фильмов)
 export const updateUserData = (name, email) => {
@@ -107,43 +105,33 @@ export const updateUserData = (name, email) => {
     .then((res) => checkResponse(res));
 };
 
-export const addNewMovie = (data) => {
-  fetch(`${BASE_URL}/movies`, {
-    method: 'POST',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-    body: JSON.stringify({
-      country: data.country,
-      director: data.director,
-      duration: data.duration,
-      year: data.year,
-      description: data.description,
-      image: data.image.url,
-      trailerLink: data.trailerLink,
-      nameRU: data.nameRU,
-      nameEN: data.nameEN,
-      // thumbnail: data.thumbnail,
-      movieId: data.movieId,
-    }),
-  })
-    .then((res) => checkResponse(res));
-};
+export const addNewMovie = (data) => fetch(`${BASE_URL}/movies`, {
+  method: 'POST',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+  body: JSON.stringify({
+    nameRU: data.nameRU,
+    duration: data.duration,
+    image: `https://api.nomoreparties.co${data.image.url}`,
+    trailer: data.trailerLink,
+    movieId: data.id,
+  }),
+})
+  .then((res) => checkResponse(res));
 
-export const deleteMovie = (_id) => {
-  fetch(`${BASE_URL}/movies/${_id}`, {
-    method: 'DELETE',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-  })
-    .then((res) => checkResponse(res));
-};
+export const deleteMovie = (_id) => fetch(`${BASE_URL}/movies/${_id}`, {
+  method: 'DELETE',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+})
+  .then((res) => checkResponse(res));

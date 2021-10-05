@@ -17,12 +17,14 @@ import Page404 from '../404/404';
 import * as api from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute';
 import * as movie from '../../utils/MovieApi';
+import { getSearchedMovieList } from '../../utils/utils';
 
 const App = () => {
   const history = useHistory();
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
 
@@ -31,36 +33,82 @@ const App = () => {
   // загружаем карточки фильмов
   useEffect(() => {
     if (isLoggedIn) {
-      movie
-        .movieApi(movie)
-        .then((movieCards) => {
-          localStorage.setItem('movieCards', JSON.stringify(movieCards));
+      // movie
+      //   .movieApi()
+      //   .then((movieCards) => {
+      //     localStorage.setItem('movieCards', JSON.stringify(movieCards));
+      //   })
+      //   .catch((err) => {
+      //     console.log(
+      //       `Непредвиденная ошибка загрузки фильмов:
+      //     ${err}`,
+      //     );
+      //   });
+      api
+        .getSavedMovie()
+        .then((savedMovieData) => {
+          setSavedMovies(savedMovieData);
         })
         .catch((err) => {
           console.log(
             `Непредвиденная ошибка загрузки фильмов:
-          ${err.status} ${err.messages}`,
+          ${err}`,
           );
         });
+      setMovies([]);
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, history]);
 
   // ищем фильм по ключевому слову
   const handleGetMovie = (keyWord) => {
-    const movieCards = JSON.parse(localStorage.getItem('movieCards'));
-    const movieSearchResult = movieCards.filter((item) => item.nameRU.toLowerCase().includes(keyWord.toLowerCase()));
-    setMovies(movieSearchResult);
+    setIsLoading(true);
+    setMovies([]);
+    movie
+      .movieApi()
+      .then((movieCards) => {
+        localStorage.setItem('movieCards', JSON.stringify(movieCards));
+      })
+      .then(() => {
+        const movieSearchedList = getSearchedMovieList(keyWord);
+        if (movieSearchedList.length === 0) {
+          setInfoMessage('Ничего не найдено');
+        } else {
+          setMovies(checkLiked(movieSearchedList));
+          setInfoMessage('');
+        }
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка загрузки фильмов:
+          ${err}`,
+          setInfoMessage(`Во время запроса произошла ошибка.
+          Возможно, проблема с соединением или сервер недоступен.
+          Подождите немного и попробуйте ещё раз.`),
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+        localStorage.removeItem('movieCards');
+        setInfoMessage('');
+      });
   };
+
+  function checkLiked(moviesList) {
+    savedMovies.forEach((item) => {
+      moviesList.forEach((elm) => {
+        if (item.movieId === elm.id) {
+          // eslint-disable-next-line no-param-reassign
+          elm.isLiked = true;
+        }
+      });
+    });
+    return moviesList;
+  }
 
   // работа с данными от нашего API
   const [currentUser, setCurrentUser] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   // регистрация, авторизация, выход из приложения
-
-  // useEffect(() => {
-  //   setInfoMessage();
-  // },[infoMessage]);
-
   const onRegister = (values) => {
     const { name, email, password } = values;
     api
@@ -124,7 +172,6 @@ const App = () => {
       .checkToken()
       .then((userData) => {
         setCurrentUser(userData);
-        console.log(userData);
         setIsLoggedIn(true);
         history.push('/movies');
         setInfoMessage('');
@@ -164,14 +211,66 @@ const App = () => {
       });
   };
 
-  // удаляем фильм из медиатеки
-  function handleMovieDelete(e) {
-    e.preventDefault();
-  }
+  // добавляем фильм в медиатеку
+  const handleAddMovie = (movieCard) => {
+    const isAdded = savedMovies.some((item) => item.movieId === movieCard.id);
 
-  function handleMovieLike(e) {
-    e.preventDefault();
-  }
+    if (!isAdded) {
+      api
+        .addNewMovie(movieCard)
+        .then((newMovieCard) => {
+          setSavedMovies((state) => [
+            newMovieCard,
+            ...state,
+          ]);
+          setMovies((state) => state.map((item) => {
+            if (item.id === newMovieCard.movieId) {
+              return {
+                ...item,
+                isLiked: true,
+                _id: newMovieCard._id,
+              };
+            }
+            return item;
+          }));
+        })
+        .catch((err) => {
+          console.log(`
+        Ошибка при добавлении фильма в медиатеку:${err}
+        `);
+        });
+    }
+  };
+  // удаляем фильм из медиатеки
+  const handleDeleteMovie = (movieCard) => {
+    console.log(movieCard.movieId);
+    const isAdded = savedMovies.some((item) => item.movieId === movieCard.id || movieCard.movieId);
+    console.log(isAdded);
+    const targetMovie = savedMovies.find((item) => item.movieId === movieCard.id || movieCard.movieId);
+    console.log(targetMovie);
+
+    if (isAdded) {
+      api
+        .deleteMovie(targetMovie._id)
+        .then(() => {
+          setSavedMovies((state) => state.filter((item) => item._id !== targetMovie._id));
+          setMovies((state) => state.map((item) => {
+            if (item.movieId === targetMovie.id) {
+              return {
+                ...item,
+                isLiked: false,
+              };
+            }
+            return item;
+          }));
+        })
+        .catch((err) => {
+          console.log(`
+        Ошибка при удалении фильма из медиатеки: ${err}
+        `);
+        });
+    }
+  };
 
   // отображение большего списка фильмов
   function handleShowMoreMovie() {
@@ -192,19 +291,20 @@ const App = () => {
             component={Movies}
             path='/movies'
             movieCards={movies}
-            onMovieLike={handleMovieLike}
+            onMovieLike={handleAddMovie}
+            onMovieDelete={handleDeleteMovie}
             showMoreMovie={handleShowMoreMovie}
             handleGetMovie ={handleGetMovie}
             isLoading={isLoading}
+            infoMessage={infoMessage}
             to='/signin'
             isLoggedIn={isLoggedIn}
             />
             <ProtectedRoute
             component={SavedMovies}
             path='/saved-movies'
-            movieCards={movies}
-            onMovieDelete={handleMovieDelete}
-            showMoreMovie={handleShowMoreMovie}
+            movieCards={savedMovies}
+            onMovieDelete={handleDeleteMovie}
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}
             to='/signin'
@@ -218,14 +318,6 @@ const App = () => {
             />
             <Route path="/main">
               <Main />
-            </Route>
-            <Route path="/saved-movies">
-              <SavedMovies
-                movieCards={movies}
-                onMovieDelete={handleMovieDelete}
-                showMoreMovie={handleShowMoreMovie}
-                isLoading={isLoading}
-              />
             </Route>
             <Route path="/signin">
               <Login
