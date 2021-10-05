@@ -3,7 +3,7 @@ import { useRouteMatch } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 const MoviesCardList = ({
-  movieCards,
+  movieCards=[],
   onMovieDelete,
   onMovieLike,
   showMoreMovie,

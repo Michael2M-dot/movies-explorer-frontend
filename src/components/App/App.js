@@ -55,8 +55,8 @@ const App = () => {
           ${err}`,
           );
         });
-      setMovies([]);
     }
+    setMovies([]);
   }, [isLoggedIn, history]);
 
   // ищем фильм по ключевому слову
@@ -294,7 +294,7 @@ const App = () => {
             handleGetMovie ={handleGetMovie}
             isLoading={isLoading}
             infoMessage={infoMessage}
-            to='/signin'
+            to='/main'
             isLoggedIn={isLoggedIn}
             />
             <ProtectedRoute
@@ -304,14 +304,14 @@ const App = () => {
             onMovieDelete={handleDeleteMovie}
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}
-            to='/signin'
+            to='/main'
             />
             <ProtectedRoute
             component={Profile}
             path='/profile'
             isLoggedIn={isLoggedIn}
             onSignOut={onSignOut}
-            to='/signin'
+            to='/main'
             />
             <Route path="/main">
               <Main />
