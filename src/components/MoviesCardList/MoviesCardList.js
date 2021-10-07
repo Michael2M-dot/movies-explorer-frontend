@@ -3,27 +3,27 @@ import { useRouteMatch } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 const MoviesCardList = ({
-  movieCards=[],
+  movieCards,
   onMovieDelete,
   onMovieLike,
   showMoreMovie,
 }) => {
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
-  const isShowMoreButtonVisible = (isMovie && movieCards.length !== 0) && (isMovie && movieCards.length < 3);
+  // const isShowMoreButtonVisible = (isMovie && movieCards.length !== 0) && (isMovie && movieCards.length < 3);
 
   return (
     <section className='movies-cards'>
       <ul className='movies-cards__list'>
         {movieCards.map((movie) => (
           <MoviesCard
-            key={movie._id || movie.id}
+            key={isMovie ? movie.id : movie.movieId }
             movie={movie}
             onMovieDelete={onMovieDelete}
             onMovieLike={onMovieLike}
           />
         ))}
       </ul>
-      {isShowMoreButtonVisible && (
+      {isMovie && (
         <button
           type='button'
           className='movies-card__button '

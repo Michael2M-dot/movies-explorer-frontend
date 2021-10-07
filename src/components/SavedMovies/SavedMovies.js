@@ -10,22 +10,24 @@ const SavedMovies = ({
   movieCards,
   onMovieDelete,
   isLoading,
+  onSearchMovie,
+  infoMessage,
 }) => (
   <>
     <Header>
       <Navigation />
     </Header>
     <div className='page_saved-movies'>
-      <SearchForm />
-      {isLoading && (
-        <Preloader/>
-      )}
+      <SearchForm
+        onSearchMovie={onSearchMovie}
+        isLoading={isLoading}
+        infoMessage={infoMessage}
+      />
       <MoviesCardList
         movieCards={movieCards}
         onMovieDelete={onMovieDelete}
       />
     </div>
-    {isLoading && (<Preloader/>)}
     <Footer />
   </>
 );

@@ -17,33 +17,92 @@ import Page404 from '../404/404';
 import * as api from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute';
 import * as movie from '../../utils/MovieApi';
-import { getSearchedMovieList } from '../../utils/utils';
+import {
+  getSearchedMovieList,
+  checkMovieAdded,
+  getDataFromStorage,
+  setDataToStorage,
+  deleteDataFromStorage,
+} from '../../utils/utils';
 
 const App = () => {
   const history = useHistory();
+  const movieList = 'movieSearchedCards';
+  const searchKeyWord = 'movieSearchedKeyWord';
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState([] );
   const [savedMovies, setSavedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
 
-  // работа с данными от стороннего API
-  // управление карточками фильмов
-  // загружаем карточки фильмов
   useEffect(() => {
+    // localStorage.removeItem('movieSearchedCards');
     if (isLoggedIn) {
-      // movie
-      //   .movieApi()
-      //   .then((movieCards) => {
-      //     localStorage.setItem('movieCards', JSON.stringify(movieCards));
-      //   })
-      //   .catch((err) => {
-      //     console.log(
-      //       `Непредвиденная ошибка загрузки фильмов:
-      //     ${err}`,
-      //     );
-      //   });
+      getLastSearchResult();
+      getSavedMovies();
+    }
+  }, [history, isLoggedIn]);
+
+  // результат последнего поиска из localStorage
+  const getLastSearchResult = () => {
+    const initialMovies = getDataFromStorage(movieList);
+    const searchedMovie = checkMovieAdded(initialMovies, savedMovies);
+    console.log(searchedMovie);
+    if (searchedMovie !== null) {
+      setMovies(searchedMovie);
+    } else {
+      setMovies([]);
+    }
+  };
+
+  // работа с данными от стороннего API
+  // ищем фильм по ключевому слову
+  const handleGetMovie = (keyWord) => {
+    setIsLoading(true);
+    setInfoMessage('');
+    deleteDataFromStorage(searchKeyWord);
+    deleteDataFromStorage(movieList);
+
+    movie
+      .movieApi()
+      .then((movieInitialCards) => {
+        setMovies([]);
+        const searchingMovies = getSearchedMovieList(keyWord, movieInitialCards);
+        const filteredMovies = checkMovieAdded(searchingMovies, savedMovies);
+        console.log(savedMovies);
+        console.log(filteredMovies);
+
+        if (filteredMovies.length === 0) {
+          setInfoMessage('Ничего не найдено');
+        } else {
+          setInfoMessage('');
+          setMovies(filteredMovies);
+          setDataToStorage(movieList, filteredMovies);
+          setDataToStorage(searchKeyWord, keyWord);
+        }
+      })
+      .catch((err) => {
+        console.log(
+          `Непредвиденная ошибка загрузки фильмов:
+          ${err}`,
+          setInfoMessage(`Во время запроса произошла ошибка.
+          Возможно, проблема с соединением или сервер недоступен.
+          Подождите немного и попробуйте ещё раз.`),
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  // работа с данными от нашего API
+  const [currentUser, setCurrentUser] = useState({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // получаем фильмы из медиатеки
+  const getSavedMovies = () => {
+    if (isLoggedIn) {
       api
         .getSavedMovie()
         .then((savedMovieData) => {
@@ -53,27 +112,85 @@ const App = () => {
           console.log(
             `Непредвиденная ошибка загрузки фильмов:
           ${err}`,
+            setInfoMessage(`Во время запроса произошла ошибка.
+            Возможно, проблема с соединением или сервер недоступен.
+            Подождите немного и попробуйте ещё раз.`),
           );
         });
     }
-    setMovies([]);
-  }, [isLoggedIn, history]);
+  };
 
-  // ищем фильм по ключевому слову
-  const handleGetMovie = (keyWord) => {
+  // добавляем фильм в медиатеку
+  const handleAddMovie = (movieCard) => {
+    console.log(movieCard);
+    const isAdded = savedMovies.some((item) => item.movieId === movieCard.id);
+    console.log('добавлен', isAdded);
+
+    if (!isAdded) {
+      api
+        .addNewMovie(movieCard)
+        .then((newMovieCard) => {
+          setSavedMovies((state) => [
+            ...state,
+            newMovieCard,
+          ]);
+          setMovies((state) => state.map((e) => (e.id === newMovieCard.movieId
+            ? { ...e, isLiked: true }
+            : e
+          )));
+          deleteDataFromStorage(movieList);
+        })
+        .then(() => {
+          setDataToStorage(movieList, movies);
+        })
+        .catch((err) => {
+          console.log(`
+        Ошибка при добавлении фильма в медиатеку:${err}
+        `);
+        });
+    }
+    handleDeleteMovie(movieCard);
+  };
+
+  // удаляем фильм из медиатеки
+  const handleDeleteMovie = (movieCard) => {
+    const isAdded = savedMovies.some((item) => item.movieId === (movieCard.id || movieCard.movieId));
+    const targetMovie = savedMovies.find((item) => item.movieId === (movieCard.id || movieCard.movieId));
+
+    console.log('вход на удаление', targetMovie);
+    if (isAdded) {
+      api
+        .deleteMovie(targetMovie._id)
+        .then(() => getSavedMovies())
+        .then(() => {
+          setMovies((state) => state.map((e) => (e.id === targetMovie.movieId
+            ? { ...e, isLiked: false }
+            : e
+          )));
+        })
+        .then(() => {
+        })
+        .catch((err) => {
+          console.log(`
+        Ошибка при удалении фильма из медиатеки: ${err}
+        `);
+        });
+    }
+  };
+
+  const handleGetSavedMovie = (keyWord) => {
     setIsLoading(true);
-    setMovies([]);
-    movie
-      .movieApi()
-      .then((movieCards) => {
-        localStorage.setItem('movieCards', JSON.stringify(movieCards));
-      })
-      .then(() => {
-        const movieSearchedList = getSearchedMovieList(keyWord);
+    setInfoMessage('');
+    setSavedMovies([]);
+
+    api
+      .getSavedMovie()
+      .then((savedMovieList) => {
+        const movieSearchedList = getSearchedMovieList(keyWord, savedMovieList);
         if (movieSearchedList.length === 0) {
           setInfoMessage('Ничего не найдено');
         } else {
-          setMovies(checkLiked(movieSearchedList));
+          setSavedMovies(movieSearchedList);
           setInfoMessage('');
         }
       })
@@ -88,26 +205,14 @@ const App = () => {
       })
       .finally(() => {
         setIsLoading(false);
-        localStorage.removeItem('movieCards');
-        setInfoMessage('');
       });
   };
 
-  function checkLiked(moviesList) {
-    savedMovies.forEach((item) => {
-      moviesList.forEach((elm) => {
-        if (item.movieId === elm.id) {
-          // eslint-disable-next-line no-param-reassign
-          elm.isLiked = true;
-        }
-      });
-    });
-    return moviesList;
+  // отображение большего списка фильмов
+  function handleShowMoreMovie() {
+    console.log(movies);
   }
 
-  // работа с данными от нашего API
-  const [currentUser, setCurrentUser] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
   // регистрация, авторизация, выход из приложения
   const onRegister = (values) => {
     const { name, email, password } = values;
@@ -211,69 +316,6 @@ const App = () => {
       });
   };
 
-  // добавляем фильм в медиатеку
-  const handleAddMovie = (movieCard) => {
-    const isAdded = savedMovies.some((item) => item.movieId === movieCard.id);
-
-    if (!isAdded) {
-      api
-        .addNewMovie(movieCard)
-        .then((newMovieCard) => {
-          setSavedMovies((state) => [
-            newMovieCard,
-            ...state,
-          ]);
-          setMovies((state) => state.map((item) => {
-            if (item.id === newMovieCard.movieId) {
-              return {
-                ...item,
-                isLiked: true,
-                _id: newMovieCard._id,
-              };
-            }
-            return item;
-          }));
-        })
-        .catch((err) => {
-          console.log(`
-        Ошибка при добавлении фильма в медиатеку:${err}
-        `);
-        });
-    }
-  };
-  // удаляем фильм из медиатеки
-  const handleDeleteMovie = (movieCard) => {
-    const isAdded = savedMovies.some((item) => item.movieId === movieCard.id || movieCard.movieId);
-    const targetMovie = savedMovies.find((item) => item.movieId === movieCard.id || movieCard.movieId);
-
-    if (isAdded) {
-      api
-        .deleteMovie(targetMovie._id)
-        .then(() => {
-          setSavedMovies((state) => state.filter((item) => item._id !== targetMovie._id));
-          setMovies((state) => state.map((item) => {
-            if (item.movieId === targetMovie.id) {
-              return {
-                ...item,
-                isLiked: false,
-              };
-            }
-            return item;
-          }));
-        })
-        .catch((err) => {
-          console.log(`
-        Ошибка при удалении фильма из медиатеки: ${err}
-        `);
-        });
-    }
-  };
-
-  // отображение большего списка фильмов
-  function handleShowMoreMovie() {
-    console.log(movies);
-  }
-
   return (
     <CurrentUserContext.Provider
     value={{
@@ -302,6 +344,8 @@ const App = () => {
             path='/saved-movies'
             movieCards={savedMovies}
             onMovieDelete={handleDeleteMovie}
+            onSearchMovie={handleGetSavedMovie}
+            infoMessage={infoMessage}
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}
             to='/main'

@@ -64,6 +64,7 @@
   position: absolute;
   right: 12px;
   bottom: 37px;
+  cursor: pointer;
 }
 
 .movie__like-checkbox {

@@ -4,7 +4,6 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Navigation from '../Navigation/Navigation';
-import Preloader from '../Preloader/Preloader';
 
 const Movies = ({
   movieCards,
@@ -15,20 +14,20 @@ const Movies = ({
   handleGetMovie,
   infoMessage,
 }) => (
+  // определяем массив карточек из последнего поискового запроса
+  // const lastSearchResult = JSON.parse(localStorage.getItem('movieSearchedCards'));
+  // const movieRenderCards = movieCards.length !== 0 ? lastSearchResult : movieCards;
   <>
     <Header>
       <Navigation />
     </Header>
     <div className='page_movies'>
       <SearchForm
-      handleGetMovie={handleGetMovie}
+        handleGetMovie={handleGetMovie}
+        movieCards={movieCards}
+        isLoading={isLoading}
+        infoMessage={infoMessage}
       />
-      {isLoading && (
-        <Preloader/>
-      )}
-      {infoMessage && (<span className='movie__span'>
-        {infoMessage || ''}
-      </span>)}
       <MoviesCardList
         movieCards={movieCards}
         onMovieLike={onMovieLike}

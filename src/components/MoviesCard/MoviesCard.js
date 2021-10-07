@@ -4,7 +4,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { getHoursFromMinutes } from '../../utils/utils';
 
 const MoviesCard = ({
-  movie = {},
+  movie,
   onMovieDelete,
   onMovieLike,
 }) => {
@@ -23,7 +23,7 @@ const MoviesCard = ({
   // }`;
 
   const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
-    movie.isLiked? 'active' : ''
+    movie.isLiked ? 'active' : ''
   }`;
 
   const imageUrl = isMovies
@@ -34,12 +34,13 @@ const MoviesCard = ({
 
   // функциональность карточек (лайк и удаление)
   const handleMovieLike = () => {
-    if (!movie.isLiked) {
-      onMovieLike(movie);
-    }
-    if (movie.isLiked) {
-      onMovieDelete(movie);
-    }
+    onMovieLike(movie);
+    // if (!movie.isLiked) {
+    //   onMovieLike(movie);
+    // }
+    // if (movie.isLiked) {
+    //   onMovieDelete(movie);
+    // }
   };
 
   const handleDeleteMovie = () => {

@@ -1,3 +1,19 @@
+// const searchedMovieList = 'movieSearchedCards';
+// const searchKeyWord = 'movieSearchedKeyWord';
+
+// достаем данные из локального хранилища
+export const getDataFromStorage = (listName) => JSON.parse(localStorage.getItem(`${listName}`));
+
+// записываем данные в локальное хранилище
+export const setDataToStorage = (listName, data) => {
+  localStorage.setItem(`${listName}`, JSON.stringify(data));
+};
+
+// удаление данных из локального хранилища
+export const deleteDataFromStorage = (listName) => {
+  localStorage.removeItem(`${listName}`);
+}
+
 // проверяем статус пришедшего ответа
 function checkResponse(res) {
   return res.ok
@@ -13,10 +29,29 @@ export const getHoursFromMinutes = (min) => {
   return `${hours}ч${minutes}м`;
 };
 
-export default checkResponse;
+// выполняем поиск в массиве объектов по ключевому слову
+export const getSearchedMovieList = (keyWord, itemList) => (itemList.filter((item) => item.nameRU.toLowerCase()
+  .includes(keyWord.toLowerCase())));
 
-export const getSearchedMovieList = (keyWord) => {
-  const movieCards = JSON.parse(localStorage.getItem('movieCards'));
-  return movieCards.filter((item) => item.nameRU.toLowerCase()
-    .includes(keyWord.toLowerCase()));
+// проверяем добавлен ли фильм в базу, и добавляем ключ-значение.
+export const checkMovieAdded = (movies, addedMovies) => {
+  addedMovies.forEach((item) => {
+    // movies.forEach((e) => (e.isLiked = item.movieId === e.id));
+    movies.map((e) => {
+      if (e.id === item.movieId) {
+        e.isLiked = true;
+        console.log(e.id);
+        console.log(item.movieId);
+        console.log(e.isLiked);
+        return e;
+      }
+      console.log(e.id);
+      console.log(item.movieId);
+      console.log(e.isLiked);
+      return e;
+    });
+  });
+  return movies;
 };
+
+export default checkResponse;
