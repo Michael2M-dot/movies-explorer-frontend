@@ -3,9 +3,12 @@
 
 // достаем данные из локального хранилища
 export const getDataFromStorage = (listName) => JSON.parse(localStorage.getItem(`${listName}`));
+// export const getDataFromStorage = (listName) => localStorage.getItem(`${listName}`);
 
 // записываем данные в локальное хранилище
 export const setDataToStorage = (listName, data) => {
+  // console.log('данные на входе', data);
+  // localStorage.setItem(`${listName}`, data);
   localStorage.setItem(`${listName}`, JSON.stringify(data));
 };
 
@@ -36,7 +39,7 @@ export const getSearchedMovieList = (keyWord, itemList) => (itemList.filter((ite
 // проверяем добавлен ли фильм в базу, и добавляем ключ-значение.
 export const checkMovieAdded = (movies, addedMovies) => {
   addedMovies.forEach((item) => {
-    // movies.forEach((e) => (e.isLiked = item.movieId === e.id));
+    // movies.map((e) => e.isLiked = item.movieId === e.id);
     movies.map((e) => {
       if (e.id === item.movieId) {
         e.isLiked = true;
@@ -44,13 +47,16 @@ export const checkMovieAdded = (movies, addedMovies) => {
         console.log(item.movieId);
         console.log(e.isLiked);
         return e;
+      } else {
+        e.isLiked = false;
+        console.log(e.id);
+        console.log(item.movieId);
+        console.log(e.isLiked);
+        return e;
       }
-      console.log(e.id);
-      console.log(item.movieId);
-      console.log(e.isLiked);
-      return e;
     });
   });
+  console.log(movies);
   return movies;
 };
 

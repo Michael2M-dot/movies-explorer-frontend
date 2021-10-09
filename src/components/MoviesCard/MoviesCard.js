@@ -6,24 +6,15 @@ import { getHoursFromMinutes } from '../../utils/utils';
 const MoviesCard = ({
   movie,
   onMovieDelete,
-  onMovieLike,
+  onMovieAdd,
+  inProcessing = false,
 }) => {
   // отображение по маршрутам
   const isSavedMovie = useRouteMatch({ path: '/saved-movies', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
 
-  // стили и наполнение карточек
-  // const [isLiked, setIsLiked] = useState(movie.isLiked);
-
-  // // добавляем видимость для фильма, который уже есть в медиатеке
-  // const isAdded = movie.owner.some((user) => user === currentUser._id);
-
-  // const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
-  //   isLiked ? 'active' : ''
-  // }`;
-
   const movieLikeCheckboxStyle = `movie__checkbox movie__like-checkbox ${
-    movie.isLiked ? 'active' : ''
+    movie.isAdded ? 'active' : ''
   }`;
 
   const imageUrl = isMovies
@@ -32,15 +23,13 @@ const MoviesCard = ({
 
   const duration = getHoursFromMinutes(movie.duration);
 
-  // функциональность карточек (лайк и удаление)
-  const handleMovieLike = () => {
-    onMovieLike(movie);
-    // if (!movie.isLiked) {
-    //   onMovieLike(movie);
-    // }
-    // if (movie.isLiked) {
-    //   onMovieDelete(movie);
-    // }
+  const handleToggleMovie = () => {
+    console.log('isAdded на входе', movie.isAdded);
+    if (!movie.isAdded) {
+      onMovieAdd(movie);
+    } else {
+      onMovieDelete(movie);
+    }
   };
 
   const handleDeleteMovie = () => {
@@ -60,7 +49,6 @@ const MoviesCard = ({
           src={imageUrl}
           alt={movie.nameRU}
           className="movie__image"
-          // onClick={handleClick}
         />
       </a>
       <div className='movie__description'>
@@ -71,7 +59,8 @@ const MoviesCard = ({
       <button
         className={movieLikeCheckboxStyle}
         type='button'
-        onClick={handleMovieLike}
+        onClick={handleToggleMovie}
+        disabled={inProcessing}
       />
       )}
       {!isMovies && (
@@ -79,6 +68,7 @@ const MoviesCard = ({
           className='movie__delete-button'
           type='button'
           onClick={handleDeleteMovie}
+          disabled={inProcessing}
         />
       )}
     </li>

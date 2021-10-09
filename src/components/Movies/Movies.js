@@ -7,12 +7,13 @@ import Navigation from '../Navigation/Navigation';
 
 const Movies = ({
   movieCards,
-  onMovieLike,
+  onMovieAdd,
   onMovieDelete,
   showMoreMovie,
   isLoading,
   handleGetMovie,
   infoMessage,
+  inProcessing,
 }) => (
   // определяем массив карточек из последнего поискового запроса
   // const lastSearchResult = JSON.parse(localStorage.getItem('movieSearchedCards'));
@@ -30,9 +31,10 @@ const Movies = ({
       />
       <MoviesCardList
         movieCards={movieCards}
-        onMovieLike={onMovieLike}
+        onMovieAdd={onMovieAdd}
         showMoreMovie={showMoreMovie}
         onMovieDelete={onMovieDelete}
+        inProcessing={inProcessing}
       />
     </div>
     <Footer />

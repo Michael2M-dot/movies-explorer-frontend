@@ -37,23 +37,50 @@ const App = () => {
   const [infoMessage, setInfoMessage] = useState('');
 
   useEffect(() => {
-    // localStorage.removeItem('movieSearchedCards');
     if (isLoggedIn) {
-      getLastSearchResult();
-      getSavedMovies();
-    }
-  }, [history, isLoggedIn]);
+      const lastMovieList = getDataFromStorage(movieList);
+      // console.log(lastMovieList);
 
-  // результат последнего поиска из localStorage
-  const getLastSearchResult = () => {
-    const initialMovies = getDataFromStorage(movieList);
-    const searchedMovie = checkMovieAdded(initialMovies, savedMovies);
-    console.log(searchedMovie);
-    if (searchedMovie !== null) {
-      setMovies(searchedMovie);
-    } else {
-      setMovies([]);
+      api
+        .getSavedMovie()
+        .then((savedMovieData) => {
+          setSavedMovies(savedMovieData);
+          return savedMovieData;
+        })
+        .then((savedMoviesData) => {
+          setMovies(checkAddedMovie(lastMovieList, savedMoviesData));
+        })
+        .catch((err) => {
+          console.log(
+            `Непредвиденная ошибка загрузки фильмов:
+          ${err}`,
+          );
+        });
     }
+  }, [isLoggedIn, history]);
+
+  // проверяем если фильм уже добавлен
+  const checkAddedMovie = (moviesList, savedMovieList) => {
+    savedMovieList.forEach((item) => {
+      moviesList.map((e) => {
+        if (e.id === item.movieId) {
+          // return {
+          //   ...item,
+          //   isAdded: true,
+          // };
+          // return {
+          //   ...e,
+          //   isAdded: true,
+          //   _id: item._id,
+          // };
+          e.isAdded = true;
+          e._id = item._id;
+          return e;
+        }
+        return e;
+      });
+    });
+    return moviesList;
   };
 
   // работа с данными от стороннего API
@@ -66,21 +93,14 @@ const App = () => {
 
     movie
       .movieApi()
-      .then((movieInitialCards) => {
-        setMovies([]);
-        const searchingMovies = getSearchedMovieList(keyWord, movieInitialCards);
-        const filteredMovies = checkMovieAdded(searchingMovies, savedMovies);
-        console.log(savedMovies);
-        console.log(filteredMovies);
-
-        if (filteredMovies.length === 0) {
-          setInfoMessage('Ничего не найдено');
-        } else {
-          setInfoMessage('');
-          setMovies(filteredMovies);
-          setDataToStorage(movieList, filteredMovies);
-          setDataToStorage(searchKeyWord, keyWord);
-        }
+      .then((initialMovies) => {
+        const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
+        setDataToStorage(movieList, filteredMovie);
+        setDataToStorage(searchKeyWord, keyWord);
+        return checkAddedMovie(filteredMovie, savedMovies);
+      })
+      .then((moviesFinal) => {
+        setMovies(moviesFinal);
       })
       .catch((err) => {
         console.log(
@@ -99,83 +119,95 @@ const App = () => {
   // работа с данными от нашего API
   const [currentUser, setCurrentUser] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [inProcessing, setInProcessing] = useState(false);
 
-  // получаем фильмы из медиатеки
-  const getSavedMovies = () => {
-    if (isLoggedIn) {
-      api
-        .getSavedMovie()
-        .then((savedMovieData) => {
-          setSavedMovies(savedMovieData);
-        })
-        .catch((err) => {
-          console.log(
-            `Непредвиденная ошибка загрузки фильмов:
-          ${err}`,
-            setInfoMessage(`Во время запроса произошла ошибка.
-            Возможно, проблема с соединением или сервер недоступен.
-            Подождите немного и попробуйте ещё раз.`),
-          );
-        });
-    }
-  };
+  // добавляем новый фильм в медиатеку
+  const handleAddNewMovie = (newMovieData) => {
+    console.log(newMovieData);
+    // console.log(isAdded);
+    setInProcessing(true);
 
-  // добавляем фильм в медиатеку
-  const handleAddMovie = (movieCard) => {
-    console.log(movieCard);
-    const isAdded = savedMovies.some((item) => item.movieId === movieCard.id);
-    console.log('добавлен', isAdded);
-
-    if (!isAdded) {
-      api
-        .addNewMovie(movieCard)
-        .then((newMovieCard) => {
+    if (!newMovieData.isAdded) {
+      api.addNewMovie(newMovieData)
+        .then((newMovieDataFull) => {
           setSavedMovies((state) => [
+            {
+              ...newMovieDataFull,
+              isAdded: true,
+            },
             ...state,
-            newMovieCard,
           ]);
-          setMovies((state) => state.map((e) => (e.id === newMovieCard.movieId
-            ? { ...e, isLiked: true }
+          console.log(newMovieDataFull);
+          setMovies((state) => state.map((e) => (e.id === newMovieData.id
+            ? {
+              ...e,
+              isAdded: true,
+              _id: newMovieDataFull._id,
+            }
             : e
           )));
-          deleteDataFromStorage(movieList);
-        })
-        .then(() => {
-          setDataToStorage(movieList, movies);
         })
         .catch((err) => {
-          console.log(`
-        Ошибка при добавлении фильма в медиатеку:${err}
-        `);
+          console.log(`${err}: Ошибка
+          добавления фильма в медиатеку!
+          `);
+        })
+        .finally(() => {
+          setInProcessing(false);
         });
     }
-    handleDeleteMovie(movieCard);
   };
 
   // удаляем фильм из медиатеки
-  const handleDeleteMovie = (movieCard) => {
-    const isAdded = savedMovies.some((item) => item.movieId === (movieCard.id || movieCard.movieId));
-    const targetMovie = savedMovies.find((item) => item.movieId === (movieCard.id || movieCard.movieId));
+  const handleDeleteMovie = (movieForDelete) => {
+    setInProcessing(true);
+    console.log('фильм для удаления', movieForDelete);
+    console.log('сохраненные фильмы',savedMovies);
+    // const targetMovie = savedMovies.find((e) => e.movieId === (movieForDelete.id || movieForDelete.movieId));
+    // console.log('данные фильма для удаления', targetMovie);
 
-    console.log('вход на удаление', targetMovie);
-    if (isAdded) {
-      api
-        .deleteMovie(targetMovie._id)
-        .then(() => getSavedMovies())
-        .then(() => {
-          setMovies((state) => state.map((e) => (e.id === targetMovie.movieId
-            ? { ...e, isLiked: false }
-            : e
-          )));
-        })
-        .then(() => {
-        })
-        .catch((err) => {
-          console.log(`
-        Ошибка при удалении фильма из медиатеки: ${err}
+    api.deleteMovie(movieForDelete._id)
+      // .then(() => {
+      //   api.getSavedMovie()
+      //     .then((savedMoviesData) => {
+      //       setSavedMovies(savedMoviesData);
+      //     })
+      //     .catch((err) => {
+      //       console.log(
+      //         `Непредвиденная ошибка загрузки фильмов:
+      //     ${err}`,
+      //       );
+      //     });
+      // })
+      // .then(() => {
+      //   console.log(movieForDelete.movieId);
+      //   // const filteredList = savedMovies.filter((e) => e._id !== movieForDelete._id);
+      //   // setSavedMovies(filteredList);
+      //   // setSavedMovies(savedMovies.filter((e) => e.id !== targetMovie.movieId));
+      //   setSavedMovies((state) => state.filter((e) => e._id !== movieForDelete._id));
+      //   console.log('сохраненые фильмы после удаления', savedMovies);
+      // })
+      .then(() => {
+        console.log('сохраненые фильмы перед удалением', savedMovies);
+        setMovies((state) => state.map((e) => (e._id === movieForDelete._id
+          ? {
+            ...e,
+            isAdded: false,
+            _id: undefined,
+          }
+          : e
+        )));
+        setSavedMovies((state) => state.filter((e) => e._id !== movieForDelete._id));
+        console.log('сохраненые фильмы после удаления', savedMovies);
+      })
+      .catch((err) => {
+        console.log(`${err}: Ошибка
+        удаления фильма из медиатеки!
         `);
-        });
-    }
+      })
+      .finally(() => {
+        setInProcessing(false);
+      });
   };
 
   const handleGetSavedMovie = (keyWord) => {
@@ -330,7 +362,7 @@ const App = () => {
             component={Movies}
             path='/movies'
             movieCards={movies}
-            onMovieLike={handleAddMovie}
+            onMovieAdd={handleAddNewMovie}
             onMovieDelete={handleDeleteMovie}
             showMoreMovie={handleShowMoreMovie}
             handleGetMovie ={handleGetMovie}
@@ -338,6 +370,7 @@ const App = () => {
             infoMessage={infoMessage}
             to='/main'
             isLoggedIn={isLoggedIn}
+            inProcessing={inProcessing}
             />
             <ProtectedRoute
             component={SavedMovies}
@@ -348,6 +381,7 @@ const App = () => {
             infoMessage={infoMessage}
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}
+            inProcessing={inProcessing}
             to='/main'
             />
             <ProtectedRoute

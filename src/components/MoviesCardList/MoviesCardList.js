@@ -5,21 +5,24 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 const MoviesCardList = ({
   movieCards,
   onMovieDelete,
-  onMovieLike,
+  onMovieAdd,
   showMoreMovie,
+  inProcessing,
 }) => {
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
   // const isShowMoreButtonVisible = (isMovie && movieCards.length !== 0) && (isMovie && movieCards.length < 3);
+  console.log('пришло на рендер', movieCards);
 
   return (
     <section className='movies-cards'>
       <ul className='movies-cards__list'>
         {movieCards.map((movie) => (
           <MoviesCard
-            key={isMovie ? movie.id : movie.movieId }
+            key={isMovie ? movie.id : movie._id}
             movie={movie}
             onMovieDelete={onMovieDelete}
-            onMovieLike={onMovieLike}
+            onMovieAdd={onMovieAdd}
+            inProcessing={inProcessing}
           />
         ))}
       </ul>

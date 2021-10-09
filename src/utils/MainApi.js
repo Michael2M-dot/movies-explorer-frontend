@@ -124,7 +124,7 @@ export const addNewMovie = (data) => fetch(`${BASE_URL}/movies`, {
 })
   .then((res) => checkResponse(res));
 
-export const deleteMovie = (_id) => fetch(`${BASE_URL}/movies/${_id}`, {
+export const deleteMovie = (id) => fetch(`${BASE_URL}/movies/${id}`, {
   method: 'DELETE',
   credentials: 'include',
   mode: 'cors',
