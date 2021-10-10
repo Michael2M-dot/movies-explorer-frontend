@@ -19,7 +19,6 @@ import ProtectedRoute from '../ProtectedRoute';
 import * as movie from '../../utils/MovieApi';
 import {
   getSearchedMovieList,
-  checkMovieAdded,
   getDataFromStorage,
   setDataToStorage,
   deleteDataFromStorage,
