@@ -8,9 +8,9 @@ import Navigation from '../Navigation/Navigation';
 const SavedMovies = ({
   movieCards,
   onMovieDelete,
-  isLoading,
   onSearchMovie,
   infoMessage,
+  isLoading,
   inProcessing,
 }) => (
   <>

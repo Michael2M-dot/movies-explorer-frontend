@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useFormInputsValidate from '../../hooks/useForm';
 import Preloader from '../Preloader/Preloader';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
 const SearchForm = ({
   handleGetMovie,
@@ -19,18 +20,28 @@ const SearchForm = ({
   } = useFormInputsValidate();
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
 
+  const {
+    currentUser,
+  } = useContext(CurrentUserContext);
+
+  const [isShowShortMovie, setShowShortMovie] = useState(currentUser.shortMovieBoolean);
+
   const searchDirection = isMovie ? handleGetMovie : onSearchMovie;
 
-  // рендерим последнее слово из нашего поиска
-  const lastSearchedKeyword = JSON.parse(localStorage.getItem('movieSearchedKeyWord'));
+  const inputValue = isMovie ? currentUser.keyword : '';
+  // const showShortMovie = isMovie ? isShowShortMovie : '';
 
   useEffect(() => {
-    resetForm({ keyword: lastSearchedKeyword }, {}, false);
+    resetForm({ keyword: inputValue }, {}, false);
   }, [resetForm]);
+
+  const handleShowShortMovie = () => {
+    setShowShortMovie(!isShowShortMovie);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    searchDirection(values.keyword);
+    searchDirection(values.keyword, isShowShortMovie);
   };
 
   return (
@@ -62,12 +73,14 @@ const SearchForm = ({
           <button
             type='submit'
             className='search-form__button'
-            // onClick={onClick}
             disabled={!isValid}
           >Найти
           </button>
         </label>
-        <FilterCheckbox/>
+        <FilterCheckbox
+        onClick={handleShowShortMovie}
+        isShowShortMovie={isShowShortMovie || false}
+        />
       </form>
       {isLoading && (
         <Preloader/>

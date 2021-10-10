@@ -18,16 +18,18 @@ import * as api from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute';
 import * as movie from '../../utils/MovieApi';
 import {
-  getSearchedMovieList,
-  getDataFromStorage,
-  setDataToStorage,
   deleteDataFromStorage,
+  getDataFromStorage,
+  getSearchedMovieList,
+  getSearchedShortMovieList,
+  setDataToStorage,
 } from '../../utils/utils';
 
 const App = () => {
   const history = useHistory();
   const movieList = 'movieSearchedCards';
   const searchKeyWord = 'movieSearchedKeyWord';
+  const showShortMovie = 'showShortMovieBoolean';
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [movies, setMovies] = useState([] );
@@ -38,6 +40,14 @@ const App = () => {
   useEffect(() => {
     if (isLoggedIn) {
       const lastMovieList = getDataFromStorage(movieList);
+      const lastSearchedKeyword = getDataFromStorage(searchKeyWord);
+      const showShortMovieBoolean = getDataFromStorage(showShortMovie);
+
+      setCurrentUser({
+        ...currentUser,
+        keyword: lastSearchedKeyword,
+        shortMovieBoolean: showShortMovieBoolean,
+      });
 
       api
         .getSavedMovie()
@@ -74,22 +84,38 @@ const App = () => {
 
   // работа с данными от стороннего API
   // ищем фильм по ключевому слову
-  const handleGetMovie = (keyWord) => {
+  const handleGetMovie = (keyWord, isShowShortMovie) => {
     setIsLoading(true);
     setInfoMessage('');
     deleteDataFromStorage(searchKeyWord);
     deleteDataFromStorage(movieList);
+    deleteDataFromStorage(showShortMovie);
 
     movie
       .movieApi()
       .then((initialMovies) => {
-        const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
-        setDataToStorage(movieList, filteredMovie);
-        setDataToStorage(searchKeyWord, keyWord);
-        return checkAddedMovie(filteredMovie, savedMovies);
+        if (isShowShortMovie) {
+          const filteredMovie = getSearchedShortMovieList(keyWord, initialMovies);
+          setDataToStorage(movieList, filteredMovie);
+          setDataToStorage(searchKeyWord, keyWord);
+          setDataToStorage(showShortMovie, isShowShortMovie);
+          return checkAddedMovie(filteredMovie, savedMovies);
+        } else {
+          const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
+          setDataToStorage(movieList, filteredMovie);
+          setDataToStorage(searchKeyWord, keyWord);
+          setDataToStorage(showShortMovie, isShowShortMovie);
+          return checkAddedMovie(filteredMovie, savedMovies);
+        }
       })
-      .then((moviesFinal) => {
-        setMovies(moviesFinal);
+      .then((movieSearchedList) => {
+        if (movieSearchedList.length === 0) {
+          setInfoMessage('Ничего не найдено');
+          setMovies([]);
+        } else {
+          setMovies(movieSearchedList);
+          setInfoMessage('');
+        }
       })
       .catch((err) => {
         console.log(
@@ -170,7 +196,8 @@ const App = () => {
       });
   };
 
-  const handleGetSavedMovie = (keyWord) => {
+  // поиск среди сохраненных фильмов
+  const handleGetSavedMovie = (keyWord, isShowShortMovie) => {
     setIsLoading(true);
     setInfoMessage('');
     setSavedMovies([]);
@@ -178,11 +205,24 @@ const App = () => {
     api
       .getSavedMovie()
       .then((savedMovieList) => {
-        const movieSearchedList = getSearchedMovieList(keyWord, savedMovieList);
-        if (movieSearchedList.length === 0) {
+        if (isShowShortMovie) {
+          return getSearchedShortMovieList(keyWord, savedMovieList);
+        } else {
+          return getSearchedMovieList(keyWord, savedMovieList);
+        }
+        // const movieSearchedList = getSearchedMovieList(keyWord, savedMovieList);
+        // if (movieSearchedList.length === 0) {
+        //   setInfoMessage('Ничего не найдено');
+        // } else {
+        //   setSavedMovies(movieSearchedList);
+        //   setInfoMessage('');
+        // }
+      })
+      .then((searchedMovieList) => {
+        if (searchedMovieList.length === 0) {
           setInfoMessage('Ничего не найдено');
         } else {
-          setSavedMovies(movieSearchedList);
+          setSavedMovies(searchedMovieList);
           setInfoMessage('');
         }
       })

@@ -12,3 +12,15 @@
 
   font-family: "Inter", Helvetica, sans-serif;
 }
+
+@media screen and (max-width: 1040px) {
+  .page_saved-movies {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .page_saved-movies {
+    padding: 0 10px;
+  }
+}

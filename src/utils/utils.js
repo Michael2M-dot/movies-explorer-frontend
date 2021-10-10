@@ -22,6 +22,9 @@ export const getHoursFromMinutes = (min) => {
 export const getSearchedMovieList = (keyWord, itemList) => (itemList.filter((item) => item.nameRU.toLowerCase()
   .includes(keyWord.toLowerCase())));
 
+export const getSearchedShortMovieList = (keyWord, itemList) => (itemList.filter((item) => (item.nameRU.toLowerCase()
+  .includes(keyWord.toLowerCase()) && item.duration <= 40)));
+
 // проверяем добавлен ли фильм в базу, и добавляем ключ-значение.
 // export const checkMovieAdded = (movies, addedMovies) => {
 //   addedMovies.forEach((item) => {
