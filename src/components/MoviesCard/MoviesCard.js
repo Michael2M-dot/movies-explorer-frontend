@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
 // eslint-disable-next-line import/named
 import { getHoursFromMinutes } from '../../utils/utils';
@@ -24,7 +24,6 @@ const MoviesCard = ({
   const duration = getHoursFromMinutes(movie.duration);
 
   const handleToggleMovie = () => {
-    console.log('isAdded на входе', movie.isAdded);
     if (!movie.isAdded) {
       onMovieAdd(movie);
     } else {
@@ -33,7 +32,6 @@ const MoviesCard = ({
   };
 
   const handleDeleteMovie = () => {
-    console.log(movie);
     onMovieDelete(movie);
   };
 

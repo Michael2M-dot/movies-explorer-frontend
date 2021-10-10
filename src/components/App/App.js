@@ -39,7 +39,6 @@ const App = () => {
   useEffect(() => {
     if (isLoggedIn) {
       const lastMovieList = getDataFromStorage(movieList);
-      // console.log(lastMovieList);
 
       api
         .getSavedMovie()
@@ -64,15 +63,6 @@ const App = () => {
     savedMovieList.forEach((item) => {
       moviesList.map((e) => {
         if (e.id === item.movieId) {
-          // return {
-          //   ...item,
-          //   isAdded: true,
-          // };
-          // return {
-          //   ...e,
-          //   isAdded: true,
-          //   _id: item._id,
-          // };
           e.isAdded = true;
           e._id = item._id;
           return e;
@@ -123,8 +113,6 @@ const App = () => {
 
   // добавляем новый фильм в медиатеку
   const handleAddNewMovie = (newMovieData) => {
-    console.log(newMovieData);
-    // console.log(isAdded);
     setInProcessing(true);
 
     if (!newMovieData.isAdded) {
@@ -137,7 +125,6 @@ const App = () => {
             },
             ...state,
           ]);
-          console.log(newMovieDataFull);
           setMovies((state) => state.map((e) => (e.id === newMovieData.id
             ? {
               ...e,
@@ -161,34 +148,9 @@ const App = () => {
   // удаляем фильм из медиатеки
   const handleDeleteMovie = (movieForDelete) => {
     setInProcessing(true);
-    console.log('фильм для удаления', movieForDelete);
-    console.log('сохраненные фильмы',savedMovies);
-    // const targetMovie = savedMovies.find((e) => e.movieId === (movieForDelete.id || movieForDelete.movieId));
-    // console.log('данные фильма для удаления', targetMovie);
 
     api.deleteMovie(movieForDelete._id)
-      // .then(() => {
-      //   api.getSavedMovie()
-      //     .then((savedMoviesData) => {
-      //       setSavedMovies(savedMoviesData);
-      //     })
-      //     .catch((err) => {
-      //       console.log(
-      //         `Непредвиденная ошибка загрузки фильмов:
-      //     ${err}`,
-      //       );
-      //     });
-      // })
-      // .then(() => {
-      //   console.log(movieForDelete.movieId);
-      //   // const filteredList = savedMovies.filter((e) => e._id !== movieForDelete._id);
-      //   // setSavedMovies(filteredList);
-      //   // setSavedMovies(savedMovies.filter((e) => e.id !== targetMovie.movieId));
-      //   setSavedMovies((state) => state.filter((e) => e._id !== movieForDelete._id));
-      //   console.log('сохраненые фильмы после удаления', savedMovies);
-      // })
       .then(() => {
-        console.log('сохраненые фильмы перед удалением', savedMovies);
         setMovies((state) => state.map((e) => (e._id === movieForDelete._id
           ? {
             ...e,
@@ -198,7 +160,6 @@ const App = () => {
           : e
         )));
         setSavedMovies((state) => state.filter((e) => e._id !== movieForDelete._id));
-        console.log('сохраненые фильмы после удаления', savedMovies);
       })
       .catch((err) => {
         console.log(`${err}: Ошибка
@@ -248,8 +209,8 @@ const App = () => {
   // регистрация, авторизация, выход из приложения
   const onRegister = (values) => {
     const { name, email, password } = values;
-    api
-      .register(name, email, password)
+
+    api.register(name, email, password)
       .then((userData) => {
         setCurrentUser(userData);
         history.push('/signin');
@@ -278,8 +239,8 @@ const App = () => {
   const onLogin = (values) => {
     setIsSubmitted(true);
     const { email, password } = values;
-    api
-      .login(email, password)
+
+    api.login(email, password)
       .then((userData) => {
         setCurrentUser(userData);
         setIsLoggedIn(true);

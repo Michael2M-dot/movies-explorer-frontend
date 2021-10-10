@@ -15,9 +15,6 @@ const Movies = ({
   infoMessage,
   inProcessing,
 }) => (
-  // определяем массив карточек из последнего поискового запроса
-  // const lastSearchResult = JSON.parse(localStorage.getItem('movieSearchedCards'));
-  // const movieRenderCards = movieCards.length !== 0 ? lastSearchResult : movieCards;
   <>
     <Header>
       <Navigation />

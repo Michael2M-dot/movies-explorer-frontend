@@ -10,8 +10,6 @@ const MoviesCardList = ({
   inProcessing,
 }) => {
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
-  // const isShowMoreButtonVisible = (isMovie && movieCards.length !== 0) && (isMovie && movieCards.length < 3);
-  console.log('пришло на рендер', movieCards);
 
   return (
     <section className='movies-cards'>

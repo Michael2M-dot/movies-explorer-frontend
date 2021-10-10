@@ -23,7 +23,6 @@ const SearchForm = ({
 
   // рендерим последнее слово из нашего поиска
   const lastSearchedKeyword = JSON.parse(localStorage.getItem('movieSearchedKeyWord'));
-  console.log(lastSearchedKeyword);
 
   useEffect(() => {
     resetForm({ keyword: lastSearchedKeyword }, {}, false);
