@@ -5,6 +5,7 @@ import {
   Switch,
   useHistory,
 } from 'react-router-dom';
+// import { useWindowDimensions } from 'react-native';
 import './App.css';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import Main from '../Main/Main';
@@ -27,6 +28,8 @@ import {
 
 const App = () => {
   const history = useHistory();
+  // const window = useWindowDimensions();
+
   const movieList = 'movieSearchedCards';
   const searchKeyWord = 'movieSearchedKeyWord';
   const showShortMovie = 'showShortMovieBoolean';
@@ -113,6 +116,9 @@ const App = () => {
           setInfoMessage('Ничего не найдено');
           setMovies([]);
         } else {
+          // const renderedMovieList = movieSearchedList.slice(0, 6);
+          console.log(movieSearchedList.length);
+          // setMovies(renderedMovieList);
           setMovies(movieSearchedList);
           setInfoMessage('');
         }
