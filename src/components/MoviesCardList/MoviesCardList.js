@@ -20,17 +20,14 @@ const MoviesCardList = ({
   const [count, setCount] = useState(baseCount);
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
   const movieForRender = isMovie ? renderMovies : movieCards;
-  //
   // console.log('в стейте на начало', count);
   // console.log('enter', movieCards);
 
   useEffect(() => {
     getCountAndStepAboutWindow();
-    // console.log(baseCount, step);
     setCount(baseCount);
     const renderList = getRenderList(movieCards, step, count);
     setRenderMovies(renderList);
-    // console.log(renderMovies);
   }, [movieCards, window, baseCount]);
 
   const showMoreMovie = () => {

@@ -36,10 +36,8 @@ function useDataListForRender() {
 
   const getRenderList = (initialDataList, baseStep, count) => {
     const listLength = initialDataList.length;
-    const initialStep = count;
-    console.log(listLength);
 
-    if (listLength <= initialStep) {
+    if (listLength <= count) {
       setAddToRenderList(false);
       return initialDataList;
     } else if (listLength === 0 && listLength === null) {
@@ -47,23 +45,15 @@ function useDataListForRender() {
       return initialDataList;
     } else {
       let n = count;
-      console.log('n на входе в цикл', n);
 
       for (let i = n; i < listLength; i += step) {
-        console.log('i на входе в цикл', i);
-        // console.log('listLength на входе цикла', listLength);
-        // console.log('разность listLength - i', listLength - i);
         if ((listLength - i) >= 0) {
-          // console.log('разность listLength - i', listLength - i);
-          // console.log('step', step);
           setAddToRenderList(true);
-          // console.log('n на выходе цикла', n);
           n = i;
           break;
         } else {
           setAddToRenderList(false);
           n += (listLength - i);
-          // console.log('n на выходе цикла', n)
         }
       }
       return initialDataList.slice(0, n);
