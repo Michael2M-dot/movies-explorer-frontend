@@ -5,7 +5,6 @@ import {
   Switch,
   useHistory,
 } from 'react-router-dom';
-// import { useWindowDimensions } from 'react-native';
 import './App.css';
 import CurrentUserContext from '../../context/CurrentUserContext';
 import Main from '../Main/Main';

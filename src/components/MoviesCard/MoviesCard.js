@@ -1,6 +1,5 @@
 import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
-// eslint-disable-next-line import/named
 import { getHoursFromMinutes } from '../../utils/utils';
 
 const MoviesCard = ({

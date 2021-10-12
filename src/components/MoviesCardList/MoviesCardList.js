@@ -20,8 +20,6 @@ const MoviesCardList = ({
   const [count, setCount] = useState(baseCount);
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
   const movieForRender = isMovie ? renderMovies : movieCards;
-  // console.log('в стейте на начало', count);
-  // console.log('enter', movieCards);
 
   useEffect(() => {
     getCountAndStepAboutWindow();
@@ -32,11 +30,8 @@ const MoviesCardList = ({
 
   const showMoreMovie = () => {
     setCount(count + step);
-    // console.log('счетчик на вход', count);
     setRenderMovies(getRenderList(movieCards, step, count + step));
   };
-
-  // console.log('render', renderMovies);
 
   return (
     <section className='movies-cards'>
@@ -50,15 +45,6 @@ const MoviesCardList = ({
             inProcessing={inProcessing}
           />
         ))}
-        {/* {movieCards.map((movie) => ( */}
-        {/*  <MoviesCard */}
-        {/*    key={isMovie ? movie.id : movie._id} */}
-        {/*    movie={movie} */}
-        {/*    onMovieDelete={onMovieDelete} */}
-        {/*    onMovieAdd={onMovieAdd} */}
-        {/*    inProcessing={inProcessing} */}
-        {/*  /> */}
-        {/* ))} */}
       </ul>
       {isMovie && (
         <button

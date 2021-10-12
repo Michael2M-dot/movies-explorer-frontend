@@ -1,6 +1,6 @@
 import checkResponse from './utils';
 
-const BASE_URL = 'https://my-movie.nomoredomains.monster/api';
+const BASE_URL = 'https://api.my-movie.nomoredomains.club';
 
 // регистрация, авторизация, проверка токена и выход из приложения
 export const register = (name, email, password) => fetch(`${BASE_URL}/signup`, {
