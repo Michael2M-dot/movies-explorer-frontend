@@ -40,8 +40,6 @@ const App = () => {
   const [infoMessage, setInfoMessage] = useState('');
 
   useEffect(() => {
-    setIsAppLaunched(true);
-
     if (isLoggedIn) {
       const lastMovieList = getDataFromStorage(movieList);
       const lastSearchedKeyword = getDataFromStorage(searchKeyWord);
@@ -67,9 +65,6 @@ const App = () => {
             `Непредвиденная ошибка загрузки фильмов:
           ${err}`,
           );
-        })
-        .finally(() => {
-          setIsAppLaunched(false);
         });
     }
   }, [isLoggedIn, history]);
@@ -315,6 +310,8 @@ const App = () => {
   };
 
   useEffect(() => {
+    setIsAppLaunched(true);
+
     api
       .checkToken()
       .then((userData) => {
@@ -340,6 +337,9 @@ const App = () => {
         setInfoMessage(`
         При авторизации произошла ошибка. Переданный токен некорректен.
         `);
+      })
+      .finally(() => {
+        setIsAppLaunched(false);
       });
   }, [history]);
 

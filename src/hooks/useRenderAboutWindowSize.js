@@ -35,14 +35,16 @@ function useDataListForRender() {
   };
 
   const getRenderList = (initialDataList, baseStep, count) => {
-    const listLength = initialDataList.length;
-
-    if (listLength <= count) {
+    const listLength = initialDataList === null ? 0 : initialDataList.length;
+    console.log('enter', listLength);
+    if (listLength <= count && listLength !== 0) {
       setAddToRenderList(false);
+      console.log('1', initialDataList);
       return initialDataList;
-    } else if (listLength === 0 && listLength === null) {
+    } else if (listLength === 0) {
       setAddToRenderList(false);
-      return initialDataList;
+      console.log('2', initialDataList);
+      return [];
     } else {
       let n = count;
 

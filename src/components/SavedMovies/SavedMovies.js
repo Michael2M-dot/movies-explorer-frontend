@@ -31,6 +31,6 @@ const SavedMovies = ({
     </div>
     <Footer />
   </>
-)
+);
 
 export default SavedMovies;
