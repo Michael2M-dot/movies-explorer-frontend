@@ -13,7 +13,7 @@ const Header = ({ children }) => {
 
   return (
     <header className={headerStyle}>
-      <NavLink to="/">
+      <NavLink to="/main">
         <img className="header__logo" src={Logo} alt="Логотип" />
       </NavLink>
       {children}
