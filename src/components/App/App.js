@@ -252,6 +252,7 @@ const App = () => {
       .then((userData) => {
         setCurrentUser(userData);
         history.push('/signin');
+        setInfoMessage('');
       })
       .catch((err) => {
         const Error = err.toString();
@@ -283,6 +284,7 @@ const App = () => {
         setCurrentUser(userData);
         setIsLoggedIn(true);
         history.push('/movies');
+        setInfoMessage('');
       })
       .catch((err) => {
         const Error = err.toString();
