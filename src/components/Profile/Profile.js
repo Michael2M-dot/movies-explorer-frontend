@@ -41,7 +41,6 @@ const Profile = ({
     resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
   },[resetForm, history]);
 
-  console.log(currentUser);
   return (
      <>
        <Header>

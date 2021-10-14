@@ -27,19 +27,21 @@ import {
 
 const App = () => {
   const history = useHistory();
-  // const window = useWindowDimensions();
 
   const movieList = 'movieSearchedCards';
   const searchKeyWord = 'movieSearchedKeyWord';
   const showShortMovie = 'showShortMovieBoolean';
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAppLaunched, setIsAppLaunched] = useState(true);
   const [movies, setMovies] = useState([] );
   const [savedMovies, setSavedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
 
   useEffect(() => {
+    setIsAppLaunched(true);
+
     if (isLoggedIn) {
       const lastMovieList = getDataFromStorage(movieList);
       const lastSearchedKeyword = getDataFromStorage(searchKeyWord);
@@ -65,6 +67,9 @@ const App = () => {
             `Непредвиденная ошибка загрузки фильмов:
           ${err}`,
           );
+        })
+        .finally(() => {
+          setIsAppLaunched(false);
         });
     }
   }, [isLoggedIn, history]);
@@ -372,6 +377,7 @@ const App = () => {
             showMoreMovie={handleShowMoreMovie}
             handleGetMovie ={handleGetMovie}
             isLoading={isLoading}
+            isAppLaunched={isAppLaunched}
             infoMessage={infoMessage}
             to='/main'
             isLoggedIn={isLoggedIn}
@@ -384,6 +390,7 @@ const App = () => {
             onMovieDelete={handleDeleteMovie}
             onSearchMovie={handleGetSavedMovie}
             infoMessage={infoMessage}
+            isAppLaunched={isAppLaunched}
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}
             inProcessing={inProcessing}
@@ -393,6 +400,7 @@ const App = () => {
             component={Profile}
             path='/profile'
             isLoggedIn={isLoggedIn}
+            isAppLaunched={isAppLaunched}
             onSignOut={onSignOut}
             to='/main'
             />
