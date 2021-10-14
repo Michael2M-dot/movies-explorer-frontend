@@ -20,13 +20,11 @@ const MoviesCardList = ({
   const [count, setCount] = useState(baseCount);
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
   const movieForRender = isMovie ? renderMovies : movieCards;
-  console.log(renderMovies);
 
   useEffect(() => {
     getCountAndStepAboutWindow();
     setCount(baseCount);
     const renderList = getRenderList(movieCards, step, count);
-    console.log('renderList', renderList);
     setRenderMovies(renderList);
   }, [movieCards, window, baseCount]);
 
