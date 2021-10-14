@@ -405,7 +405,9 @@ const App = () => {
             to='/main'
             />
             <Route path="/main">
-              <Main />
+              <Main
+              isLoggedIn={isLoggedIn}
+              />
             </Route>
             <Route path="/signin">
               <Login

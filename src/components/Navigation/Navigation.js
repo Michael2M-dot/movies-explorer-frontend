@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import userIcon from '../../images/icon__user.svg';
 
-const Navigation = () => {
+const Navigation = ({ isLoggedIn = false }) => {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
 
   const isMain = useRouteMatch({ path: '/main', exact: true });
@@ -22,14 +22,14 @@ const Navigation = () => {
 
   return (
     <div className='navigation'>
-      {isMain && (
+      {(isMain && !isLoggedIn) && (
         <div className='navigation_page-main'>
           <NavLink className='navigation__page-main-link' to="/signup" > Регистрация</NavLink>
           <NavLink className='navigation__page-main-button' to="/signin">Войти</NavLink>
         </div>
       )}
 
-      {!isMain && (
+      {(!isMain || isLoggedIn) && (
         <>
           <button
             type="button"
