@@ -9,7 +9,6 @@ const Movies = ({
   movieCards,
   onMovieAdd,
   onMovieDelete,
-  showMoreMovie,
   isLoading,
   handleGetMovie,
   infoMessage,
@@ -29,7 +28,6 @@ const Movies = ({
       <MoviesCardList
         movieCards={movieCards}
         onMovieAdd={onMovieAdd}
-        showMoreMovie={showMoreMovie}
         onMovieDelete={onMovieDelete}
         inProcessing={inProcessing}
       />

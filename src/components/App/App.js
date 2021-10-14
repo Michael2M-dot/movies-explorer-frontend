@@ -28,46 +28,12 @@ import {
 const App = () => {
   const history = useHistory();
 
-  const movieList = 'movieSearchedCards';
-  const searchKeyWord = 'movieSearchedKeyWord';
-  const showShortMovie = 'showShortMovieBoolean';
-
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAppLaunched, setIsAppLaunched] = useState(true);
   const [movies, setMovies] = useState([] );
   const [savedMovies, setSavedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      const lastMovieList = getDataFromStorage(movieList);
-      const lastSearchedKeyword = getDataFromStorage(searchKeyWord);
-      const showShortMovieBoolean = getDataFromStorage(showShortMovie);
-
-      setCurrentUser({
-        ...currentUser,
-        keyword: lastSearchedKeyword,
-        shortMovieBoolean: showShortMovieBoolean,
-      });
-
-      api
-        .getSavedMovie()
-        .then((savedMovieData) => {
-          setSavedMovies(savedMovieData);
-          return savedMovieData;
-        })
-        .then((savedMoviesData) => {
-          setMovies(checkAddedMovie(lastMovieList, savedMoviesData));
-        })
-        .catch((err) => {
-          console.log(
-            `Непредвиденная ошибка загрузки фильмов:
-          ${err}`,
-          );
-        });
-    }
-  }, [isLoggedIn, history]);
 
   // проверяем если фильм уже добавлен
   const checkAddedMovie = (moviesList, savedMovieList) => {
@@ -140,6 +106,39 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inProcessing, setInProcessing] = useState(false);
+
+  const movieList = `movieSearchedCards-${currentUser.email}`;
+  const searchKeyWord = `movieSearchedKeyWord-${currentUser.email}`;
+  const showShortMovie = 'showShortMovieBoolean';
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const lastMovieList = getDataFromStorage(movieList) || [];
+      const lastSearchedKeyword = getDataFromStorage(searchKeyWord) || [];
+      const showShortMovieBoolean = getDataFromStorage(showShortMovie) || false;
+
+      setCurrentUser({
+        ...currentUser,
+        keyword: lastSearchedKeyword,
+        shortMovieBoolean: showShortMovieBoolean,
+      });
+
+      api
+        .getSavedMovie()
+        .then((savedMovieData) => {
+          setSavedMovies(savedMovieData);
+          return savedMovieData;
+        })
+        .then((savedMoviesData) => {
+          setMovies(checkAddedMovie(lastMovieList, savedMoviesData));
+        })
+        .catch((err) => {
+          console.log(
+            `${err}: Непредвиденная ошибка загрузки фильмов!`,
+          );
+        });
+    }
+  }, [isLoggedIn, history]);
 
   // добавляем новый фильм в медиатеку
   const handleAddNewMovie = (newMovieData) => {
@@ -245,11 +244,6 @@ const App = () => {
       });
   };
 
-  // отображение большего списка фильмов
-  function handleShowMoreMovie() {
-    console.log(movies);
-  }
-
   // регистрация, авторизация, выход из приложения
   const onRegister = (values) => {
     const { name, email, password } = values;
@@ -321,22 +315,21 @@ const App = () => {
         setInfoMessage('');
       })
       .catch((err) => {
-        const Error = err.toString();
         console.log(`Ошибка при проверке токена:${err}`);
         history.push('/signin');
-        if (Error.includes('401')) {
-          return setInfoMessage(`
-        При авторизации произошла ошибка. Токен не передан или передан не в том формате.
-        `);
-        }
-        if (Error.includes('500')) {
-          return setInfoMessage(`
-          На сервере произошла ошибка.
-          `);
-        }
-        setInfoMessage(`
-        При авторизации произошла ошибка. Переданный токен некорректен.
-        `);
+        // if (Error.includes('401')) {
+        //   return setInfoMessage(`
+        // При авторизации произошла ошибка. Токен не передан или передан не в том формате.
+        // `);
+        // }
+        // if (Error.includes('500')) {
+        //   return setInfoMessage(`
+        //   На сервере произошла ошибка.
+        //   `);
+        // }
+        // setInfoMessage(`
+        // При авторизации произошла ошибка. Переданный токен некорректен.
+        // `);
       })
       .finally(() => {
         setIsAppLaunched(false);
@@ -374,7 +367,6 @@ const App = () => {
             movieCards={movies}
             onMovieAdd={handleAddNewMovie}
             onMovieDelete={handleDeleteMovie}
-            showMoreMovie={handleShowMoreMovie}
             handleGetMovie ={handleGetMovie}
             isLoading={isLoading}
             isAppLaunched={isAppLaunched}
