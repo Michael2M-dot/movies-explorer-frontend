@@ -7,7 +7,6 @@ function useDataListForRender() {
   const [step, setStep] = useState(null);
 
   useEffect(() => {
-    // window.addEventListener('resize', getCountAndStepAboutWindow);
     setTimeout(() => {
       window.addEventListener('resize', getCountAndStepAboutWindow);
     }, 1000);
@@ -37,6 +36,7 @@ function useDataListForRender() {
   const getRenderList = (initialDataList, baseStep, count) => {
     const listLength = initialDataList === null ? 0 : initialDataList.length;
 
+    console.log(initialDataList);
     if (listLength <= count && listLength !== 0) {
       setAddToRenderList(false);
       return initialDataList;
@@ -44,7 +44,7 @@ function useDataListForRender() {
       setAddToRenderList(false);
       return [];
     } else {
-      let n = count;
+      let n = count || baseCount;
 
       for (let i = n; i < listLength; i += step) {
         if ((listLength - i) >= 0) {
@@ -56,6 +56,7 @@ function useDataListForRender() {
           n += (listLength - i);
         }
       }
+      console.log('exit', initialDataList);
       return initialDataList.slice(0, n);
     }
   };

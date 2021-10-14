@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import useRenderAboutWindowSize from '../../hooks/useRenderAboutWindowSize';
 
@@ -9,14 +9,16 @@ const MoviesCardList = ({
   onMovieAdd,
   inProcessing,
 }) => {
+  const history = useHistory();
+
   const {
     getRenderList,
-    addRenderList,
+    addRenderList = false,
     getCountAndStepAboutWindow,
     baseCount,
     step,
   } = useRenderAboutWindowSize();
-  const [renderMovies, setRenderMovies] = useState([]);
+  const [renderMovies, setRenderMovies] = useState(movieCards);
   const [count, setCount] = useState(baseCount);
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
   const movieForRender = isMovie ? renderMovies : movieCards;
@@ -26,7 +28,7 @@ const MoviesCardList = ({
     setCount(baseCount);
     const renderList = getRenderList(movieCards, step, count);
     setRenderMovies(renderList);
-  }, [movieCards, window, baseCount]);
+  }, [movieCards, window, baseCount, history]);
 
   const showMoreMovie = () => {
     setCount(count + step);
