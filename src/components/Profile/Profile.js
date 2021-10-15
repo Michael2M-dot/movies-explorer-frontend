@@ -25,16 +25,10 @@ const Profile = ({
 
   const [isEditProfile, setIsEditProfile] = useState(false);
 
-  const buttonTextProfilePage = `${!isEditProfile ? 'Редактировать' : 'Сохранить'}`;
   const footerLinkProfilePage = `${isEditProfile ? '' : 'Выйти из аккаунта'}`;
-  const buttonTypePageProfile = `${!isEditProfile ? 'button' : 'submit'}`;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (values.email === currentUser.email && values.name === currentUser.name) {
-      return;
-    }
-    console.log('опа');
     onUpdateUser(values);
     setIsEditProfile(false)
   };
@@ -42,13 +36,12 @@ const Profile = ({
   const buttonClickHandler = () => {
     if (!isEditProfile) {
       setIsEditProfile(!isEditProfile);
-      console.log(isEditProfile);
     }
   };
 
   useEffect(() => {
     resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
-  },[resetForm, history, isEditProfile]);
+  },[resetForm, history]);
 
   return (
      <>
@@ -58,8 +51,7 @@ const Profile = ({
        <Form
          name='user-sign-in'
          formTitle={`Привет, ${currentUser.name}!`}
-         buttonType={buttonTypePageProfile}
-         buttonText={buttonTextProfilePage}
+         buttonText={!isSubmitted ? 'Сохранить' : 'Идет сохранение'}
          onSubmit={handleSubmit}
          onSignOut={onSignOut}
          footerText=''
@@ -69,7 +61,6 @@ const Profile = ({
          isEditProfile={isEditProfile}
          isFormValid={isValid}
          isSubmitted={isSubmitted}
-         // isDisabled={isEditProfile ? !isValid || isSubmitted : isValid}
          errors={errors.name || errors.email}
        >
          <Input
@@ -80,9 +71,9 @@ const Profile = ({
            title="Введите новое имя пользователя"
            maxLength="40"
            minLength="2"
-           value={values.name || ''}
            required
            onChange={handleChange}
+           value={values.name || ''}
            errors={errors.name}
          />
          <div className='profile__line' />
@@ -93,9 +84,9 @@ const Profile = ({
            input='E-mail'
            title="Введите адрес электронной почты"
            minLength="2"
-           value={values.email || ''}
            required
            onChange={handleChange}
+           value={values.email || ''}
            errors={errors.email}
          />
        </Form>

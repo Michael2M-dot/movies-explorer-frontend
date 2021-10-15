@@ -221,11 +221,13 @@ const App = () => {
   const handleUpdateUser = (userUpdateData) => {
     const { name, email } = userUpdateData;
     setIsSubmitted(true);
+    setInfoMessage('');
 
     api
       .updateUserData(name, email)
       .then((newUserData) => {
         setCurrentUser(newUserData);
+        // setInfoMessage('Данные пользователя успешно обновлены!');
       })
       .catch((err) => {
         const Error = err.toString();

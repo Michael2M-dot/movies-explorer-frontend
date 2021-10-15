@@ -3,23 +3,19 @@ import { useRouteMatch } from 'react-router-dom';
 import FormFooter from '../FormFooter/FormFooter';
 import CurrentUserContext from '../../context/CurrentUserContext';
 
-// import { useRouteMatch } from 'react-router-dom';
-
 const Form = ({
-  name,
-  onSubmit,
-  onSignOut,
-  onUpdateUser,
   children,
+  name,
   buttonText,
   footerText,
   footerLink,
   endPoint,
   formTitle,
-  buttonType,
+  onSubmit,
+  onSignOut,
+  onUpdateUser,
   onButtonClick,
   isEditProfile,
-  // isLoggedIn = false,
   isSubmitted = false,
   isFormValid,
   isDisabled = true,
@@ -56,20 +52,18 @@ const Form = ({
           )}
         </div>
         <FormFooter
-          // isLoggedIn={isLoggedIn}
-          isSubmitted={isSubmitted}
-          isDisabled={isDisabled}
-          isFormValid={isFormValid}
-          buttonType={buttonType}
+          endPoint={endPoint}
           buttonText={buttonText}
           footerText={footerText}
           footerLink={footerLink}
-          endPoint={endPoint}
           onClick={onButtonClick}
           onSignOut={onSignOut}
           onUpdateUser={onUpdateUser}
-          isEditProfile={isEditProfile}
           infoMessage={infoMessage}
+          isEditProfile={isEditProfile}
+          isSubmitted={isSubmitted}
+          isDisabled={isDisabled}
+          isFormValid={isFormValid}
         />
       </form>
     </section>

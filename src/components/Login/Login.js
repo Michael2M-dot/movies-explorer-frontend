@@ -49,8 +49,8 @@ const Login = ({
             name='email'
             input='E-mail'
             title="Введите адрес электронной почты"
-            required
             minLength="2"
+            required
             onChange={handleChange}
             value={values.email || ''}
             errors={errors.email}
@@ -63,10 +63,10 @@ const Login = ({
             name='password'
             input='Пароль'
             title='Пароль должен содержать не менее 8 символов (без пробелов): цифры и буквы латинского алфавита в верхнем (заглавные) и нижнем регистре (прописные) . А также может содержать символы: !@#$%&-_'
-            required
             minLength="8"
-            value={values.password || ''}
+            required
             onChange={handleChange}
+            value={values.password || ''}
             errors={errors.password}
           />
         </label>
