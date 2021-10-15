@@ -4,12 +4,25 @@
 
 HTML, CSS, JavaScript, React.js, React-Router-Dom, BEM, Rest.api
 
-**Планы по доработке проекта**
+### Основные технологии в работе.
+- приложение на фрэймворке [`REACT`](https://ru.reactjs.org/)
+- роутинг внутри приложения на React
+- создание защищенных маршрутов внутри приложения
+- построение запросов к серверу на принципах Rest Api
+- добавление функционала регистрации пользователя и его авторизации
+- построение взаимодействия с localStorage, работа с токенами (получение, проверка)
+
+###Планы по доработке проекта
 - создание защищенных маршрутов внутри приложения
 - построение запросов к серверу на принципах Rest Api
 - добавление функционала регистрации пользователя и его авторизации
 - доработка согласно требованиям дипломной работы
 
-**[Ссылка на работу](https://github.com/Michael2M-dot/movies-explorer-frontend/tree/level_2)** на GitHub Pages.
+### Backend (`Node.js`)
+- Бэкенд принимает запросы на [`поддомене`](https://api.my-movie.nomoredomains.club)
+- Стороний API принимает запросы на [`домене`](https://api.nomoreparties.co/beatfilm-movies)
+
+**[Ссылка на работу](https://github.com/Michael2M-dot/movies-explorer-frontend/tree/level_3)** на GitHub Pages.
+### Готовый проект: [`Movie-Explorer-API`](https://my-movie.nomoredomains.monster)
 
 Предложения и пожелания присылать на почту "darak.ltd@yandex.ru"
