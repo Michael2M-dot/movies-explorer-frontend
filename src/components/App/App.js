@@ -117,12 +117,6 @@ const App = () => {
       const lastSearchedKeyword = getDataFromStorage(searchKeyWord) || [];
       const showShortMovieBoolean = getDataFromStorage(showShortMovie) || false;
 
-      setCurrentUser({
-        ...currentUser,
-        keyword: lastSearchedKeyword,
-        shortMovieBoolean: showShortMovieBoolean,
-      });
-
       api
         .getSavedMovie()
         .then((savedMovieData) => {
@@ -132,13 +126,19 @@ const App = () => {
         .then((savedMoviesData) => {
           setMovies(checkAddedMovie(lastMovieList, savedMoviesData));
         })
-        .catch((err) => {
-          console.log(
-            `${err}: Непредвиденная ошибка загрузки фильмов!`,
-          );
-        });
+        .catch((err) => console.log(`${err}: Непредвиденная ошибка загрузки фильмов!`));
+
+      api.getUserData()
+        .then((userData) => {
+          setCurrentUser({
+            ...userData,
+            keyword: lastSearchedKeyword,
+            shortMovieBoolean: showShortMovieBoolean,
+          });
+        })
+        .catch((err) => console.log(`${err}: Непредвиденная ошибка загрузки данных пользователя!`));
     }
-  }, [isLoggedIn, history]);
+  }, [isLoggedIn]);
 
   // добавляем новый фильм в медиатеку
   const handleAddNewMovie = (newMovieData) => {
@@ -244,6 +244,38 @@ const App = () => {
       });
   };
 
+  // обновление данных пользователя
+  const handleUpdateUser = (userUpdateData) => {
+    const { name, email } = userUpdateData;
+    setIsSubmitted(true);
+
+    api
+      .updateUserData(name, email)
+      .then((newUserData) => {
+        setCurrentUser(newUserData);
+      })
+      .catch((err) => {
+        const Error = err.toString();
+        console.log(`При обновлении информации о пользователе: ${err}`);
+        if (Error.includes('409')) {
+          return setInfoMessage(`
+          Пользователь с таким email уже существует.
+          `);
+        }
+        if (Error.includes('500')) {
+          return setInfoMessage(`
+          На сервере произошла ошибка.
+          `);
+        }
+        setInfoMessage(`
+        При обновлении данных пользователя произошла ошибка.
+        `);
+      })
+      .finally(() => {
+        setIsSubmitted(false);
+      });
+  };
+
   // регистрация, авторизация, выход из приложения
   const onRegister = (values) => {
     const { name, email, password } = values;
@@ -310,8 +342,7 @@ const App = () => {
 
     api
       .checkToken()
-      .then((userData) => {
-        setCurrentUser(userData);
+      .then(() => {
         setIsLoggedIn(true);
         history.push('/movies');
         setInfoMessage('');
@@ -346,11 +377,7 @@ const App = () => {
         history.push('/signin');
         setCurrentUser({});
       })
-      .catch((err) => {
-        console.log(`
-        Ошибка при закрытии сессии:${err}
-        `);
-      });
+      .catch((err) => console.log(`Ошибка при закрытии сессии:${err}`));
   };
 
   return (
@@ -393,9 +420,12 @@ const App = () => {
             <ProtectedRoute
             component={Profile}
             path='/profile'
-            isLoggedIn={isLoggedIn}
+            isSubmitted={isSubmitted}
             isAppLaunched={isAppLaunched}
+            isLoggedIn={isLoggedIn}
+            inProcessing={inProcessing}
             onSignOut={onSignOut}
+            onUpdateUser={handleUpdateUser}
             to='/main'
             />
             <Route path="/main">

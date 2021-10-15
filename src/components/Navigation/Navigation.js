@@ -42,14 +42,14 @@ const Navigation = ({ isLoggedIn = false }) => {
           <div className={navigationMenuStyle}>
             <nav className="navigation__menu">
               {isBurgerMenuOpen && (
-                <NavLink className="navigation__menu-item" to='./main'>
+                <NavLink className="navigation__menu-item" to='/main'>
                 Главная
                 </NavLink>)
               }
               <NavLink
                 className={`navigation__menu-item
                 ${isMovies && 'active'}`}
-                to='./movies'
+                to='/movies'
               >
                 Фильмы
               </NavLink>

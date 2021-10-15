@@ -9,10 +9,9 @@ const Form = ({
   name,
   onSubmit,
   onSignOut,
+  onUpdateUser,
   children,
-  isDisabled = true,
   buttonText,
-  isLoggedIn = false,
   footerText,
   footerLink,
   endPoint,
@@ -20,6 +19,10 @@ const Form = ({
   buttonType,
   onButtonClick,
   isEditProfile,
+  // isLoggedIn = false,
+  isSubmitted = false,
+  isFormValid,
+  isDisabled = true,
 }) => {
   const { infoMessage } = useContext(CurrentUserContext);
 
@@ -53,8 +56,10 @@ const Form = ({
           )}
         </div>
         <FormFooter
-          isLoggedIn={isLoggedIn}
+          // isLoggedIn={isLoggedIn}
+          isSubmitted={isSubmitted}
           isDisabled={isDisabled}
+          isFormValid={isFormValid}
           buttonType={buttonType}
           buttonText={buttonText}
           footerText={footerText}
@@ -62,6 +67,7 @@ const Form = ({
           endPoint={endPoint}
           onClick={onButtonClick}
           onSignOut={onSignOut}
+          onUpdateUser={onUpdateUser}
           isEditProfile={isEditProfile}
           infoMessage={infoMessage}
         />

@@ -2,9 +2,11 @@ import React from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 
 const FormFooter = ({
-  isLoggedIn = false,
+  // isLoggedIn = false,
   buttonText,
-  isDisabled = false,
+  // isDisabled = false,
+  isFormValid,
+  isSubmitted,
   footerText,
   endPoint,
   footerLink,
@@ -16,9 +18,13 @@ const FormFooter = ({
 }) => {
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
+  // const buttonStyle = `${!isProfilePage || isEditProfile
+  //   ? `form-footer__button ${isDisabled && 'form-footer__button_disabled'}`
+  //   : `form-footer__button ${isDisabled && 'form-footer__button_disabled'} form-footer__button_page-profile`
+  // }`;
   const buttonStyle = `${!isProfilePage || isEditProfile
-    ? `form-footer__button ${isDisabled && 'form-footer__button_disabled'}`
-    : `form-footer__button ${isDisabled && 'form-footer__button_disabled'} form-footer__button_page-profile`
+    ? `form-footer__button ${(!isFormValid || isSubmitted) && 'form-footer__button_disabled'}`
+    : `form-footer__button ${(!isFormValid || isSubmitted) && 'form-footer__button_disabled'} form-footer__button_page-profile`
   }`;
   const buttonTextStyle = `form-footer__button-text ${
     isProfilePage && 'form-footer__button-text_page-profile'
@@ -27,8 +33,12 @@ const FormFooter = ({
     isProfilePage && 'form-footer__link_page-profile'
   }`;
   const preloaderDotsStyle = `form-footer__preloader-dots ${
-    isLoggedIn && 'jump'
+    isSubmitted && 'jump'
   }`;
+  // const disabledProfileEditButton =
+  console.log(buttonType);
+  console.log('isFormValid', isFormValid);
+  console.log('isSubmitted', isSubmitted);
 
   return (
     <div className="form-footer__wrapper">
@@ -42,14 +52,14 @@ const FormFooter = ({
         type={buttonType || 'submit'}
         aria-label="Подтвердите действия пользователя"
         onClick={onClick}
-        disabled={isDisabled}
+        disabled={!isFormValid || isSubmitted}
       >
         <div className="form-footer__button-wrapper">
           <p className={buttonTextStyle}>
             {buttonText}
           </p>
           <div className={`form-footer__preloader
-        ${isLoggedIn ? 'active' : ''}`}
+        ${isSubmitted ? 'active' : ''}`}
           >
             <span className={preloaderDotsStyle}>.</span>
             <span className={preloaderDotsStyle}>.</span>

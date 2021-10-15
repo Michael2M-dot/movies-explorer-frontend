@@ -8,7 +8,9 @@ import useFormInputsValidate from '../../hooks/useForm';
 import CurrentUserContext from '../../context/CurrentUserContext';
 
 const Profile = ({
+  onUpdateUser,
   onSignOut,
+  isSubmitted,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
@@ -29,17 +31,24 @@ const Profile = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (values.email === currentUser.email && values.name === currentUser.name) {
+      return;
+    }
+    console.log('опа');
+    onUpdateUser(values);
+    setIsEditProfile(false)
   };
 
   const buttonClickHandler = () => {
     if (!isEditProfile) {
       setIsEditProfile(!isEditProfile);
+      console.log(isEditProfile);
     }
   };
 
   useEffect(() => {
     resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
-  },[resetForm, history]);
+  },[resetForm, history, isEditProfile]);
 
   return (
      <>
@@ -48,7 +57,7 @@ const Profile = ({
        </Header>
        <Form
          name='user-sign-in'
-         formTitle={`Привет, ${values.name}!`}
+         formTitle={`Привет, ${currentUser.name}!`}
          buttonType={buttonTypePageProfile}
          buttonText={buttonTextProfilePage}
          onSubmit={handleSubmit}
@@ -58,7 +67,9 @@ const Profile = ({
          endPoint="/signin"
          onButtonClick={buttonClickHandler}
          isEditProfile={isEditProfile}
-         isDisabled={isEditProfile ? !isValid : isValid}
+         isFormValid={isValid}
+         isSubmitted={isSubmitted}
+         // isDisabled={isEditProfile ? !isValid || isSubmitted : isValid}
          errors={errors.name || errors.email}
        >
          <Input

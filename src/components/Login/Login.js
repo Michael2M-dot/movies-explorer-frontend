@@ -5,7 +5,7 @@ import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
 
 const Login = ({
-  isSubmitted = false,
+  isSubmitted,
   onLogin,
 }) => {
   const {
@@ -39,7 +39,9 @@ const Login = ({
         footerText='Еще не зарегистрированные?'
         footerLink='Регистрация'
         endPoint="/signup"
-        isDisabled={!isValid || isSubmitted}
+        // isDisabled={!isValid || isSubmitted}
+        isFormValid={isValid}
+        isSubmitted={isSubmitted}
       >
         <label className="auth-form__input">
           <Input

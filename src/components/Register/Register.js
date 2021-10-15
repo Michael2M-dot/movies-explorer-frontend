@@ -40,7 +40,9 @@ const Register = ({
         footerText='Уже зарегистрированы?'
         footerLink='Войти'
         endPoint="/signin"
-        isDisabled={!isValid || isSubmitted}
+        isSubmitted={isSubmitted}
+        // isDisabled={!isValid || isSubmitted}
+        isFormValid={isValid}
         infoMessage={infoMessage || ''}
       >
         <label className="auth-form__input">

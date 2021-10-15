@@ -59,19 +59,17 @@ export const signOut = () => fetch(`${BASE_URL}/signout`, {
   .then((res) => checkResponse(res));
 
 // получение данных из БД (о пользователе и сохраненных фильмах)
-export const getUserData = () => {
-  fetch(`${BASE_URL}/users/me`, {
-    method: 'GET',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-  })
-    .then((res) => checkResponse(res));
-};
+export const getUserData = () => fetch(`${BASE_URL}/users/me`, {
+  method: 'GET',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+})
+  .then((res) => checkResponse(res));
 
 export const getSavedMovie = () => fetch(`${BASE_URL}/movies`, {
   method: 'GET',
@@ -86,23 +84,21 @@ export const getSavedMovie = () => fetch(`${BASE_URL}/movies`, {
   .then((res) => checkResponse(res));
 
 // редактирование данных в БД (данные пользователя, добавление и удаление фильмов)
-export const updateUserData = (name, email) => {
-  fetch(`${BASE_URL}/users/me`, {
-    method: 'PATCH',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Accept-Control-Request-Headers': true,
-    },
-    body: JSON.stringify({
-      name,
-      email,
-    }),
-  })
-    .then((res) => checkResponse(res));
-};
+export const updateUserData = (name, email) => fetch(`${BASE_URL}/users/me`, {
+  method: 'PATCH',
+  credentials: 'include',
+  mode: 'cors',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'Accept-Control-Request-Headers': true,
+  },
+  body: JSON.stringify({
+    name,
+    email,
+  }),
+})
+  .then((res) => checkResponse(res));
 
 export const addNewMovie = (data) => fetch(`${BASE_URL}/movies`, {
   method: 'POST',
