@@ -21,6 +21,7 @@ HTML, CSS, JavaScript, React.js, React-Router-Dom, BEM, Rest.api
 ### Backend (`Node.js`)
 - Бэкенд принимает запросы на [`поддомене`](https://api.my-movie.nomoredomains.club)
 - Стороний API принимает запросы на [`домене`](https://api.nomoreparties.co/beatfilm-movies)
+- загрузка проекта на сервер - `npm run deploy`
 
 **[Ссылка на работу](https://github.com/Michael2M-dot/movies-explorer-frontend/tree/level_3)** на GitHub Pages.
 ### Готовый проект: [`Movie-Explorer-API`](https://my-movie.nomoredomains.monster)
