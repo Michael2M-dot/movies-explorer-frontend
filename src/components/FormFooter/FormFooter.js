@@ -51,12 +51,13 @@ const FormFooter = ({
           </div>
         </button>
       )}
-      {!isEditProfile || (
+      {(
         <button
           className={buttonStyle}
           type='submit'
           aria-label="Подтвердите действия пользователя"
           disabled={buttonDisabledProfile}
+          hidden={!isEditProfile && isProfilePage}
         >
           <div className="form-footer__button-wrapper">
             <p className='form-footer__button-text '>
