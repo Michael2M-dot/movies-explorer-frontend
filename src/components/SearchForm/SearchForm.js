@@ -20,16 +20,13 @@ const SearchForm = ({
   } = useFormInputsValidate();
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
 
-  const {
-    currentUser,
-  } = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
 
   const [isShowShortMovie, setShowShortMovie] = useState(currentUser.shortMovieBoolean);
 
   const searchDirection = isMovie ? handleGetMovie : onSearchMovie;
 
   const inputValue = isMovie ? currentUser.keyword : '';
-  // const showShortMovie = isMovie ? isShowShortMovie : '';
 
   useEffect(() => {
     resetForm({ keyword: inputValue }, {}, false);

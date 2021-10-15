@@ -111,7 +111,7 @@ const App = () => {
   useEffect(() => {
     if (isLoggedIn) {
       const lastMovieList = getDataFromStorage(movieList) || [];
-      const lastSearchedKeyword = getDataFromStorage(searchKeyWord) || [];
+      const lastSearchedKeyword = getDataFromStorage(searchKeyWord) || '';
       const showShortMovieBoolean = getDataFromStorage(showShortMovie) || false;
 
       api
