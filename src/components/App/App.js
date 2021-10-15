@@ -81,9 +81,6 @@ const App = () => {
           setInfoMessage('Ничего не найдено');
           setMovies([]);
         } else {
-          // const renderedMovieList = movieSearchedList.slice(0, 6);
-          console.log(movieSearchedList.length);
-          // setMovies(renderedMovieList);
           setMovies(movieSearchedList);
           setInfoMessage('');
         }
@@ -202,13 +199,6 @@ const App = () => {
         } else {
           return getSearchedMovieList(keyWord, savedMovieList);
         }
-        // const movieSearchedList = getSearchedMovieList(keyWord, savedMovieList);
-        // if (movieSearchedList.length === 0) {
-        //   setInfoMessage('Ничего не найдено');
-        // } else {
-        //   setSavedMovies(movieSearchedList);
-        //   setInfoMessage('');
-        // }
       })
       .then((searchedMovieList) => {
         if (searchedMovieList.length === 0) {
@@ -312,19 +302,6 @@ const App = () => {
       .catch((err) => {
         console.log(`${err}: Ошибка при проверке токена.`);
         history.push('/signin');
-        // if (Error.includes('401')) {
-        //   return setInfoMessage(`
-        // При авторизации произошла ошибка. Токен не передан или передан не в том формате.
-        // `);
-        // }
-        // if (Error.includes('500')) {
-        //   return setInfoMessage(`
-        //   На сервере произошла ошибка.
-        //   `);
-        // }
-        // setInfoMessage(`
-        // При авторизации произошла ошибка. Переданный токен некорректен.
-        // `);
       })
       .finally(() => {
         setIsAppLaunched(false);
