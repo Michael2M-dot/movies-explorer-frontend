@@ -39,7 +39,6 @@ const Login = ({
         footerText='Еще не зарегистрированные?'
         footerLink='Регистрация'
         endPoint="/signup"
-        // isDisabled={!isValid || isSubmitted}
         isFormValid={isValid}
         isSubmitted={isSubmitted}
       >

@@ -41,7 +41,6 @@ const Register = ({
         footerLink='Войти'
         endPoint="/signin"
         isSubmitted={isSubmitted}
-        // isDisabled={!isValid || isSubmitted}
         isFormValid={isValid}
         infoMessage={infoMessage || ''}
       >

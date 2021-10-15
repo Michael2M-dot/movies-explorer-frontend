@@ -2,9 +2,7 @@ import React from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 
 const FormFooter = ({
-  // isLoggedIn = false,
   buttonText,
-  // isDisabled = false,
   isFormValid,
   isSubmitted,
   footerText,
@@ -18,13 +16,14 @@ const FormFooter = ({
 }) => {
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
+  const buttonDisabledProfile = !isFormValid || isSubmitted;
   // const buttonStyle = `${!isProfilePage || isEditProfile
   //   ? `form-footer__button ${isDisabled && 'form-footer__button_disabled'}`
   //   : `form-footer__button ${isDisabled && 'form-footer__button_disabled'} form-footer__button_page-profile`
   // }`;
   const buttonStyle = `${!isProfilePage || isEditProfile
-    ? `form-footer__button ${(!isFormValid || isSubmitted) && 'form-footer__button_disabled'}`
-    : `form-footer__button ${(!isFormValid || isSubmitted) && 'form-footer__button_disabled'} form-footer__button_page-profile`
+    ? `form-footer__button ${buttonDisabledProfile && 'form-footer__button_disabled'}`
+    : `form-footer__button ${buttonDisabledProfile && 'form-footer__button_disabled'} form-footer__button_page-profile`
   }`;
   const buttonTextStyle = `form-footer__button-text ${
     isProfilePage && 'form-footer__button-text_page-profile'
@@ -35,7 +34,7 @@ const FormFooter = ({
   const preloaderDotsStyle = `form-footer__preloader-dots ${
     isSubmitted && 'jump'
   }`;
-  // const disabledProfileEditButton =
+
   console.log(buttonType);
   console.log('isFormValid', isFormValid);
   console.log('isSubmitted', isSubmitted);
@@ -52,7 +51,7 @@ const FormFooter = ({
         type={buttonType || 'submit'}
         aria-label="Подтвердите действия пользователя"
         onClick={onClick}
-        disabled={!isFormValid || isSubmitted}
+        disabled={buttonDisabledProfile}
       >
         <div className="form-footer__button-wrapper">
           <p className={buttonTextStyle}>

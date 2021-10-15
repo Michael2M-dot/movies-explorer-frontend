@@ -163,14 +163,8 @@ const App = () => {
             : e
           )));
         })
-        .catch((err) => {
-          console.log(`${err}: Ошибка
-          добавления фильма в медиатеку!
-          `);
-        })
-        .finally(() => {
-          setInProcessing(false);
-        });
+        .catch((err) => console.log(`${err}: Ошибка добавления фильма в медиатеку!`))
+        .finally(() => setInProcessing(false));
     }
   };
 
@@ -190,14 +184,8 @@ const App = () => {
         )));
         setSavedMovies((state) => state.filter((e) => e._id !== movieForDelete._id));
       })
-      .catch((err) => {
-        console.log(`${err}: Ошибка
-        удаления фильма из медиатеки!
-        `);
-      })
-      .finally(() => {
-        setInProcessing(false);
-      });
+      .catch((err) => console.log(`${err}: Ошибка удаления фильма из медиатеки!`))
+      .finally(() => setInProcessing(false));
   };
 
   // поиск среди сохраненных фильмов
@@ -231,17 +219,12 @@ const App = () => {
         }
       })
       .catch((err) => {
-        console.log(
-          `Непредвиденная ошибка загрузки фильмов:
-          ${err}`,
-          setInfoMessage(`Во время запроса произошла ошибка.
+        console.log(`${err}: Непредвиденная ошибка загрузки фильмов.`);
+        setInfoMessage(`Во время запроса произошла ошибка.
           Возможно, проблема с соединением или сервер недоступен.
-          Подождите немного и попробуйте ещё раз.`),
-        );
+          Подождите немного и попробуйте ещё раз.`);
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   };
 
   // обновление данных пользователя
@@ -256,29 +239,22 @@ const App = () => {
       })
       .catch((err) => {
         const Error = err.toString();
-        console.log(`При обновлении информации о пользователе: ${err}`);
+        console.log(`${err}: При обновлении информации о пользователе.`);
         if (Error.includes('409')) {
-          return setInfoMessage(`
-          Пользователь с таким email уже существует.
-          `);
+          return setInfoMessage('Пользователь с таким email уже существует.');
         }
         if (Error.includes('500')) {
-          return setInfoMessage(`
-          На сервере произошла ошибка.
-          `);
+          return setInfoMessage('На сервере произошла ошибка.');
         }
-        setInfoMessage(`
-        При обновлении данных пользователя произошла ошибка.
-        `);
+        setInfoMessage('При обновлении данных пользователя произошла ошибка.');
       })
-      .finally(() => {
-        setIsSubmitted(false);
-      });
+      .finally(() => setIsSubmitted(false));
   };
 
   // регистрация, авторизация, выход из приложения
   const onRegister = (values) => {
     const { name, email, password } = values;
+    setIsSubmitted(true);
 
     api.register(name, email, password)
       .then((userData) => {
@@ -288,23 +264,17 @@ const App = () => {
       })
       .catch((err) => {
         const Error = err.toString();
-        console.log(`
-        Ошибка: ${Error}
-        `);
+        console.log(`Ошибка: ${Error}`);
+
         if (Error.includes('409')) {
-          return setInfoMessage(`
-          Пользователь с таким email уже существует.
-          `);
+          return setInfoMessage('Пользователь с таким email уже существует.');
         }
         if (Error.includes('500')) {
-          return setInfoMessage(`
-          На сервере произошла ошибка.
-          `);
+          return setInfoMessage('На сервере произошла ошибка.');
         }
-        setInfoMessage(`
-        При регистрации пользователя произошла ошибка.
-        `);
-      });
+        setInfoMessage('При регистрации пользователя произошла ошибка.');
+      })
+      .finally(() => setIsSubmitted(false));
   };
 
   const onLogin = (values) => {
@@ -320,21 +290,13 @@ const App = () => {
       })
       .catch((err) => {
         const Error = err.toString();
-        console.log(`
-        Ошибка: ${Error}
-        `);
+        console.log(`Ошибка: ${Error}`);
         if (Error.includes('401')) {
-          return setInfoMessage(`
-          Вы ввели неправильный логин или пароль.
-          `);
+          return setInfoMessage('Вы ввели неправильный логин или пароль.');
         }
-        setInfoMessage(`
-          На сервере произошла ошибка.
-        `);
+        setInfoMessage('На сервере произошла ошибка.');
       })
-      .finally(() => {
-        setIsSubmitted(false);
-      });
+      .finally(() => setIsSubmitted(false));
   };
 
   useEffect(() => {
@@ -348,7 +310,7 @@ const App = () => {
         setInfoMessage('');
       })
       .catch((err) => {
-        console.log(`Ошибка при проверке токена:${err}`);
+        console.log(`${err}: Ошибка при проверке токена.`);
         history.push('/signin');
         // if (Error.includes('401')) {
         //   return setInfoMessage(`
@@ -377,7 +339,7 @@ const App = () => {
         history.push('/signin');
         setCurrentUser({});
       })
-      .catch((err) => console.log(`Ошибка при закрытии сессии:${err}`));
+      .catch((err) => console.log(`${err}: Ошибка при закрытии сессии.`));
   };
 
   return (
