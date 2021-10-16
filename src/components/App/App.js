@@ -251,7 +251,7 @@ const App = () => {
     api.register(name, email, password)
       .then((userData) => {
         setCurrentUser(userData);
-        history.push('/signin');
+        history.push('/movies');
         setInfoMessage('');
       })
       .catch((err) => {
