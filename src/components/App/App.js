@@ -52,59 +52,129 @@ const App = () => {
   };
 
   // работа с данными от стороннего API
-  // ищем фильм по ключевому слову
-  const handleGetMovie = (keyWord, isShowShortMovie) => {
+  const getMovieFormApi = () => {
     setIsLoading(true);
     setSearchInfoMessage('');
-    deleteDataFromStorage(searchKeyWord);
-    deleteDataFromStorage(movieList);
-    deleteDataFromStorage(showShortMovie);
 
     movie
       .movieApi()
       .then((initialMovies) => {
-        if (isShowShortMovie) {
-          const filteredMovie = getSearchedShortMovieList(keyWord, initialMovies);
-          setDataToStorage(movieList, filteredMovie);
-          setDataToStorage(searchKeyWord, keyWord);
-          setDataToStorage(showShortMovie, isShowShortMovie);
-          return checkAddedMovie(filteredMovie, savedMovies);
-        } else {
-          const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
-          setDataToStorage(movieList, filteredMovie);
-          setDataToStorage(searchKeyWord, keyWord);
-          setDataToStorage(showShortMovie, isShowShortMovie);
-          return checkAddedMovie(filteredMovie, savedMovies);
-        }
-      })
-      .then((movieSearchedList) => {
-        if (movieSearchedList.length === 0) {
-          setSearchInfoMessage('Ничего не найдено');
-          setMovies([]);
-        } else {
-          setMovies(movieSearchedList);
-          setSearchInfoMessage('');
-        }
+        setDataToStorage(apiMovies, initialMovies);
       })
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка загрузки фильмов:
           ${err}`,
-          setSearchInfoMessage(`Во время запроса произошла ошибка.
-          Возможно, проблема с соединением или сервер недоступен.
-          Подождите немного и попробуйте ещё раз.`),
         );
+        setSearchInfoMessage(`Во время запроса произошла ошибка.
+          Возможно, проблема с соединением или сервер недоступен.
+          Подождите немного и попробуйте ещё раз.`);
       })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      .finally(() => setIsLoading(false));
   };
+
+  const getAllMovies = (keyWord) => {
+    const initialMovies = getDataFromStorage(apiMovies);
+    if (initialMovies === null) {
+      try {
+        getMovieFormApi();
+      } catch (err) {
+        console.log(
+          `Непредвиденная ошибка загрузки фильмов:
+          ${err}`,
+        );
+        setSearchInfoMessage(`Во время запроса произошла ошибка.
+          Возможно, проблема с соединением или сервер недоступен.
+          Подождите немного и попробуйте ещё раз.`);
+      }
+      // const filteredMovie = getSearchedMovieList(keyWord, getDataFromStorage(apiMovies));
+      // setMovies(checkAddedMovie(filteredMovie, savedMovies));
+      // setDataToStorage(movieList, filteredMovie);
+      // setDataToStorage(searchKeyWord, keyWord);
+      // setDataToStorage(showShortMovie, false);
+    } else {
+      const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
+      setMovies(checkAddedMovie(filteredMovie, savedMovies));
+      setDataToStorage(movieList, filteredMovie);
+      setDataToStorage(searchKeyWord, keyWord);
+      setDataToStorage(showShortMovie, false);
+    }
+  };
+
+  const getShortMovies = (keyWord) => {
+    const initialMovies = getDataFromStorage(apiMovies);
+    if (initialMovies.length === 0) {
+      getMovieFormApi();
+    } else {
+      const filteredMovie = getSearchedShortMovieList(keyWord, initialMovies);
+      setMovies(checkAddedMovie(filteredMovie, savedMovies));
+      setDataToStorage(movieList, filteredMovie);
+      setDataToStorage(searchKeyWord, keyWord);
+      setDataToStorage(showShortMovie, false);
+    }
+  };
+
+  // ищем фильм по ключевому слову
+  const handleGetMovie = (keyWord, isShowShortMovie) => {
+    deleteDataFromStorage(searchKeyWord);
+    deleteDataFromStorage(movieList);
+    deleteDataFromStorage(showShortMovie);
+
+    isShowShortMovie ? getShortMovies(keyWord) : getAllMovies(keyWord);
+  };
+  // const handleGetMovie = (keyWord, isShowShortMovie) => {
+  //   setIsLoading(true);
+  //   setSearchInfoMessage('');
+  //   deleteDataFromStorage(searchKeyWord);
+  //   deleteDataFromStorage(movieList);
+  //   deleteDataFromStorage(showShortMovie);
+  //
+  //   movie
+  //     .movieApi()
+  //     .then((initialMovies) => {
+  //       if (isShowShortMovie) {
+  //         const filteredMovie = getSearchedShortMovieList(keyWord, initialMovies);
+  //         setDataToStorage(movieList, filteredMovie);
+  //         setDataToStorage(searchKeyWord, keyWord);
+  //         setDataToStorage(showShortMovie, isShowShortMovie);
+  //         return checkAddedMovie(filteredMovie, savedMovies);
+  //       } else {
+  //         const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
+  //         setDataToStorage(movieList, filteredMovie);
+  //         setDataToStorage(searchKeyWord, keyWord);
+  //         setDataToStorage(showShortMovie, isShowShortMovie);
+  //         return checkAddedMovie(filteredMovie, savedMovies);
+  //       }
+  //     })
+  //     .then((movieSearchedList) => {
+  //       if (movieSearchedList.length === 0) {
+  //         setSearchInfoMessage('Ничего не найдено');
+  //         setMovies([]);
+  //       } else {
+  //         setMovies(movieSearchedList);
+  //         setSearchInfoMessage('');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(
+  //         `Непредвиденная ошибка загрузки фильмов:
+  //         ${err}`,
+  //         setSearchInfoMessage(`Во время запроса произошла ошибка.
+  //         Возможно, проблема с соединением или сервер недоступен.
+  //         Подождите немного и попробуйте ещё раз.`),
+  //       );
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // };
 
   // работа с данными от нашего API
   const [currentUser, setCurrentUser] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inProcessing, setInProcessing] = useState(false);
 
+  const apiMovies = 'apiMovies';
   const movieList = `movieSearchedCards-${currentUser._id}`;
   const searchKeyWord = `movieSearchedKeyWord-${currentUser._id}`;
   const showShortMovie = `showShortMovieBoolean-${currentUser._id}`;

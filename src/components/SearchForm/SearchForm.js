@@ -22,7 +22,7 @@ const SearchForm = ({
 
   const { currentUser } = useContext(CurrentUserContext);
 
-  const [isShowShortMovie, setShowShortMovie] = useState(currentUser.shortMovieBoolean);
+  const [isShowShortMovie, setShowShortMovie] = useState(currentUser.shortMovieBoolean || false);
 
   const searchDirection = isMovie ? handleGetMovie : onSearchMovie;
 
@@ -33,7 +33,11 @@ const SearchForm = ({
   }, [resetForm]);
 
   const handleShowShortMovie = () => {
+    if (!values.keyword) {
+      return;
+    }
     setShowShortMovie(!isShowShortMovie);
+    searchDirection(values.keyword, !isShowShortMovie);
   };
 
   const handleSubmit = (e) => {
