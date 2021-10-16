@@ -4,7 +4,6 @@ const FilterCheckbox = ({
   isShowShortMovie,
   onClick,
 }) => (
-  <>
     <div className='checkbox__wrapper'>
       <p className='checkbox__text'>Короткометражки</p>
       <div
@@ -13,7 +12,6 @@ const FilterCheckbox = ({
         onClick={onClick}
       />
     </div>
-  </>
 );
 
 export default FilterCheckbox;
