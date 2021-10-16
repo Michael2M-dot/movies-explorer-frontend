@@ -5,7 +5,7 @@ import userIcon from '../../images/icon__user.svg';
 const Navigation = ({ isLoggedIn = false }) => {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
 
-  const isMain = useRouteMatch({ path: '/main', exact: true });
+  const isMain = useRouteMatch({ path: '/', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
   const isSavedMovies = useRouteMatch({ path: '/saved-movies', exact: true });
   const isProfile = useRouteMatch({ path: '/saved-movies', exact: true });
@@ -42,7 +42,7 @@ const Navigation = ({ isLoggedIn = false }) => {
           <div className={navigationMenuStyle}>
             <nav className="navigation__menu">
               {isBurgerMenuOpen && (
-                <NavLink className="navigation__menu-item" to='/main'>
+                <NavLink className="navigation__menu-item" to='/'>
                 Главная
                 </NavLink>)
               }
@@ -56,7 +56,7 @@ const Navigation = ({ isLoggedIn = false }) => {
               <NavLink
                 className={`navigation__menu-item
                 ${isSavedMovies && 'active'}`}
-                to='./saved-movies'
+                to='/saved-movies'
               >
                 Сохранённые фильмы
               </NavLink>

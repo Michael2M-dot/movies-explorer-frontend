@@ -9,7 +9,7 @@ import Portfolio from './Portfolio/Portfolio';
 import NavTab from './NavTab/NavTab';
 import Navigation from '../Navigation/Navigation';
 
-const Main = ({ isLoggedIn }) => (
+const Main = ({ isLoggedIn = false }) => (
 <>
   <Header>
     <Navigation

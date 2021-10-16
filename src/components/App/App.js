@@ -300,12 +300,12 @@ const App = () => {
       .checkToken()
       .then(() => {
         setIsLoggedIn(true);
-        history.push('/movies');
+        // history.push('/movies');
         setInfoMessage('');
       })
       .catch((err) => {
         console.log(`${err}: Ошибка при проверке токена.`);
-        history.push('/signin');
+        // history.push('/');
       })
       .finally(() => {
         setIsAppLaunched(false);
@@ -317,7 +317,7 @@ const App = () => {
       .signOut()
       .then(() => {
         setIsLoggedIn(false);
-        history.push('/signin');
+        history.push('/');
         setCurrentUser({});
       })
       .catch((err) => console.log(`${err}: Ошибка при закрытии сессии.`));
@@ -343,7 +343,7 @@ const App = () => {
             isLoading={isLoading}
             isAppLaunched={isAppLaunched}
             searchInfoMessage={searchInfoMessage}
-            to='/main'
+            to='/'
             isLoggedIn={isLoggedIn}
             inProcessing={inProcessing}
             />
@@ -358,7 +358,7 @@ const App = () => {
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}
             inProcessing={inProcessing}
-            to='/main'
+            to='/'
             />
             <ProtectedRoute
             component={Profile}
@@ -369,11 +369,11 @@ const App = () => {
             inProcessing={inProcessing}
             onSignOut={onSignOut}
             onUpdateUser={handleUpdateUser}
-            to='/main'
+            to='/'
             />
-            <Route path="/main">
+            <Route exact path="/">
               <Main
-              isLoggedIn={isLoggedIn}
+                isLoggedIn={isLoggedIn}
               />
             </Route>
             <Route path="/signin">
@@ -392,13 +392,6 @@ const App = () => {
             </Route>
             <Route path='*'>
               <Page404 />
-            </Route>
-            <Route path="/">
-              {isLoggedIn ? (
-                <Redirect to="/movies" />
-              ) : (
-                <Redirect to="/signin" />
-              )}
             </Route>
           </Switch>
         </div>
