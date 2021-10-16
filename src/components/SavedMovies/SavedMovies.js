@@ -9,7 +9,7 @@ const SavedMovies = ({
   movieCards,
   onMovieDelete,
   onSearchMovie,
-  infoMessage,
+  searchInfoMessage,
   isLoading,
   inProcessing,
 }) => (
@@ -21,7 +21,7 @@ const SavedMovies = ({
       <SearchForm
         onSearchMovie={onSearchMovie}
         isLoading={isLoading}
-        infoMessage={infoMessage}
+        searchInfoMessage={searchInfoMessage}
       />
       <MoviesCardList
         movieCards={movieCards}

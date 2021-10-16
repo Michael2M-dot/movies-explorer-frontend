@@ -9,7 +9,7 @@ const SearchForm = ({
   handleGetMovie,
   onSearchMovie,
   isLoading,
-  infoMessage,
+  searchInfoMessage,
 }) => {
   const {
     values,
@@ -82,8 +82,8 @@ const SearchForm = ({
       {isLoading && (
         <Preloader/>
       )}
-      {infoMessage && (<span className='movie__span'>
-        {infoMessage || ''}
+      {searchInfoMessage && (<span className='movie__span'>
+        {searchInfoMessage || ''}
       </span>)}
     </>
   );

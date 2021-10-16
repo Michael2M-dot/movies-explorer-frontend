@@ -34,6 +34,7 @@ const App = () => {
   const [savedMovies, setSavedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
+  const [searchInfoMessage, setSearchInfoMessage] = useState('');
 
   // проверяем если фильм уже добавлен
   const checkAddedMovie = (moviesList, savedMovieList) => {
@@ -54,7 +55,7 @@ const App = () => {
   // ищем фильм по ключевому слову
   const handleGetMovie = (keyWord, isShowShortMovie) => {
     setIsLoading(true);
-    setInfoMessage('');
+    setSearchInfoMessage('');
     deleteDataFromStorage(searchKeyWord);
     deleteDataFromStorage(movieList);
     deleteDataFromStorage(showShortMovie);
@@ -78,18 +79,18 @@ const App = () => {
       })
       .then((movieSearchedList) => {
         if (movieSearchedList.length === 0) {
-          setInfoMessage('Ничего не найдено');
+          setSearchInfoMessage('Ничего не найдено');
           setMovies([]);
         } else {
           setMovies(movieSearchedList);
-          setInfoMessage('');
+          setSearchInfoMessage('');
         }
       })
       .catch((err) => {
         console.log(
           `Непредвиденная ошибка загрузки фильмов:
           ${err}`,
-          setInfoMessage(`Во время запроса произошла ошибка.
+          setSearchInfoMessage(`Во время запроса произошла ошибка.
           Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз.`),
         );
@@ -104,9 +105,9 @@ const App = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inProcessing, setInProcessing] = useState(false);
 
-  const movieList = `movieSearchedCards-${currentUser.email}`;
-  const searchKeyWord = `movieSearchedKeyWord-${currentUser.email}`;
-  const showShortMovie = 'showShortMovieBoolean';
+  const movieList = `movieSearchedCards-${currentUser._id}`;
+  const searchKeyWord = `movieSearchedKeyWord-${currentUser._id}`;
+  const showShortMovie = `showShortMovieBoolean-${currentUser._id}`;
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -188,7 +189,7 @@ const App = () => {
   // поиск среди сохраненных фильмов
   const handleGetSavedMovie = (keyWord, isShowShortMovie) => {
     setIsLoading(true);
-    setInfoMessage('');
+    setSearchInfoMessage('');
     setSavedMovies([]);
 
     api
@@ -202,15 +203,15 @@ const App = () => {
       })
       .then((searchedMovieList) => {
         if (searchedMovieList.length === 0) {
-          setInfoMessage('Ничего не найдено');
+          setSearchInfoMessage('Ничего не найдено');
         } else {
           setSavedMovies(searchedMovieList);
-          setInfoMessage('');
+          setSearchInfoMessage('');
         }
       })
       .catch((err) => {
         console.log(`${err}: Непредвиденная ошибка загрузки фильмов.`);
-        setInfoMessage(`Во время запроса произошла ошибка.
+        setSearchInfoMessage(`Во время запроса произошла ошибка.
           Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз.`);
       })
@@ -227,7 +228,7 @@ const App = () => {
       .updateUserData(name, email)
       .then((newUserData) => {
         setCurrentUser(newUserData);
-        // setInfoMessage('Данные пользователя успешно обновлены!');
+        setInfoMessage('Данные пользователя успешно обновлены!');
       })
       .catch((err) => {
         const Error = err.toString();
@@ -293,6 +294,7 @@ const App = () => {
 
   useEffect(() => {
     setIsAppLaunched(true);
+    setInfoMessage('');
 
     api
       .checkToken()
@@ -340,7 +342,7 @@ const App = () => {
             handleGetMovie ={handleGetMovie}
             isLoading={isLoading}
             isAppLaunched={isAppLaunched}
-            infoMessage={infoMessage}
+            searchInfoMessage={searchInfoMessage}
             to='/main'
             isLoggedIn={isLoggedIn}
             inProcessing={inProcessing}
@@ -351,7 +353,7 @@ const App = () => {
             movieCards={savedMovies}
             onMovieDelete={handleDeleteMovie}
             onSearchMovie={handleGetSavedMovie}
-            infoMessage={infoMessage}
+            searchInfoMessage={searchInfoMessage}
             isAppLaunched={isAppLaunched}
             isLoading={isLoading}
             isLoggedIn={isLoggedIn}

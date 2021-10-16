@@ -11,7 +11,7 @@ const Movies = ({
   onMovieDelete,
   isLoading,
   handleGetMovie,
-  infoMessage,
+  searchInfoMessage,
   inProcessing,
 }) => (
   <>
@@ -23,7 +23,7 @@ const Movies = ({
         handleGetMovie={handleGetMovie}
         movieCards={movieCards}
         isLoading={isLoading}
-        infoMessage={infoMessage}
+        searchInfoMessage={searchInfoMessage}
       />
       <MoviesCardList
         movieCards={movieCards}
