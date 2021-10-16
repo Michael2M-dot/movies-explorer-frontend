@@ -10,7 +10,7 @@ import CurrentUserContext from '../../context/CurrentUserContext';
 const Profile = ({
   onUpdateUser,
   onSignOut,
-  isSubmitted,
+  isSubmitted = true,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
   const history = useHistory();
@@ -30,18 +30,20 @@ const Profile = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     onUpdateUser(values);
-    setIsEditProfile(false)
+    setIsEditProfile(false);
   };
 
   const buttonClickHandler = () => {
     if (!isEditProfile) {
-      setIsEditProfile(!isEditProfile);
+      setIsEditProfile(true);
     }
   };
 
   useEffect(() => {
-    resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
-  },[resetForm, history]);
+    if (currentUser) {
+      resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
+    }
+  },[resetForm, history, currentUser]);
 
   return (
      <>

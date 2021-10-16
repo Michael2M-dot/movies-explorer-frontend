@@ -42,7 +42,7 @@ const FormFooter = ({
           type='button'
           aria-label="Подтвердите действия пользователя"
           onClick={onClick}
-          disabled={buttonDisabledProfile}
+          disabled={buttonDisabledProfile || false}
         >
           <div className="form-footer__button-wrapper">
             <p className='form-footer__button-text form-footer__button-text_page-profile'>

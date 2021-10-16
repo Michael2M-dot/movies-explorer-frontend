@@ -18,7 +18,6 @@ const Form = ({
   isEditProfile,
   isSubmitted = false,
   isFormValid,
-  isDisabled = true,
 }) => {
   const { infoMessage } = useContext(CurrentUserContext);
 
@@ -62,7 +61,6 @@ const Form = ({
           infoMessage={infoMessage}
           isEditProfile={isEditProfile}
           isSubmitted={isSubmitted}
-          isDisabled={isDisabled}
           isFormValid={isFormValid}
         />
       </form>
