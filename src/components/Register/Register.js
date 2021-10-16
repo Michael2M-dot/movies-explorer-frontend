@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
+import { REGEX_PASSWORD } from '../../utils/REG_EX';
 
 const Register = ({
   onRegister,
@@ -81,6 +82,7 @@ const Register = ({
             input='Пароль'
             title='Пароль должен содержать не менее 8 символов (без пробелов): цифры и буквы латинского алфавита в верхнем (заглавные) и нижнем регистре (прописные) . А также может содержать символы: !@#$%&-_'
             minLength="8"
+            pattern={REGEX_PASSWORD}
             required
             onChange={handleChange}
             value={values.password || ''}
