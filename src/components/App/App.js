@@ -319,6 +319,9 @@ const App = () => {
         setIsLoggedIn(false);
         history.push('/');
         setCurrentUser({});
+        deleteDataFromStorage(movieList);
+        deleteDataFromStorage(searchKeyWord);
+        deleteDataFromStorage(showShortMovie);
       })
       .catch((err) => console.log(`${err}: Ошибка при закрытии сессии.`));
   };
