@@ -25,29 +25,6 @@ export const getSearchedMovieList = (keyWord, itemList) => (itemList.filter((ite
 export const getSearchedShortMovieList = (keyWord, itemList) => (itemList.filter((item) => (item.nameRU.toLowerCase()
   .includes(keyWord.toLowerCase()) && item.duration <= 40)));
 
-// проверяем добавлен ли фильм в базу, и добавляем ключ-значение.
-// export const checkMovieAdded = (movies, addedMovies) => {
-//   addedMovies.forEach((item) => {
-//     movies.map((e) => {
-//       if (e.id === item.movieId) {
-//         e.isLiked = true;
-//         console.log(e.id);
-//         console.log(item.movieId);
-//         console.log(e.isLiked);
-//         return e;
-//       } else {
-//         e.isLiked = false;
-//         console.log(e.id);
-//         console.log(item.movieId);
-//         console.log(e.isLiked);
-//         return e;
-//       }
-//     });
-//   });
-//   console.log(movies);
-//   return movies;
-// };
-
 // проверяем статус пришедшего ответа
 function checkResponse(res) {
   return res.ok
