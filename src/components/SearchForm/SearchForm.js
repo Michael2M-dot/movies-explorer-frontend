@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useFormInputsValidate from '../../hooks/useForm';
 import Preloader from '../Preloader/Preloader';
-import CurrentUserContext from '../../context/CurrentUserContext';
 import { getDataFromStorage } from '../../utils/utils';
 import { SEARCH_KEYWORD_STORAGE, SHORT_MOVIE_SHOW } from '../../utils/constants';
 
@@ -22,14 +21,11 @@ const SearchForm = ({
   } = useFormInputsValidate();
   const isMovie = useRouteMatch({ path: '/movies', exact: true });
 
-  // const { currentUser } = useContext(CurrentUserContext);
-
   const [isShowShortMovie, setShowShortMovie] = useState(getDataFromStorage(SHORT_MOVIE_SHOW) || false);
 
   const searchDirection = isMovie ? handleGetMovie : onSearchMovie;
 
   const inputValue = isMovie ? getDataFromStorage(SEARCH_KEYWORD_STORAGE) : '';
-  console.log(inputValue);
 
   useEffect(() => {
     resetForm({ keyword: inputValue }, {}, false);
