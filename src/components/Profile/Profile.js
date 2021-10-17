@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 import Form from '../Form/Form';
@@ -13,7 +12,6 @@ const Profile = ({
   isSubmitted = true,
 }) => {
   const { currentUser } = useContext(CurrentUserContext);
-  const history = useHistory();
 
   const {
     values,
@@ -43,7 +41,7 @@ const Profile = ({
     if (currentUser) {
       resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
     }
-  },[resetForm, history, currentUser]);
+  },[resetForm, currentUser]);
 
   return (
      <>

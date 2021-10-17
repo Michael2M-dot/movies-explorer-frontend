@@ -61,7 +61,7 @@ const App = () => {
   // работа с данными от стороннего API
   useEffect(() => {
     getMovieFromApi();
-  }, [isLoggedIn]);
+  }, []);
 
   useEffect(() => {
     setDataToStorage(USER_STORAGE, currentUser);
@@ -258,7 +258,7 @@ const App = () => {
         })
         .catch((err) => console.log(`${err}: Непредвиденная ошибка загрузки данных пользователя!`));
     }
-  }, [isLoggedIn]);
+  }, []);
 
   // добавляем новый фильм в медиатеку
   const handleAddNewMovie = (newMovieData) => {
@@ -364,7 +364,10 @@ const App = () => {
         }
         setInfoMessage('При обновлении данных пользователя произошла ошибка.');
       })
-      .finally(() => setIsSubmitted(false));
+      .finally(() => {
+        setIsSubmitted(false);
+        setTimeout(() => setInfoMessage(''), 20000);
+      });
   };
 
   // регистрация, авторизация, выход из приложения

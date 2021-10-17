@@ -73,27 +73,6 @@ const FormFooter = ({
           </div>
         </button>
       )}
-
-      {/* <button */}
-      {/*  className={buttonStyle} */}
-      {/*  type={buttonType || 'submit'} */}
-      {/*  aria-label="Подтвердите действия пользователя" */}
-      {/*  onClick={onClick} */}
-      {/*  disabled={buttonDisabledProfile} */}
-      {/* > */}
-      {/*  <div className="form-footer__button-wrapper"> */}
-      {/*    <p className={buttonTextStyle}> */}
-      {/*      {buttonText} */}
-      {/*    </p> */}
-      {/*    <div className={`form-footer__preloader */}
-      {/*  ${isSubmitted ? 'active' : ''}`} */}
-      {/*    > */}
-      {/*      <span className={preloaderDotsStyle}>.</span> */}
-      {/*      <span className={preloaderDotsStyle}>.</span> */}
-      {/*      <span className={preloaderDotsStyle}>.</span> */}
-      {/*    </div> */}
-      {/*  </div> */}
-      {/* </button> */}
       <div className="form-footer__footer">
         <p className="form-footer__text">{footerText}</p>
         <NavLink
