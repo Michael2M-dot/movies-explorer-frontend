@@ -258,7 +258,7 @@ const App = () => {
         })
         .catch((err) => console.log(`${err}: Непредвиденная ошибка загрузки данных пользователя!`));
     }
-  }, []);
+  }, [isLoggedIn]);
 
   // добавляем новый фильм в медиатеку
   const handleAddNewMovie = (newMovieData) => {
