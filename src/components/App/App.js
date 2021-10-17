@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Redirect,
   Route,
   Switch,
   useHistory,
@@ -18,7 +17,14 @@ import * as api from '../../utils/MainApi';
 import ProtectedRoute from '../ProtectedRoute';
 import * as movie from '../../utils/MovieApi';
 import {
-  deleteDataFromStorage,
+  API_MOVIE_STORAGE,
+  MOVIE_LIST_STORAGE,
+  SAVED_MOVIE_STORAGE,
+  SEARCH_KEYWORD_STORAGE,
+  SHORT_MOVIE_SHOW,
+  USER_STORAGE,
+} from '../../utils/constants';
+import {
   getDataFromStorage,
   getSearchedMovieList,
   getSearchedShortMovieList,
@@ -28,13 +34,14 @@ import {
 const App = () => {
   const history = useHistory();
 
+  const [currentUser, setCurrentUser] = useState(getDataFromStorage(USER_STORAGE) || {});
+  const [movies, setMovies] = useState(getDataFromStorage(MOVIE_LIST_STORAGE) || [] );
+  const [savedMovies, setSavedMovies] = useState(getDataFromStorage(SAVED_MOVIE_STORAGE) || []);
+  const [searchInfoMessage, setSearchInfoMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAppLaunched, setIsAppLaunched] = useState(true);
-  const [movies, setMovies] = useState([] );
-  const [savedMovies, setSavedMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState('');
-  const [searchInfoMessage, setSearchInfoMessage] = useState('');
 
   // проверяем если фильм уже добавлен
   const checkAddedMovie = (moviesList, savedMovieList) => {
@@ -52,14 +59,26 @@ const App = () => {
   };
 
   // работа с данными от стороннего API
-  const getMovieFormApi = () => {
+  useEffect(() => {
+    getMovieFromApi();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    setDataToStorage(USER_STORAGE, currentUser);
+  }, [currentUser]);
+
+  useEffect(() => {
+    setDataToStorage(SAVED_MOVIE_STORAGE, savedMovies);
+  }, [savedMovies]);
+
+  const getMovieFromApi = () => {
     setIsLoading(true);
     setSearchInfoMessage('');
 
     movie
       .movieApi()
       .then((initialMovies) => {
-        setDataToStorage(apiMovies, initialMovies);
+        setDataToStorage(API_MOVIE_STORAGE, initialMovies);
       })
       .catch((err) => {
         console.log(
@@ -74,52 +93,92 @@ const App = () => {
   };
 
   const getAllMovies = (keyWord) => {
-    const initialMovies = getDataFromStorage(apiMovies);
+    const initialMovies = getDataFromStorage(API_MOVIE_STORAGE);
+    setSearchInfoMessage('');
+
     if (initialMovies === null) {
-      try {
-        getMovieFormApi();
-      } catch (err) {
-        console.log(
-          `Непредвиденная ошибка загрузки фильмов:
+      setIsLoading(true);
+      setSearchInfoMessage('');
+
+      movie
+        .movieApi()
+        .then((initialMoviesNew) => {
+          const filteredMovie = getSearchedMovieList(keyWord, initialMoviesNew);
+          setMovies(checkAddedMovie(filteredMovie, savedMovies));
+          setDataToStorage(API_MOVIE_STORAGE, initialMovies);
+          setDataToStorage(MOVIE_LIST_STORAGE, filteredMovie);
+          setDataToStorage(SEARCH_KEYWORD_STORAGE, keyWord);
+          setDataToStorage(SHORT_MOVIE_SHOW, false);
+        })
+        .catch((err) => {
+          console.log(
+            `Непредвиденная ошибка загрузки фильмов:
           ${err}`,
-        );
-        setSearchInfoMessage(`Во время запроса произошла ошибка.
+          );
+          setSearchInfoMessage(`Во время запроса произошла ошибка.
           Возможно, проблема с соединением или сервер недоступен.
           Подождите немного и попробуйте ещё раз.`);
-      }
-      // const filteredMovie = getSearchedMovieList(keyWord, getDataFromStorage(apiMovies));
-      // setMovies(checkAddedMovie(filteredMovie, savedMovies));
-      // setDataToStorage(movieList, filteredMovie);
-      // setDataToStorage(searchKeyWord, keyWord);
-      // setDataToStorage(showShortMovie, false);
+        })
+        .finally(() => setIsLoading(false));
     } else {
       const filteredMovie = getSearchedMovieList(keyWord, initialMovies);
-      setMovies(checkAddedMovie(filteredMovie, savedMovies));
-      setDataToStorage(movieList, filteredMovie);
-      setDataToStorage(searchKeyWord, keyWord);
-      setDataToStorage(showShortMovie, false);
+      if (filteredMovie.length === 0) {
+        setSearchInfoMessage('Ничего не найдено!');
+        setMovies([]);
+        setDataToStorage(MOVIE_LIST_STORAGE, filteredMovie);
+        setDataToStorage(SEARCH_KEYWORD_STORAGE, keyWord);
+        setDataToStorage(SHORT_MOVIE_SHOW, false);
+      } else {
+        setMovies(checkAddedMovie(filteredMovie, savedMovies));
+        setDataToStorage(MOVIE_LIST_STORAGE, filteredMovie);
+        setDataToStorage(SEARCH_KEYWORD_STORAGE, keyWord);
+        setDataToStorage(SHORT_MOVIE_SHOW, false);
+      }
     }
   };
 
   const getShortMovies = (keyWord) => {
-    const initialMovies = getDataFromStorage(apiMovies);
-    if (initialMovies.length === 0) {
-      getMovieFormApi();
+    const initialMovies = getDataFromStorage(API_MOVIE_STORAGE);
+    if (initialMovies === null) {
+      movie
+        .movieApi()
+        .then((initialMoviesNew) => {
+          const filteredMovie = getSearchedShortMovieList(keyWord, initialMoviesNew);
+          setMovies(checkAddedMovie(filteredMovie, savedMovies));
+          setDataToStorage(API_MOVIE_STORAGE, initialMovies);
+          setDataToStorage(MOVIE_LIST_STORAGE, filteredMovie);
+          setDataToStorage(SEARCH_KEYWORD_STORAGE, keyWord);
+          setDataToStorage(SHORT_MOVIE_SHOW, true);
+        })
+        .catch((err) => {
+          console.log(
+            `Непредвиденная ошибка загрузки фильмов:
+          ${err}`,
+          );
+          setSearchInfoMessage(`Во время запроса произошла ошибка.
+          Возможно, проблема с соединением или сервер недоступен.
+          Подождите немного и попробуйте ещё раз.`);
+        })
+        .finally(() => setIsLoading(false));
     } else {
       const filteredMovie = getSearchedShortMovieList(keyWord, initialMovies);
-      setMovies(checkAddedMovie(filteredMovie, savedMovies));
-      setDataToStorage(movieList, filteredMovie);
-      setDataToStorage(searchKeyWord, keyWord);
-      setDataToStorage(showShortMovie, false);
+      if (filteredMovie.length === 0) {
+        setSearchInfoMessage('Ничего не найдено!');
+        setMovies([]);
+        setDataToStorage(MOVIE_LIST_STORAGE, filteredMovie);
+        setDataToStorage(SEARCH_KEYWORD_STORAGE, keyWord);
+        setDataToStorage(SHORT_MOVIE_SHOW, true);
+      } else {
+        setMovies(checkAddedMovie(filteredMovie, savedMovies));
+        setDataToStorage(MOVIE_LIST_STORAGE, filteredMovie);
+        setDataToStorage(SEARCH_KEYWORD_STORAGE, keyWord);
+        setDataToStorage(SHORT_MOVIE_SHOW, true);
+      }
     }
   };
 
   // ищем фильм по ключевому слову
   const handleGetMovie = (keyWord, isShowShortMovie) => {
-    deleteDataFromStorage(searchKeyWord);
-    deleteDataFromStorage(movieList);
-    deleteDataFromStorage(showShortMovie);
-
     isShowShortMovie ? getShortMovies(keyWord) : getAllMovies(keyWord);
   };
   // const handleGetMovie = (keyWord, isShowShortMovie) => {
@@ -170,25 +229,18 @@ const App = () => {
   // };
 
   // работа с данными от нашего API
-  const [currentUser, setCurrentUser] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inProcessing, setInProcessing] = useState(false);
 
-  const apiMovies = 'apiMovies';
-  const movieList = `movieSearchedCards-${currentUser._id}`;
-  const searchKeyWord = `movieSearchedKeyWord-${currentUser._id}`;
-  const showShortMovie = `showShortMovieBoolean-${currentUser._id}`;
-
   useEffect(() => {
     if (isLoggedIn) {
-      const lastMovieList = getDataFromStorage(movieList) || [];
-      const lastSearchedKeyword = getDataFromStorage(searchKeyWord) || '';
-      const showShortMovieBoolean = getDataFromStorage(showShortMovie) || false;
+      const lastMovieList = getDataFromStorage(MOVIE_LIST_STORAGE) || [];
 
       api
         .getSavedMovie()
         .then((savedMovieData) => {
           setSavedMovies(savedMovieData);
+          setDataToStorage(SAVED_MOVIE_STORAGE, savedMovieData);
           return savedMovieData;
         })
         .then((savedMoviesData) => {
@@ -198,11 +250,11 @@ const App = () => {
 
       api.getUserData()
         .then((userData) => {
-          setCurrentUser({
-            ...userData,
-            keyword: lastSearchedKeyword,
-            shortMovieBoolean: showShortMovieBoolean,
-          });
+          setCurrentUser(userData);
+          return userData;
+        })
+        .then((userData) => {
+          setDataToStorage(USER_STORAGE, userData);
         })
         .catch((err) => console.log(`${err}: Непредвиденная ошибка загрузки данных пользователя!`));
     }
@@ -298,6 +350,7 @@ const App = () => {
       .updateUserData(name, email)
       .then((newUserData) => {
         setCurrentUser(newUserData);
+        setDataToStorage(USER_STORAGE, newUserData);
         setInfoMessage('Данные пользователя успешно обновлены!');
       })
       .catch((err) => {
@@ -347,6 +400,7 @@ const App = () => {
     api.login(email, password)
       .then((userData) => {
         setCurrentUser(userData);
+        setDataToStorage(USER_STORAGE, userData);
         setIsLoggedIn(true);
         history.push('/movies');
         setInfoMessage('');
@@ -370,12 +424,10 @@ const App = () => {
       .checkToken()
       .then(() => {
         setIsLoggedIn(true);
-        // history.push('/movies');
         setInfoMessage('');
       })
       .catch((err) => {
         console.log(`${err}: Ошибка при проверке токена.`);
-        // history.push('/');
       })
       .finally(() => {
         setIsAppLaunched(false);
@@ -389,9 +441,7 @@ const App = () => {
         setIsLoggedIn(false);
         history.push('/');
         setCurrentUser({});
-        deleteDataFromStorage(movieList);
-        deleteDataFromStorage(searchKeyWord);
-        deleteDataFromStorage(showShortMovie);
+        localStorage.clear();
       })
       .catch((err) => console.log(`${err}: Ошибка при закрытии сессии.`));
   };

@@ -3,7 +3,6 @@ export const getDataFromStorage = (listName) => JSON.parse(localStorage.getItem(
 
 // записываем данные в локальное хранилище
 export const setDataToStorage = (listName, data) => {
-  console.log(listName);
   localStorage.setItem(`${listName}`, JSON.stringify(data));
 };
 

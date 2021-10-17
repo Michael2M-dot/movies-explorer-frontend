@@ -1,5 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from 'react';
+import {
+  BASE_COUNT_1280,
+  BASE_STEP_1280,
+  BASE_COUNT_1040,
+  BASE_STEP_1040,
+  BASE_COUNT_768,
+  BASE_STEP_768,
+  BASE_COUNT_320,
+  BASE_STEP_320,
+} from '../utils/constants';
 
 function useDataListForRender() {
   const [addRenderList, setAddToRenderList] = useState(false);
@@ -16,20 +26,20 @@ function useDataListForRender() {
 
   const getCountAndStepAboutWindow = () => {
     if (window.innerWidth >= 1280) {
-      setBaseCount(12);
-      setStep(4);
+      setBaseCount(BASE_COUNT_1280);
+      setStep(BASE_STEP_1280);
     }
     if (window.innerWidth < 1280 && window.innerWidth >= 1040) {
-      setBaseCount(9);
-      setStep(3);
+      setBaseCount(BASE_COUNT_1040);
+      setStep(BASE_STEP_1040);
     }
     if (window.innerWidth < 1040 && window.innerWidth >= 768) {
-      setBaseCount(6);
-      setStep(2);
+      setBaseCount(BASE_COUNT_768);
+      setStep(BASE_STEP_768);
     }
     if (window.innerWidth < 768) {
-      setBaseCount(5);
-      setStep(1);
+      setBaseCount(BASE_COUNT_320);
+      setStep(BASE_STEP_320);
     }
   };
 
