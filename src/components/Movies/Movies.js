@@ -4,27 +4,32 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Navigation from '../Navigation/Navigation';
-import Preloader from '../Preloader/Preloader';
 
 const Movies = ({
   movieCards,
-  onMovieLike,
-  showMoreMovie,
+  onMovieAdd,
+  onMovieDelete,
   isLoading,
+  handleGetMovie,
+  searchInfoMessage,
+  inProcessing,
 }) => (
   <>
     <Header>
       <Navigation />
     </Header>
     <div className='page_movies'>
-      <SearchForm />
-      {isLoading && (
-        <Preloader/>
-      )}
+      <SearchForm
+        handleGetMovie={handleGetMovie}
+        movieCards={movieCards}
+        isLoading={isLoading}
+        searchInfoMessage={searchInfoMessage}
+      />
       <MoviesCardList
         movieCards={movieCards}
-        onMovieLike={onMovieLike}
-        showMoreMovie={showMoreMovie}
+        onMovieAdd={onMovieAdd}
+        onMovieDelete={onMovieDelete}
+        inProcessing={inProcessing}
       />
     </div>
     <Footer />

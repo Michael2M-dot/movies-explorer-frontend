@@ -7,7 +7,7 @@ const Promo = () => (
     <div className='promo__wrapper'>
       <h1 className='promo__title'>Учебный проект студента факультета Веб-разработки.</h1>
       <p className='promo__subtitle'>Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
-      <NavLink className='promo__link' to='/'>Узнать больше</NavLink>
+      <NavLink className='promo__link' to='/movies'>Узнать больше</NavLink>
     </div>
   </section>
 );

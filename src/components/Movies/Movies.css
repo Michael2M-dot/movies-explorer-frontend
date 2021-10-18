@@ -14,6 +14,18 @@
   font-family: "Inter", Helvetica, sans-serif;
 }
 
+.movie__span {
+  width: 100%;
+
+  display: inline-block;
+  margin: 40px auto 0;
+
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  text-align: center;
+}
+
 @media screen and (max-width: 1040px) {
   .page_movies {
     padding: 0 30px;

@@ -9,10 +9,12 @@ import Portfolio from './Portfolio/Portfolio';
 import NavTab from './NavTab/NavTab';
 import Navigation from '../Navigation/Navigation';
 
-const Main = () => (
+const Main = ({ isLoggedIn = false }) => (
 <>
   <Header>
-    <Navigation />
+    <Navigation
+    isLoggedIn={isLoggedIn}
+    />
   </Header>
   <main className='content'>
     <Promo />

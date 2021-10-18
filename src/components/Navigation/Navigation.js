@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { NavLink, useRouteMatch } from 'react-router-dom';
 import userIcon from '../../images/icon__user.svg';
 
-const Navigation = () => {
+const Navigation = ({ isLoggedIn = false }) => {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(false);
 
-  const isMain = useRouteMatch({ path: '/main', exact: true });
+  const isMain = useRouteMatch({ path: '/', exact: true });
   const isMovies = useRouteMatch({ path: '/movies', exact: true });
   const isSavedMovies = useRouteMatch({ path: '/saved-movies', exact: true });
   const isProfile = useRouteMatch({ path: '/saved-movies', exact: true });
@@ -22,14 +22,14 @@ const Navigation = () => {
 
   return (
     <div className='navigation'>
-      {isMain && (
+      {(isMain && !isLoggedIn) && (
         <div className='navigation_page-main'>
           <NavLink className='navigation__page-main-link' to="/signup" > Регистрация</NavLink>
           <NavLink className='navigation__page-main-button' to="/signin">Войти</NavLink>
         </div>
       )}
 
-      {!isMain && (
+      {(!isMain || isLoggedIn) && (
         <>
           <button
             type="button"
@@ -42,21 +42,21 @@ const Navigation = () => {
           <div className={navigationMenuStyle}>
             <nav className="navigation__menu">
               {isBurgerMenuOpen && (
-                <NavLink className="navigation__menu-item" to='./main'>
+                <NavLink className="navigation__menu-item" to='/'>
                 Главная
                 </NavLink>)
               }
               <NavLink
                 className={`navigation__menu-item
                 ${isMovies && 'active'}`}
-                to='./movies'
+                to='/movies'
               >
                 Фильмы
               </NavLink>
               <NavLink
                 className={`navigation__menu-item
                 ${isSavedMovies && 'active'}`}
-                to='./saved-movies'
+                to='/saved-movies'
               >
                 Сохранённые фильмы
               </NavLink>

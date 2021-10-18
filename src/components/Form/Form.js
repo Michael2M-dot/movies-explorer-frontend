@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import FormFooter from '../FormFooter/FormFooter';
-
-// import { useRouteMatch } from 'react-router-dom';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
 const Form = ({
-  name,
-  onSubmit,
   children,
-  isDisabled = true,
+  name,
   buttonText,
-  isLoggedIn = false,
   footerText,
   footerLink,
   endPoint,
   formTitle,
-  buttonType,
+  onSubmit,
+  onSignOut,
+  onUpdateUser,
   onButtonClick,
-  errors,
   isEditProfile,
+  isSubmitted = false,
+  isFormValid,
 }) => {
+  const { infoMessage } = useContext(CurrentUserContext);
+
   const isProfilePage = useRouteMatch({ path: '/profile', exact: true });
 
   const formStyle = `auth-form__form ${
@@ -45,21 +46,22 @@ const Form = ({
           {children}
           {!isProfilePage && (
             <span className='auth-form__errors'>
-              {errors || ''}
+              {infoMessage || ''}
             </span>
           )}
         </div>
         <FormFooter
-          isLoggedIn={isLoggedIn}
-          isDisabled={isDisabled}
-          buttonType={buttonType}
+          endPoint={endPoint}
           buttonText={buttonText}
           footerText={footerText}
           footerLink={footerLink}
-          endPoint={endPoint}
           onClick={onButtonClick}
+          onSignOut={onSignOut}
+          onUpdateUser={onUpdateUser}
+          infoMessage={infoMessage}
           isEditProfile={isEditProfile}
-          errors={errors || ''}
+          isSubmitted={isSubmitted}
+          isFormValid={isFormValid}
         />
       </form>
     </section>

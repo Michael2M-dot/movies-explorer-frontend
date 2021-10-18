@@ -44,6 +44,19 @@
   color: var(--tx-gray-80);
 }
 
+.search-form__input-errors {
+  width: 100%;
+  position: absolute;
+
+  bottom: -20px;
+  left: 10px;
+
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--tx-red);
+  text-align: left;
+}
+
 .search-form__button {
   margin: 0;
   padding: 9px 11px;
@@ -64,6 +77,13 @@
   color: var(--tx-white);
 }
 
+<<<<<<< HEAD
+=======
+.search-form__button:disabled{
+  opacity: 0.7;
+}
+
+>>>>>>> level_3
 .search-form__button:hover {
   opacity: .7;
 }

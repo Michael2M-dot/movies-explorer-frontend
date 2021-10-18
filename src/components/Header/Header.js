@@ -5,7 +5,7 @@ import Logo from '../../images/logo.svg';
 const Header = ({ children }) => {
   const isSignIn = useRouteMatch({ path: '/signin', exact: true });
   const isSignUp = useRouteMatch({ path: '/signup', exact: true });
-  const isMain = useRouteMatch({ path: '/main', exact: true });
+  const isMain = useRouteMatch({ path: '/', exact: true });
 
   const headerStyle = `header
       ${isSignIn || isSignUp ? 'header__vertical' : ''}

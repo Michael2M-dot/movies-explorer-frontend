@@ -3,9 +3,11 @@ import Header from '../Header/Header';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
+import { REGEX_PASSWORD } from '../../utils/REG_EX';
 
 const Login = ({
-  isSubmitted = false,
+  isSubmitted,
+  onLogin,
 }) => {
   const {
     values,
@@ -17,6 +19,10 @@ const Login = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!values.email || !values.password) {
+      return;
+    }
+    onLogin(values);
   };
 
   useEffect(() => {
@@ -34,8 +40,8 @@ const Login = ({
         footerText='Еще не зарегистрированные?'
         footerLink='Регистрация'
         endPoint="/signup"
-        isDisabled={!isValid || isSubmitted}
-        errors={errors.email || errors.password || ''}
+        isFormValid={isValid}
+        isSubmitted={isSubmitted}
       >
         <label className="auth-form__input">
           <Input
@@ -44,8 +50,8 @@ const Login = ({
             name='email'
             input='E-mail'
             title="Введите адрес электронной почты"
-            required
             minLength="2"
+            required
             onChange={handleChange}
             value={values.email || ''}
             errors={errors.email}
@@ -58,10 +64,11 @@ const Login = ({
             name='password'
             input='Пароль'
             title='Пароль должен содержать не менее 8 символов (без пробелов): цифры и буквы латинского алфавита в верхнем (заглавные) и нижнем регистре (прописные) . А также может содержать символы: !@#$%&-_'
-            required
             minLength="8"
-            value={values.password || ''}
+            pattern={REGEX_PASSWORD}
+            required
             onChange={handleChange}
+            value={values.password || ''}
             errors={errors.password}
           />
         </label>

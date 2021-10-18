@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import Navigation from '../Navigation/Navigation';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
+import CurrentUserContext from '../../context/CurrentUserContext';
 
 const Profile = ({
-  userName = 'Michael',
+  onUpdateUser,
+  onSignOut,
+  isSubmitted = true,
 }) => {
+  const { currentUser } = useContext(CurrentUserContext);
+
   const {
     values,
     errors,
@@ -18,23 +23,25 @@ const Profile = ({
 
   const [isEditProfile, setIsEditProfile] = useState(false);
 
-  const buttonTextProfilePage = `${!isEditProfile ? 'Редактировать' : 'Сохранить'}`;
   const footerLinkProfilePage = `${isEditProfile ? '' : 'Выйти из аккаунта'}`;
-  const buttonTypePageProfile = `${!isEditProfile ? 'button' : 'submit'}`;
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    onUpdateUser(values);
+    setIsEditProfile(false);
   };
 
   const buttonClickHandler = () => {
     if (!isEditProfile) {
-      setIsEditProfile(!isEditProfile);
+      setIsEditProfile(true);
     }
   };
 
   useEffect(() => {
-    resetForm({ name: 'Michael', email: 'mmm@mmm.ru' }, {}, false);
-  },[resetForm]);
+    if (currentUser) {
+      resetForm({ name: currentUser.name, email: currentUser.email }, {}, false);
+    }
+  },[resetForm, currentUser]);
 
   return (
      <>
@@ -43,16 +50,17 @@ const Profile = ({
        </Header>
        <Form
          name='user-sign-in'
-         formTitle={`Привет, ${values.name}!`}
-         buttonType={buttonTypePageProfile}
-         buttonText={buttonTextProfilePage}
+         formTitle={`Привет, ${currentUser.name}!`}
+         buttonText={!isSubmitted ? 'Сохранить' : 'Идет сохранение'}
          onSubmit={handleSubmit}
+         onSignOut={onSignOut}
          footerText=''
          footerLink={footerLinkProfilePage}
-         endPoint="/main"
+         endPoint="/signin"
          onButtonClick={buttonClickHandler}
          isEditProfile={isEditProfile}
-         isDisabled={isEditProfile ? !isValid : isValid}
+         isFormValid={isValid}
+         isSubmitted={isSubmitted}
          errors={errors.name || errors.email}
        >
          <Input
@@ -63,9 +71,9 @@ const Profile = ({
            title="Введите новое имя пользователя"
            maxLength="40"
            minLength="2"
-           value={values.name || ''}
            required
            onChange={handleChange}
+           value={values.name || ''}
            errors={errors.name}
          />
          <div className='profile__line' />
@@ -76,9 +84,9 @@ const Profile = ({
            input='E-mail'
            title="Введите адрес электронной почты"
            minLength="2"
-           value={values.email || ''}
            required
            onChange={handleChange}
+           value={values.email || ''}
            errors={errors.email}
          />
        </Form>

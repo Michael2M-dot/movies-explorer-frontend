@@ -3,9 +3,12 @@ import Header from '../Header/Header';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
 import useFormInputsValidate from '../../hooks/useForm';
+import { REGEX_PASSWORD } from '../../utils/REG_EX';
 
 const Register = ({
+  onRegister,
   isSubmitted = false,
+  infoMessage = '',
 }) => {
   const {
     values,
@@ -21,6 +24,10 @@ const Register = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if ( !values.email || !values.password ) {
+      return;
+    }
+    onRegister(values);
   };
 
   return (
@@ -30,12 +37,13 @@ const Register = ({
         name='user-sign-up'
         buttonText={!isSubmitted ? 'Зарегистрироваться' : 'Идет регистрация'}
         formTitle='Добро пожаловать!'
-        onSubmit={handleSubmit}
         footerText='Уже зарегистрированы?'
         footerLink='Войти'
         endPoint="/signin"
-        isDisabled={!isValid || isSubmitted}
-        errors={errors.name || errors.email || errors.password || ''}
+        onSubmit={handleSubmit}
+        isSubmitted={isSubmitted}
+        isFormValid={isValid}
+        infoMessage={infoMessage || ''}
       >
         <label className="auth-form__input">
           <Input
@@ -44,11 +52,11 @@ const Register = ({
             name='name'
             input='Имя'
             title="Введите имя пользователя."
-            required
             maxLength="40"
             minLength="2"
-            value={values.name || ''}
+            required
             onChange={handleChange}
+            value={values.name || ''}
             errors={errors.name}
           />
         </label>
@@ -59,8 +67,8 @@ const Register = ({
             name='email'
             input='E-mail'
             title="Введите адрес электронной почты"
-            required
             minLength="2"
+            required
             onChange={handleChange}
             value={values.email || ''}
             errors={errors.email}
@@ -73,10 +81,11 @@ const Register = ({
             name='password'
             input='Пароль'
             title='Пароль должен содержать не менее 8 символов (без пробелов): цифры и буквы латинского алфавита в верхнем (заглавные) и нижнем регистре (прописные) . А также может содержать символы: !@#$%&-_'
-            required
             minLength="8"
-            value={values.password || ''}
+            pattern={REGEX_PASSWORD}
+            required
             onChange={handleChange}
+            value={values.password || ''}
             errors={errors.password}
           />
         </label>
