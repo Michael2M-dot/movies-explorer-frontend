@@ -1,6 +1,7 @@
 import checkResponse from './utils';
 
-const BASE_URL = 'https://api.my-movie.nomoredomains.club';
+// const BASE_URL = 'https://api.my-movie.nomoredomains.club';
+const BASE_URL = 'https://movies-explorer-api-opal.vercel.app/';
 
 // регистрация, авторизация, проверка токена и выход из приложения
 export const register = (name, email, password) => fetch(`${BASE_URL}/signup`, {
